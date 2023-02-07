@@ -1,0 +1,20 @@
+{% extends '_layout/base.html' %}
+{% block title %}Account Activation{% endblock %}
+
+{% block body_class %}d-flex flex-column{% endblock %}
+
+{% block page %}
+  <div class="container-tight py-4">
+    <div class="text-center mb-4">
+      <a href="{{ url_for('home') }}" class="navbar-brand navbar-brand-autodark"><img src="{{ url_for('static', path='/logo.svg') }}" height="36" alt=""></a>
+    </div>
+    <div class="card card-md">
+      <div class="card-body">
+        <h2 class="h2 text-center mb-4">Account activation {% if success %}success{% else %}failed{% endif %}</h2>
+      </div>
+    </div>
+    <div class="text-center text-muted mt-3">
+      Already have account? <a href="{{ url_for('login') }}" tabindex="-1">Login</a>
+    </div>
+  </div>
+{% endblock %}

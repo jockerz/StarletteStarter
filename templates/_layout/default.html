@@ -1,0 +1,20 @@
+{% extends '_layout/base.html' %}
+
+{% block page %}
+  {% include '_include/navbar.html' %}
+  {%- block content %}
+  <div class="page-wrapper">
+    <div class="page-header d-print-none">
+      <div class="container-xl">
+        {% block content_header %}{% endblock %}
+      </div>
+    </div>
+    <div class="page-body">
+      <div class="container-xl">
+        {% block content_body %}{% endblock %}
+      </div>
+    </div>
+    {% include '_include/footer.html' %}
+  </div>
+  {% endblock -%}
+{% endblock %}

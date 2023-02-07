@@ -1,0 +1,11 @@
+alembic
+email-validator
+fastapi
+jinja2
+passlib
+secure
+sqlalchemy[asyncio]
+sqlalchemy-utils
+Starlette-Login
+starlette-wtf
+uvicorn[standard]

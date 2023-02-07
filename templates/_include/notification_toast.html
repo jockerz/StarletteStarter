@@ -1,0 +1,28 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const notification_list = {{ get_notification()|safe }};
+  var Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom-end',
+    showConfirmButton: false,
+    timer: 2750,
+    timerProgressBar: true,
+  });
+  let timer = 0;
+
+  for (let item of notification_list) {
+    let data = JSON.parse(item);
+    let category = data.category;
+    delete data.category;
+
+    // fire toast one at a time
+    setTimeout(function () {
+      if (category == 'notification')
+        Toast.fire(data)
+      else
+        Swal.fire(data)
+    }, timer);
+    timer += 3000;
+  }
+}, false);
+</script>
