@@ -42,6 +42,22 @@ class Base:
     # Database
     DATABASE_URL = env_config("DATABASE_URL")
 
+    # Redis
+    REDIS_HOST = env_config('REDIS_HOST', default='127.0.0.1') or '127.0.0.1'
+    REDIS_PORT = handle_value_error('REDIS_PORT', cast=int, default=6379)
+    REDIS_USER = env_config('REDIS_USER')
+    REDIS_PASS = env_config('REDIS_PASS')
+    # REDIS_DB = handle_value_error('REDIS_DB', cast=int, default=0)
+    REDIS_DB_ARQ = handle_value_error('REDIS_DB_ARQ', cast=int, default=0)
+
+    # SMTP
+    SMTP_HOST = handle_value_error('SMTP_HOST', cast=str, default='localhost')
+    SMTP_PORT = handle_value_error('SMTP_PORT', cast=int, default=25)
+    SMTP_USER = env_config('SMTP_USER')
+    SMTP_PASS = env_config('SMTP_PASS')
+    SMTP_SSL = handle_value_error('SMTP_SSL', cast=bool, default=False)
+    SMTP_START_SSL = handle_value_error('SMTP_START_SSL', cast=bool, default=False)
+
     def dict(self) -> dict:
         result = {}
         for prop_meth in dir(self):
@@ -68,7 +84,14 @@ class Testing(Base):
     # DATABASE_URL = 'sqlite+aiosqlite:///:memory:'
     DATABASE_URL = 'sqlite+aiosqlite:///./test.db'
 
-    REDIS_DB = 14
+    #
+    REDIS_DB_ARQ = 14
+
+    # SMTP:
+    SMTP_HOST = 'localhost'
+    SMTP_PORT = 1025
+    SMTP_SSL = False
+    SMTP_START_SSL = False
 
 
 if env_config('ENV') in ['DEV', 'dev', 'Development']:

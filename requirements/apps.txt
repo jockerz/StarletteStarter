@@ -1,4 +1,6 @@
+aiosmtplib
 alembic
+arq
 email-validator
 fastapi
 jinja2

@@ -9,6 +9,7 @@ from apps.core.configs import Base
 from apps.core.error_handlers import add_error_handlers
 from apps.core.middlewares import build_middlewares
 from apps.core.routes import get_routes
+from apps.extensions.arq import create_connection
 from .db import create_db_engine, create_db_session, create_scope_session
 from .login_manager import create_login_manager, get_middleware
 from .secure import secure_headers
@@ -37,10 +38,11 @@ def create_application(
         # db_session argument
         db_engine = None
 
-    middleware = build_middlewares(config)
-
     # Session auth
     login_manager = create_login_manager(config.SECRET_KEY)
+
+    # middlewares
+    middleware = build_middlewares(config)
     middleware.append(get_middleware(login_manager))
 
     app = Starlette(
@@ -49,10 +51,9 @@ def create_application(
         routes=get_routes(config)
     )
 
-    app.state.login_manager = login_manager
-
-    # Fastapi instance states
+    # Application states
     app.state.config = config
+    app.state.login_manager = login_manager
 
     # Error handlers
     add_error_handlers(app)
@@ -88,7 +89,8 @@ def create_application(
         # Create admin user
         await init_app(config, _db)
         login_manager.set_user_loader(user_loader)
-        # setattr(login_manager, "session_maker", db_session)
+
+        app.state.arq = await create_connection(config)
 
     @app.on_event('shutdown')
     async def shutdown():

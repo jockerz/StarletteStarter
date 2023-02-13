@@ -6,7 +6,9 @@
   <div class="page-wrapper">
     <div class="page-header d-print-none">
       <div class="container-xl">
-        {% block content_header %}{% endblock %}
+        {% block content_header %}
+        <h2 class="page-title">{{ title }}</h2>
+        {% endblock %}
       </div>
     </div>
     <div class="page-body">

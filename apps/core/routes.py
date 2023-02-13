@@ -4,6 +4,7 @@ from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
 from apps.core.configs import Base
+from apps.apps.account.routes import routes as account_routes
 from apps.apps.main.views import (
     home_page,
     login_page,
@@ -32,6 +33,8 @@ routes = [
           methods=['GET', 'POST']),
     Route('/reset/{code}.{secret}', reset_password_page, name='reset_password',
           methods=['GET', 'POST']),
+
+    Mount('/account', routes=account_routes, name='account'),
 ]
 
 
