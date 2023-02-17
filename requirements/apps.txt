@@ -5,6 +5,7 @@ email-validator
 fastapi
 jinja2
 passlib
+Pillow
 secure
 sqlalchemy[asyncio]
 sqlalchemy-utils

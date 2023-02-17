@@ -37,12 +37,11 @@ class RegisterForm(StarletteForm):
         ]
     )
 
-    first_name = StringField(
-        'First Name', validators=[
-            DataRequired('Your First name'),
+    name = StringField(
+        'Name', validators=[
+            DataRequired('Your Full name'),
             Length(max=150, message='Minimal 4 characters')
         ])
-    last_name = StringField('last Name')
 
     agree_terms = BooleanField(
         'Agree terms', validators=[

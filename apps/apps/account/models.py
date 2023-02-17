@@ -1,4 +1,3 @@
-import typing
 from datetime import datetime, timedelta
 from enum import Enum
 from os import path
@@ -27,8 +26,7 @@ class User(Base, UserMixin):
     username = Column(String(150), unique=True)
     password = Column(String(128))
     email = Column(EmailType, unique=True)
-    first_name = Column(String(256))
-    last_name = Column(String(256))
+    name = Column(String(256))
     # file name only
     avatar = Column(String(256), nullable=True)
 
@@ -49,7 +47,7 @@ class User(Base, UserMixin):
 
     @property
     def display_name(self) -> str:
-        return ' '.join([self.first_name or '', self.last_name or ''])
+        return self.name or ''
 
     def set_password(self, password: str):
         self.password = pbkdf2_sha256.hash(password)
@@ -58,13 +56,13 @@ class User(Base, UserMixin):
         return pbkdf2_sha256.verify(password, self.password)
 
     def get_avatar(self):
-        if self.avatar is None:
-            return DEFAULT_AVATAR
+        if not self.avatar:
+            return f'/img/{DEFAULT_AVATAR}'
         return f'/account/{self.avatar}'
 
     def get_avatar_thumbnail(self):
-        if self.avatar is None:
-            return DEFAULT_AVATAR
+        if not self.avatar:
+            return f'/img/{DEFAULT_AVATAR}'
         name, ext = path.splitext(self.avatar)
         return f'/account/{self.avatar.replace(ext, f"-thumb{ext}")}'
 

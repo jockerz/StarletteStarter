@@ -111,8 +111,7 @@ async def init_app(configs: Base, db: AsyncSession):
             username=configs.ADMIN_USERNAME,
             password=configs.ADMIN_PASSWORD,
             email=configs.ADMIN_EMAIL,
-            first_name='Admin',
-            last_name='',
+            name='Admin',
             is_active=True, is_admin=True,
         )
 

@@ -12,8 +12,7 @@ class UserCRUD:
     @staticmethod
     async def create(
         db: AsyncSession,
-        username: str, password: str, email: str,
-        first_name: str, last_name: str = None,
+        username: str, password: str, email: str, name: str,
         is_active: bool = False, is_staff: bool = False,
         is_admin: bool = False,
         commit: bool = True
@@ -21,8 +20,7 @@ class UserCRUD:
         user = User()
         user.username = username.strip().lower()
         user.email = email.strip().lower()
-        user.first_name = first_name
-        user.last_name = last_name
+        user.name = name.strip()
         user.is_active = is_active
         user.is_staff = is_staff or is_admin
         user.is_admin = is_admin
@@ -53,6 +51,14 @@ class UserCRUD:
         return None if entry is None else entry.scalars().first()
 
     @staticmethod
+    async def update_data(
+        db: AsyncSession, user_id: int, name: str
+    ) -> None:
+        query = update(User).values(name=name).where(User.id == user_id)
+        await db.execute(query)
+        await db.commit()
+
+    @staticmethod
     async def update_password(
         db: AsyncSession, user_id: int, password: str, commit: bool = True
     ):
@@ -66,3 +72,9 @@ class UserCRUD:
             await db.commit()
 
         return query
+
+    @staticmethod
+    async def update_photo(db: AsyncSession, user_id: int, filename: str):
+        query = update(User).values(avatar=filename).where(User.id == user_id)
+        await db.execute(query)
+        await db.commit()
