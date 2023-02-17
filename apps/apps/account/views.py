@@ -45,13 +45,8 @@ async def update_photo_page(
     user = request.user
     if await form.validate_on_submit():
         image_file, image_ext = await form.get_data()
-        print(f'image_ext: {image_ext}')
-        if image_ext == 'PNG':
-            filename = f'u{str(user.id)}.png'
-            filename_thumb = f'u{str(user.id)}-thumb.png'
-        else:
-            filename = f'u{str(user.id)}.jpg'
-            filename_thumb = f'u{str(user.id)}-thumb.jpg'
+        filename = f'u{str(user.id)}.{image_ext}'
+        filename_thumb = f'u{str(user.id)}-thumb.{image_ext}'
 
         image_file.save(PROFILE_PICTURE_DIR / filename, image_ext)
         image_file.thumbnail((150, 150))
