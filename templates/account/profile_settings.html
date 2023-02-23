@@ -1,6 +1,8 @@
 {% extends '_layout/settings.html' %}
 {% set in_account = True -%}
 
+{% block title %}Account Settings{% endblock %}
+
 {% block style_plugins %}
 <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />-->
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/cropperjs/cropper.min.css') }}" />
@@ -27,7 +29,10 @@
       <div class="col-md">
         {{ form.csrf_token }}
         <div class="form-label">Name</div>
-        <input type="text" class="form-control" name="name" value="{{ request.user.name }}">
+        <input type="text" class="form-control{% if form.name.errors %} is-invalid{% endif %}" name="name" value="{{ request.user.name }}">
+        {% for error in form.name.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
       </div>
     </div>
   </div>

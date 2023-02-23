@@ -56,13 +56,13 @@ async def login_page(request: Request):
                 await login_user(request, user, remember=remember)
 
                 login_success_notif.push(request)
+                next_url = validate_next_url(
+                    request.query_params.get('next')
+                ) or request.url_for('home')
 
-                next_url = validate_next_url(request.query_params.get('next')) \
-                    or request.url_for('home')
                 return RedirectResponse(next_url, status_code=302)
         else:
             login_failed_notif.push(request)
-    # request.session['_flash'] = None
     context = {'request': request, 'form': form}
     return templates.TemplateResponse('main/login.html', context)
 
@@ -113,7 +113,7 @@ async def register_page(request: Request):
             Notification(
                 title='Registration complete',
                 category='alert', icon='success',
-                text=f'Activation URL is sent to your {sent_to}'
+                text=f'Activation URL is being sent to your {sent_to}'
             ).push(request)
 
             activation_url = request.url_for(
@@ -144,6 +144,10 @@ async def activation_page(request: Request):
     activation = await ActivationCRUD.get(db, code)
     if activation is None:
         raise HTTPException(404, 'Invalid activation code')
+    elif activation.is_complete:
+        raise HTTPException(404, 'Activation code has been used')
+    elif activation.is_expired():
+        raise HTTPException(404, 'Activation code has been expired')
 
     user = await UserCRUD.get_by_id(db, activation.user_id)
     if user is None:
@@ -158,7 +162,6 @@ async def activation_page(request: Request):
             ).push(request)
         else:
             await ActivationCRUD.set_as_complete(db, activation, user)
-            Notification(title='Activation complete').push(request)
     context = {'request': request, 'success': success}
     return templates.TemplateResponse('main/activation.html', context)
 

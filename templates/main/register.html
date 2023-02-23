@@ -18,16 +18,16 @@
           {% endfor %}
 
           <div class="mb-3">
-            <label class="form-label">Email address</label>
-            <input type="email" name="email" class="form-control{% if form.email.errors %} is-invalid{% endif %}" placeholder="your@email.com" autocomplete="off">
-            {% for error in form.email.errors %}
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control{% if form.username.errors %} is-invalid{% endif %}" placeholder="username" autocomplete="off">
+            {% for error in form.username.errors %}
             <div class="invalid-feedback">{{ error }}</div>
             {% endfor %}
           </div>
           <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text" name="username" class="form-control{% if form.username.errors %} is-invalid{% endif %}" placeholder="username" autocomplete="off">
-            {% for error in form.username.errors %}
+            <label class="form-label">Email address</label>
+            <input type="email" name="email" class="form-control{% if form.email.errors %} is-invalid{% endif %}" placeholder="your@email.com" autocomplete="off">
+            {% for error in form.email.errors %}
             <div class="invalid-feedback">{{ error }}</div>
             {% endfor %}
           </div>
@@ -60,16 +60,9 @@
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label">First Name</label>
-            <input type="text" name="first_name" class="form-control{% if form.first_name.errors %} is-invalid{% endif %}" placeholder="Your first name" autocomplete="off">
-            {% for error in form.first_name.errors %}
-            <div class="invalid-feedback">{{ error }}</div>
-            {% endfor %}
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Last Name</label>
-            <input type="text" name="last_name" class="form-control{% if form.last_name.errors %} is-invalid{% endif %}" placeholder="Your last name" autocomplete="off">
-            {% for error in form.last_name.errors %}
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control{% if form.name.errors %} is-invalid{% endif %}" placeholder="Your full name" autocomplete="off">
+            {% for error in form.name.errors %}
             <div class="invalid-feedback">{{ error }}</div>
             {% endfor %}
           </div>

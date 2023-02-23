@@ -1,0 +1,43 @@
+{% extends '_layout/settings.html' %}
+{% set in_email = True -%}
+
+{% block title %}Email Settings{% endblock %}
+
+{% block settings_content %}
+<form class="form-horizontal" method="post">
+  {{ form.csrf_token }}
+  <div class="card-body">
+    <h2 class="mb-4">Email Settings</h2>
+    <div class="row g-3">
+      <div class="col-md">
+        <div class="form-label">Email</div>
+        <input type="email" class="form-control{% if form.email.errors %} is-invalid{% endif %}" name="email" value="{{ request.user.email }}">
+        {% for error in form.email.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Password</label>
+        <div class="input-group input-group-flat">
+          <input type="password" name="password" class="form-control{% if form.password.errors %} is-invalid{% endif %}"  placeholder="Your password"  autocomplete="off">
+          <span class="input-group-text">
+            <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
+            </a>
+          </span>
+          {% for error in form.password.errors %}
+          <div class="invalid-feedback">{{ error }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer bg-transparent mt-auto">
+    <div class="btn-list justify-content-end">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

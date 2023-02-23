@@ -4,8 +4,7 @@ __pycache__/
 alembic/versions/*.py
 venv/
 
-media/account/
-media/store/
+media/account/*
 scripts/try_db.py
 
 *.bak

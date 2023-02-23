@@ -59,6 +59,16 @@ class UserCRUD:
         await db.commit()
 
     @staticmethod
+    async def update_email(
+        db: AsyncSession, user_id: int, email: str, commit: bool = True
+    ):
+        query = update(User).values(email=email).where(User.id == user_id)
+        if commit:
+            await db.execute(query)
+            await db.commit()
+        return query
+
+    @staticmethod
     async def update_password(
         db: AsyncSession, user_id: int, password: str, commit: bool = True
     ):
@@ -66,11 +76,9 @@ class UserCRUD:
             password=pbkdf2_sha256.hash(password),
             update_date=datetime.now()
         ).where(User.id == user_id)
-
         if commit:
             await db.execute(query)
             await db.commit()
-
         return query
 
     @staticmethod
