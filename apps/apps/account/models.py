@@ -1,8 +1,11 @@
+import typing as t
+from datetime import datetime
 from os import path
 
 from passlib.hash import pbkdf2_sha256
 from starlette_login.mixins import UserMixin
-from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 from sqlalchemy_utils.types.email import EmailType
 
@@ -16,49 +19,53 @@ TABLE_PREFIX = 'account'
 class User(Base, UserMixin):
     __tablename__ = f'{TABLE_PREFIX}_user'
 
-    id = Column(Integer, primary_key=True)
-    username = Column(String(150), unique=True)
-    password = Column(String(128))
-    email = Column(EmailType, unique=True)
-    name = Column(String(256))
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(String(150), unique=True)
+    password: Mapped[str] = mapped_column(String(128))
+    email: Mapped[str] = mapped_column(EmailType, unique=True)
+    name: Mapped[str] = mapped_column(String(256))
     # file name only
-    avatar = Column(String(256), nullable=True)
+    avatar: Mapped[str] = mapped_column(String(256), nullable=True)
 
-    is_staff = Column(Boolean(), default=False)
-    is_admin = Column(Boolean(), default=False)
+    is_staff: Mapped[bool] = mapped_column(default=False)
+    is_admin: Mapped[bool] = mapped_column(default=False)
 
-    is_active = Column(Boolean(), default=True)
-    date_joined = Column(DateTime, server_default=func.now())
-    update_date = Column(DateTime)
+    is_active: Mapped[bool] = mapped_column(default=False)
+    date_joined: Mapped[datetime] = mapped_column(server_default=func.now())
+    update_date: Mapped[t.Optional[datetime]] = mapped_column()
 
     @property
-    def identity(self):
+    def identity(self) -> int:
         return self.id
 
     @property
-    def is_authenticated(self):
+    def is_authenticated(self) -> bool:
         return True
 
     @property
     def display_name(self) -> str:
         return self.name or ''
 
-    def set_password(self, password: str):
+    def set_password(self, password: str) -> None:
         self.password = pbkdf2_sha256.hash(password)
 
-    def check_password(self, password: str):
+    def check_password(self, password: str) -> bool:
         return pbkdf2_sha256.verify(password, self.password)
 
-    def get_avatar(self):
+    def get_avatar(self) -> str:
         if not self.avatar:
             return f'/{DEFAULT_AVATAR}'
         return f'/account/{self.avatar}'
 
-    def get_avatar_thumbnail(self):
+    def get_avatar_thumbnail(self) -> str:
         if not self.avatar:
             return f'/{DEFAULT_AVATAR}'
+
         name, ext = path.splitext(self.avatar)
-        return f'/account/{self.avatar.replace(ext, f"-thumb{ext}")}'
+        if ext:
+            return f'/account/{self.avatar.replace(ext, f"-thumb{ext}")}'
+        else:
+            return f'/account/{self.avatar}-thumb'
 
 
 class Activation(ValidationMixin, Base):
