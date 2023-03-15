@@ -52,7 +52,7 @@ class ValidationMixin:
     create_date: Mapped[datetime] = mapped_column(
         server_default=func.now(), nullable=False
     )
-    refresh_date: Mapped[datetime] = mapped_column()
+    refresh_date: Mapped[datetime] = mapped_column(nullable=True)
     expired_date: Mapped[datetime] = mapped_column(
         default=datetime.now() + timedelta(days=3)
     )

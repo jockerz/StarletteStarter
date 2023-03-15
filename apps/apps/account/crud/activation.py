@@ -48,7 +48,7 @@ class ActivationCRUD:
 
     @staticmethod
     async def set_as_complete(
-        db: AsyncSession, activation: Activation, user: User
+        db: AsyncSession, activation: Activation, user: User,
     ) -> None:
         user.is_active = True
         activation.is_complete = True

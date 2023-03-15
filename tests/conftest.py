@@ -41,7 +41,7 @@ async def db(db_session_creator):
 
 
 @pytest.fixture
-async def application(db_session_creator, redis):
+async def application(db_session_creator):
     return create_application(
         CONFIG, db_session=db_session_creator,
     )
@@ -51,6 +51,16 @@ async def application(db_session_creator, redis):
 async def http(application):
     async with TestClient(application) as http_:
         return http_
+
+
+@pytest_asyncio.fixture
+async def staff(db):
+    u = await UserCRUD.get_by_username(db, 'staff')
+    u = u or await UserCRUD.create(
+        db, 'staff', 'password', 'staff@test.local', 'Staff',
+        is_active=True, is_staff=True
+    )
+    return u
 
 
 @pytest_asyncio.fixture
@@ -68,6 +78,24 @@ async def user(db):
     u = await UserCRUD.get_by_username(db, 'user')
     u = u or await UserCRUD.create(
         db, 'user', 'password', 'user@test.local', 'User',
-        is_active=True, is_admin=True,
+        is_active=True
+    )
+    return u
+
+
+@pytest_asyncio.fixture
+async def http_auth(http, user):
+    resp = await http.post('/login', form={
+        'username': user.username, 'password': 'password'
+    })
+    assert resp.raise_for_status() is None
+    return http
+
+
+@pytest_asyncio.fixture
+async def inactive_user(db):
+    u = await UserCRUD.get_by_username(db, 'user')
+    u = u or await UserCRUD.create(
+        db, 'inactive', 'password', 'inactive@test.local', 'Inactive'
     )
     return u
