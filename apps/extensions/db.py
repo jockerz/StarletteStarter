@@ -9,7 +9,7 @@ from sqlalchemy.pool import NullPool
 
 
 def create_db_engine(db_url):
-    return create_async_engine(db_url, poolclass=NullPool, echo=True)
+    return create_async_engine(db_url, poolclass=NullPool)
 
 
 def create_db_session(engine):
