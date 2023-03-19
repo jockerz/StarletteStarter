@@ -66,6 +66,7 @@ async def update_photo_page(request: Request):
     user = request.user
     if await form.validate_on_submit():
         image_file, image_ext = await form.get_data()
+        image_ext = image_ext.lower()
         filename = f'u{str(user.id)}.{image_ext}'
         filename_thumb = f'u{str(user.id)}-thumb.{image_ext}'
 

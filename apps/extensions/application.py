@@ -114,6 +114,7 @@ async def init_app(configs: Base, db: AsyncSession):
             name='Admin',
             is_active=True, is_admin=True,
         )
+        logger.info('Admin created')
 
 
 async def user_loader(request: Request, user_id: int):
