@@ -1,5 +1,3 @@
-import logging
-
 from starlette.requests import Request
 
 from apps.core.base.exception import BaseAppException

@@ -3,6 +3,7 @@ alembic
 arq
 email-validator
 fastapi
+gunicorn
 jinja2
 passlib
 Pillow
