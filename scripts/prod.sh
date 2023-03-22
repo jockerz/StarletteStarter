@@ -25,4 +25,4 @@ venv/bin/gunicorn main:application -k uvicorn.workers.UvicornWorker \
   --pid ${PID_FILE} \
   --bind 127.0.0.1:${PORT} \
   --capture-output \
-  --log-config files/configs/logging.conf
+  --log-config configs/logging_gunicorn.conf

@@ -1,8 +1,8 @@
 import typing as t
 from datetime import datetime
 
-from passlib.hash import bcrypt, pbkdf2_sha256
-from sqlalchemy import select, update
+from passlib.hash import bcrypt
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from apps.utils.string import gen_random

@@ -1,3 +1,4 @@
+import msgpack
 from arq.connections import RedisSettings
 
 from apps.core.configs import configs
@@ -26,6 +27,9 @@ class WorkerSettings:
     functions = [
         send_message
     ]
+
+    job_serializer = msgpack.packb
+    job_deserializer = lambda b: msgpack.unpackb(b, raw=False)
 
     redis_settings = RedisSettings(
         host=configs.REDIS_HOST,
