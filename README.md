@@ -71,6 +71,12 @@ ADMIN_EMAIL='admin@localhost'
 
 # Run Locally (Development Mode)
 
+## Change 'ENV' value on `.env`
+
+```text
+ENV=dev
+```
+
 ## Web Application Service
 
 ```shell

@@ -133,7 +133,7 @@ async def init_app(config: Base, db: AsyncSession):
     elif len(config.ADMIN_PASSWORD) < 8:
         raise ValueError('Invalid ADMIN_PASSWORD length. min: 10')
 
-    if not await UserCRUD.get_by_username(db, 'admin'):
+    if not await UserCRUD.get_by_username(db, config.ADMIN_USERNAME):
         await UserCRUD.create(
             db,
             username=config.ADMIN_USERNAME,
