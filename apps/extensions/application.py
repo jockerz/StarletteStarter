@@ -1,15 +1,19 @@
+import contextlib
 import logging
 
 from starlette.applications import Starlette
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from sqlalchemy.ext.asyncio import async_scoped_session, AsyncSession
 
 from apps.apps.account.crud import UserCRUD
+from apps.core.admin import register_models
 from apps.core.configs import Base
 from apps.core.error_handlers import add_error_handlers
 from apps.core.middlewares import build_middlewares
 from apps.core.routes import get_routes
-from apps.extensions.arq import create_connection
+from .admin import create_admin
+from .arq import create_connection
 from .db import create_db_engine, create_db_session, create_scope_session
 from .login_manager import create_login_manager, get_middleware
 from .secure import secure_headers
@@ -45,45 +49,7 @@ def create_application(
     middleware = build_middlewares(config)
     middleware.append(get_middleware(login_manager))
 
-    app = Starlette(
-        debug=config.DEBUG,
-        middleware=middleware,
-        routes=get_routes(config)
-    )
-
-    # Application states
-    app.state.config = config
-    app.state.login_manager = login_manager
-
-    # Error handlers
-    add_error_handlers(app)
-
-    @app.middleware('http')
-    async def set_extensions(request: Request, call_next):
-        response = None
-        try:
-            # DB Session
-            request.state.db = db_session()
-
-            # Process the request
-            response = await call_next(request)
-
-            # close DB Session
-            await request.state.db.close()
-
-        except Exception as exc:
-            logger.exception(exc)
-            response = templates.TemplateResponse(
-                'errors/default.html',
-                context={"request": request},
-                status_code=500,
-            )
-        finally:
-            assert response is not None
-            secure_headers.framework.fastapi(response)
-            return response
-
-    @app.on_event('startup')
+    # @app.on_event('startup')
     async def startup():
         _db = db_session()
         # Create admin user
@@ -92,13 +58,65 @@ def create_application(
 
         app.state.arq = await create_connection(config)
 
-    @app.on_event('shutdown')
+    # @app.on_event('shutdown')
     async def shutdown():
         if db_engine is not None:
             try:
                 await db_engine.dispose()
             except:
                 pass
+
+    @contextlib.asynccontextmanager
+    async def lifespan(app):
+        """docs: https://www.starlette.io/lifespan/"""
+        await startup()
+        yield
+        await shutdown()
+
+    app = Starlette(
+        debug=config.DEBUG, middleware=middleware,
+        routes=get_routes(config), lifespan=lifespan
+    )
+
+    # Application states
+    app.state.config = config
+    app.state.login_manager = login_manager
+
+    # Admin pages
+    if config.TESTING is False:
+        # Skip on testing
+        admin = create_admin(app, db_engine, middleware, config.DEBUG)
+        register_models(admin)
+
+    # Error handlers
+    add_error_handlers(app)
+
+    class CustomMiddleware(BaseHTTPMiddleware):
+        async def dispatch(self, request, call_next):
+            response = None
+            try:
+                # DB Session
+                request.state.db = db_session()
+
+                # Process the request
+                response = await call_next(request)
+
+                # close DB Session
+                await request.state.db.close()
+
+            except Exception as exc:
+                logger.exception(exc)
+                response = templates.TemplateResponse(
+                    'errors/default.html', context={"request": request},
+                    status_code=500,
+                )
+            finally:
+                assert response is not None
+                secure_headers.framework.fastapi(response)
+                return response
+
+    # Request state setup middleware
+    app.add_middleware(CustomMiddleware)
 
     return app
 

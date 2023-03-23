@@ -10,6 +10,7 @@ passlib
 Pillow
 secure
 sqlalchemy[asyncio]
+sqladmin
 sqlalchemy-utils
 Starlette-Login
 starlette-wtf
