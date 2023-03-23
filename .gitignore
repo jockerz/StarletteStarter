@@ -4,6 +4,8 @@ __pycache__/
 alembic/versions/*.py
 venv/
 
+files/*.txt
+files/*.py
 files/*.pid
 files/logs/
 media/account/*

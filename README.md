@@ -1,3 +1,15 @@
+# Introduction
+
+This project exists with the help of some of really great tools.
+
+- [Starlette][Starlette]: Lightweight ASGI framework/toolkit 
+  for building async web services
+- [Tabler][Tabler]: UI kit based on Bootstrap 5
+- [SQLAlchemy][SQLAlchemy]: The Python SQL Toolkit and Object Relational Mapper
+- [Arq][arq]: Job queues and RPC in python with asyncio and redis
+- _And more..._
+
+
 # Setup
 
 ## Requirements
@@ -129,8 +141,18 @@ pip install -r requirements/test.txt
 pytest
 ```
 
+# To Do and Progress
+
+- [ ] OAuth2
+- [ ] Admin routes using [SQLAdmin][SQLAdmin] 
+- [ ] User Interface for job queues using [arq-dashboard][arq-dashboard]
+
 
 [arq]: https://arq-docs.helpmanual.io
+[arq-dashboard]:https://github.com/ninoseki/arq-dashboard
 [ethereal]: https://ethereal.email
 [Letsencrypt]: https://letsencrypt.org
+[SQLAdmin]: https://aminalaee.dev/sqladmin
 [SQLAlchemy]: https://docs.sqlalchemy.org/en/20/
+[Starlette]: https://www.starlette.io
+[Tabler]: https://tabler.io
