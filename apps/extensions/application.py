@@ -121,15 +121,25 @@ def create_application(
     return app
 
 
-async def init_app(configs: Base, db: AsyncSession):
+async def init_app(config: Base, db: AsyncSession):
     """create admin user"""
+    # validate email, username and password
+    if not config.ADMIN_EMAIL:
+        raise ValueError('Invalid ADMIN_EMAIL value')
+    elif not config.ADMIN_USERNAME:
+        raise ValueError('Invalid ADMIN_USERNAME value')
+    elif not config.ADMIN_PASSWORD:
+        raise ValueError('Invalid ADMIN_PASSWORD value')
+    elif len(config.ADMIN_PASSWORD) < 8:
+        raise ValueError('Invalid ADMIN_PASSWORD length. min: 10')
+
     if not await UserCRUD.get_by_username(db, 'admin'):
         await UserCRUD.create(
             db,
-            username=configs.ADMIN_USERNAME,
-            password=configs.ADMIN_PASSWORD,
-            email=configs.ADMIN_EMAIL,
-            name='Admin',
+            username=config.ADMIN_USERNAME,
+            password=config.ADMIN_PASSWORD,
+            email=config.ADMIN_EMAIL,
+            name=config.ADMIN_NAME,
             is_active=True, is_admin=True,
         )
         logger.info('Admin created')

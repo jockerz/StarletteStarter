@@ -12,5 +12,5 @@ def create_admin(
 ) -> Admin:
     return Admin(
         app, engine, middlewares=middlewares, debug=debug,
-        logo_url='/static/favicon.ico', title='Admin',
+        title='Admin',
     )

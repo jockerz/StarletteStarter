@@ -35,6 +35,7 @@ class Base:
     SECRET_KEY = env_config("SECRET_KEY")
 
     # Admin user
+    ADMIN_NAME = env_config("ADMIN_USERNAME", default='admin')
     ADMIN_USERNAME = env_config("ADMIN_USERNAME")
     ADMIN_PASSWORD = env_config("ADMIN_PASSWORD")
     ADMIN_EMAIL = env_config("ADMIN_EMAIL")

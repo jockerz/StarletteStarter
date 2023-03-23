@@ -7,6 +7,7 @@ This project exists with the help of some of really great tools.
 - [Tabler][Tabler]: UI kit based on Bootstrap 5
 - [SQLAlchemy][SQLAlchemy]: The Python SQL Toolkit and Object Relational Mapper
 - [Arq][arq]: Job queues and RPC in python with asyncio and redis
+- [SQLAdmin][SQLAdmin]: Admin interface for SQLAlchemy models
 - _And more..._
 
 
