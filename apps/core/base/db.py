@@ -33,7 +33,7 @@ class BaseDRUD:
 
 
 class NotificationTypeEnum(Enum):
-    EMAIL = 1
+    EMAIL = 'EMAIL'
 
 
 class ValidationMixin:

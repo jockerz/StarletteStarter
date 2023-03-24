@@ -11,6 +11,7 @@ from apps.apps.main.views import (
     logout_page,
     register_page,
     activation_page,
+    refresh_activation_page,
     forgot_password_page,
     reset_password_page
 )
@@ -27,8 +28,9 @@ routes = [
     Route('/logout', logout_page, name='logout'),
     Route('/register', register_page, name='register',
           methods=["GET", "POST"]),
-    Route('/activate/{code}.{secret}', activation_page,
-          name='activation'),
+    Route('/activate/{code}/refresh', refresh_activation_page,
+          name='refresh_activation'),
+    Route('/activate/{code}.{secret}', activation_page, name='activation'),
     Route('/forgot', forgot_password_page, name='forgot_password',
           methods=['GET', 'POST']),
     Route('/reset/{code}.{secret}', reset_password_page, name='reset_password',

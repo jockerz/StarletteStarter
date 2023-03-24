@@ -10,7 +10,20 @@
     </div>
     <div class="card card-md">
       <div class="card-body">
-        <h2 class="h2 text-center mb-4">Account activation {% if success %}success{% else %}failed{% endif %}</h2>
+        {% if success %}
+        <h2 class="h2 text-center mb-4">Account activation success</h2>
+        {% else %}
+        <h2 class="h2 text-center mb-4">{{ reason or 'Invalid Activation Code' }}</h2>
+          {% if activation %}
+          <h3>Resend the Activation URL to your {{ activation.notif_type.value }}.</h3>
+          <p class="text-center">
+            Link:<br/>
+            <a href="{{ url_for('refresh_activation', code=activation.code) }}">
+              Resend activation URL
+            </a>
+          </p>
+          {% endif %}
+        {% endif %}
       </div>
     </div>
     <div class="text-center text-muted mt-3">

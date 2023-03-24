@@ -14,6 +14,6 @@ async def create_connection(configs: Base) -> ArqRedis:
             password=configs.REDIS_PASS,
             database=configs.REDIS_DB_ARQ
         ),
-        job_serializer=msgpack.packb,
-        job_deserializer=lambda b: msgpack.unpackb(b, raw=False),
+        # job_serializer=msgpack.packb,
+        # job_deserializer=lambda b: msgpack.unpackb(b, raw=False),
     )

@@ -1,5 +1,25 @@
 from apps.core.base.admin import BaseModel
-from .models import User
+from .models import Activation, User
+
+
+class ActivationAdmin(BaseModel, model=Activation):
+    icon = "fa fa-check"
+    name = 'Activation'
+
+    # Column on list view
+    column_list = [
+        Activation.user_id, Activation.code, Activation.target,
+        Activation.create_date, Activation.is_complete,
+        Activation.expired_date, Activation.refresh_date
+    ]
+
+    column_details_exclude_list = [Activation.secret]
+    column_searchable_list = [
+        Activation.code, Activation.target, Activation.user_id
+    ]
+    form_excluded_columns = [
+        Activation.user, Activation.secret, Activation.create_date,
+    ]
 
 
 class UserAdmin(BaseModel, model=User):

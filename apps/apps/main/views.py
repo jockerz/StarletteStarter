@@ -143,17 +143,31 @@ async def activation_page(request: Request):
     success = False
     activation = await ActivationCRUD.get(db, code)
     if activation is None:
-        raise HTTPException(404, 'Invalid activation code')
+        context = {
+            'request': request, 'success': False,
+            'reason': 'Invalid activation code'
+        }
+        return templates.TemplateResponse('main/activation.html', context)
     elif activation.is_complete:
-        raise HTTPException(404, 'Activation code has been used')
+        context = {
+            'request': request, 'success': False,
+            'reason': 'Activation has been complete'
+        }
+        return templates.TemplateResponse('main/activation.html', context)
     elif activation.is_expired():
-        raise HTTPException(404, 'Activation code has been expired')
+        context = {
+            'request': request, 'success': False, 'activation': activation,
+            'reason': 'Activation has been expired'
+        }
+        return templates.TemplateResponse('main/activation.html', context)
 
     user = await UserCRUD.get_by_id(db, activation.user_id)
     if user is None:
-        logger.error(f"Invalid user for activation code: {code}")
+        logger.warning(f"Invalid user for activation code: {code}")
+        reason = 'Invalid activation user'
     elif user.is_active:
         Notification(title='User is already active').push(request)
+        return RedirectResponse('/login', 302)
     else:
         success, reason = ActivationCRUD.validate_secret(activation, secret)
         if success is False:
@@ -162,8 +176,60 @@ async def activation_page(request: Request):
             ).push(request)
         else:
             await ActivationCRUD.set_as_complete(db, activation, user)
-    context = {'request': request, 'success': success}
+
+    context = {'request': request, 'success': success, 'reason': reason}
     return templates.TemplateResponse('main/activation.html', context)
+
+
+async def refresh_activation_page(request: Request):
+    arq = get_arq(request)
+    config = get_config(request)
+    db = get_db(request)
+
+    code = request.path_params['code']
+    if not code:
+        raise HTTPException(404, 'Invalid activation code')
+
+    activation = await ActivationCRUD.get(db, code)
+    if activation is None:
+        context = {
+            'request': request, 'success': False,
+            'reason': 'Invalid activation code'
+        }
+        return templates.TemplateResponse('main/activation.html', context)
+    elif activation.is_complete:
+        context = {
+            'request': request, 'success': False,
+            'reason': 'Activation has been complete'
+        }
+        return templates.TemplateResponse('main/activation.html', context)
+
+    user = await UserCRUD.get_by_id(db, activation.user_id)
+    if user is None:
+        raise HTTPException(404, 'Invalid activation code')
+    elif user.is_active:
+        Notification(title='User is already active').push(request)
+        return RedirectResponse('/login', 302)
+    else:
+        secret = await ActivationCRUD.refresh(db, activation)
+        activation_url = request.url_for(
+            'activation', code=activation.code, secret=secret
+        )
+        if config.TESTING is True:
+            logger.debug(f"activation link: {activation_url}")
+        else:
+            sent_to = activation.notif_type.name.lower()
+            await send_activation_message(
+                arq, recipient=activation.target,
+                activation_url=activation_url
+            )
+            Notification(
+                category='alert', icon='success',
+                title=f'New activation code is being sent to '
+                      f'your {sent_to}',
+            ).push(request)
+    context = {'request': request, 'sent_to': sent_to}
+    return templates.TemplateResponse('main/activation-refresh.html', context)
 
 
 @csrf_protect

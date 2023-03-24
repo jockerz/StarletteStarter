@@ -125,7 +125,7 @@ kill `cat files/pids/web_app.pid`
 
 ## Nginx
 
-Please take a look on `files/config/nginx_conf_d_yousite.conf`.
+Please take a look on `configs/nginx_conf_d_yousite.conf`.
 Copy that file and edit on `/etc/nginx/conf.d/yoursite_com.conf`.
 
 ## SSL Certificate

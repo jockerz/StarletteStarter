@@ -28,8 +28,8 @@ class WorkerSettings:
         send_message
     ]
 
-    job_serializer = msgpack.packb
-    job_deserializer = lambda b: msgpack.unpackb(b, raw=False)
+    # job_serializer = msgpack.packb
+    # job_deserializer = lambda b: msgpack.unpackb(b, raw=False)
 
     redis_settings = RedisSettings(
         host=configs.REDIS_HOST,

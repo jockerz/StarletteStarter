@@ -35,9 +35,9 @@ class ActivationCRUD:
 
     @staticmethod
     def validate_secret(
-        token: Activation, secret: str
+        token: Activation, secret: str, skip_expiration: bool = False,
     ) -> t.Tuple[bool, str]:
-        if token.is_expired():
+        if not skip_expiration and token.is_expired():
             return False, 'Activation has been expired'
         elif token.is_complete:
             return False, 'Activation has already been complete'
@@ -56,3 +56,10 @@ class ActivationCRUD:
         db.add(user)
         db.add(activation)
         await db.commit()
+
+    @staticmethod
+    async def refresh(db: AsyncSession, activation: Activation) -> str:
+        secret = activation.refresh()
+        db.add(activation)
+        await db.commit()
+        return secret
