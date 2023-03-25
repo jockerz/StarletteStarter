@@ -144,19 +144,23 @@ async def activation_page(request: Request):
     activation = await ActivationCRUD.get(db, code)
     if activation is None:
         context = {
-            'request': request, 'success': False,
+            'request': request,
+            'success': False,
             'reason': 'Invalid activation code'
         }
         return templates.TemplateResponse('main/activation.html', context)
     elif activation.is_complete:
         context = {
-            'request': request, 'success': False,
+            'request': request,
+            'success': False,
             'reason': 'Activation has been complete'
         }
         return templates.TemplateResponse('main/activation.html', context)
     elif activation.is_expired():
         context = {
-            'request': request, 'success': False, 'activation': activation,
+            'activation': activation,
+            'request': request,
+            'success': False,
             'reason': 'Activation has been expired'
         }
         return templates.TemplateResponse('main/activation.html', context)
@@ -170,13 +174,10 @@ async def activation_page(request: Request):
         return RedirectResponse('/login', 302)
     else:
         success, reason = ActivationCRUD.validate_secret(activation, secret)
-        if success is False:
-            Notification(
-                title='Invalid activation code', category='alert'
-            ).push(request)
-        else:
+        if success is True:
             await ActivationCRUD.set_as_complete(db, activation, user)
-
+        if reason.lower() == 'False Activation secret'.lower():
+            reason = 'Invalid activation URL'
     context = {'request': request, 'success': success, 'reason': reason}
     return templates.TemplateResponse('main/activation.html', context)
 
