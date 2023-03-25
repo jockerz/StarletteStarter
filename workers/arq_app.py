@@ -1,7 +1,5 @@
-import msgpack
-from arq.connections import RedisSettings
-
 from apps.core.configs import configs
+from apps.extensions.arq import create_setting
 from apps.extensions.db import create_db_engine, create_db_session
 from apps.extensions.mail import send_message
 
@@ -28,13 +26,4 @@ class WorkerSettings:
         send_message
     ]
 
-    # job_serializer = msgpack.packb
-    # job_deserializer = lambda b: msgpack.unpackb(b, raw=False)
-
-    redis_settings = RedisSettings(
-        host=configs.REDIS_HOST,
-        port=configs.REDIS_PORT,
-        username=configs.REDIS_USER,
-        password=configs.REDIS_PASS,
-        database=configs.REDIS_DB_ARQ
-    )
+    redis_settings = create_setting(configs)

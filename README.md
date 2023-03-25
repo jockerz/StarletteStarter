@@ -151,12 +151,10 @@ pytest
 # To Do and Progress
 
 - [ ] OAuth2
-- [ ] Admin routes using [SQLAdmin][SQLAdmin] 
-- [ ] User Interface for job queues using [arq-dashboard][arq-dashboard]
 
 
 [arq]: https://arq-docs.helpmanual.io
-[arq-dashboard]:https://github.com/ninoseki/arq-dashboard
+[arq-dashboard]: https://github.com/ninoseki/arq-dashboard
 [ethereal]: https://ethereal.email
 [Letsencrypt]: https://letsencrypt.org
 [SQLAdmin]: https://aminalaee.dev/sqladmin

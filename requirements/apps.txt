@@ -5,7 +5,6 @@ email-validator
 fastapi
 gunicorn
 jinja2
-msgpack
 passlib
 Pillow
 secure
