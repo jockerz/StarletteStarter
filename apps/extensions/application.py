@@ -9,9 +9,10 @@ from sqlalchemy.ext.asyncio import async_scoped_session, AsyncSession
 from apps.apps.account.crud import UserCRUD
 from apps.core.admin import register_models
 from apps.core.configs import Base
-from apps.core.error_handlers import add_error_handlers
+from apps.core.error_handlers import get_error_handlers
 from apps.core.middlewares import build_middlewares
 from apps.core.routes import get_routes
+from apps.extensions.oauth2 import create_oauth2
 from .admin import create_admin
 from .arq import create_connection
 from .db import create_db_engine, create_db_session, create_scope_session
@@ -81,15 +82,16 @@ def create_application(
     # Application states
     app.state.config = config
     app.state.login_manager = login_manager
+    app.state.oauth2 = create_oauth2(config)
 
-    # Admin pages
+    # Skip testing
     if config.TESTING is False:
-        # Skip on testing
+        # Admin
         admin = create_admin(app, db_engine, middleware, config.DEBUG)
         register_models(admin)
 
     # Error handlers
-    add_error_handlers(app)
+    app.exception_handlers.update(get_error_handlers())
 
     class CustomMiddleware(BaseHTTPMiddleware):
         async def dispatch(self, request, call_next):

@@ -1,6 +1,7 @@
 aiosmtplib
 alembic
 arq
+Authlib
 email-validator
 fastapi
 gunicorn

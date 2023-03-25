@@ -6,7 +6,7 @@ from starlette.config import Config
 env_config = Config('.env')
 
 
-def handle_value_error(
+def handled_value_error(
     name: str, default: t.Optional[t.Any] = None,
     cast: type = None, allow_empty: bool = False
 ) -> t.Any:
@@ -45,19 +45,28 @@ class Base:
 
     # Redis
     REDIS_HOST = env_config('REDIS_HOST', default='127.0.0.1') or '127.0.0.1'
-    REDIS_PORT = handle_value_error('REDIS_PORT', cast=int, default=6379)
+    REDIS_PORT = handled_value_error('REDIS_PORT', cast=int, default=6379)
     REDIS_USER = env_config('REDIS_USER')
     REDIS_PASS = env_config('REDIS_PASS')
     # REDIS_DB = handle_value_error('REDIS_DB', cast=int, default=0)
-    REDIS_DB_ARQ = handle_value_error('REDIS_DB_ARQ', cast=int, default=0)
+    REDIS_DB_ARQ = handled_value_error('REDIS_DB_ARQ', cast=int, default=0)
 
     # SMTP
-    SMTP_HOST = handle_value_error('SMTP_HOST', cast=str, default='localhost')
-    SMTP_PORT = handle_value_error('SMTP_PORT', cast=int, default=25)
+    SMTP_HOST = handled_value_error('SMTP_HOST', cast=str, default='localhost')
+    SMTP_PORT = handled_value_error('SMTP_PORT', cast=int, default=25)
     SMTP_USER = env_config('SMTP_USER')
     SMTP_PASS = env_config('SMTP_PASS')
-    SMTP_SSL = handle_value_error('SMTP_SSL', cast=bool, default=False)
-    SMTP_START_SSL = handle_value_error('SMTP_START_SSL', cast=bool, default=False)
+    SMTP_SSL = handled_value_error('SMTP_SSL', cast=bool, default=False)
+    SMTP_START_SSL = handled_value_error('SMTP_START_SSL', cast=bool, default=False)
+
+    # OAuth 2
+    GITHUB_CLIENT_ID = env_config('GITHUB_CLIENT_ID', default=None)
+    GITHUB_CLIENT_SECRET = env_config('GITHUB_CLIENT_SECRET', default=None)
+    GOOGLE_CLIENT_ID = env_config('GOOGLE_CLIENT_ID', default=None)
+    GOOGLE_CLIENT_SECRET = env_config('GOOGLE_CLIENT_SECRET', default=None)
+
+    def get(self, key: str, default: t.Any = None):
+        return getattr(self, key, default)
 
     def dict(self) -> dict:
         result = {}

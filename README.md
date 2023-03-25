@@ -1,5 +1,8 @@
 # Introduction
 
+This is a full web app using [Starlette][Starlette].
+
+
 This project exists with the help of some of really great tools.
 
 - [Starlette][Starlette]: Lightweight ASGI framework/toolkit 
@@ -150,7 +153,7 @@ pytest
 
 # To Do and Progress
 
-- [ ] OAuth2
+- [ ] OAuth2: https://docs.authlib.org/en/latest/client/starlette.html
 
 
 [arq]: https://arq-docs.helpmanual.io

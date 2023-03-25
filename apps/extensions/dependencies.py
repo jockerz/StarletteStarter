@@ -1,4 +1,5 @@
 from arq import ArqRedis
+from authlib.integrations.starlette_client import OAuth
 from starlette.requests import Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -13,3 +14,7 @@ def get_config(request: Request):
 
 def get_db(request: Request) -> AsyncSession:
     return request.state.db
+
+
+def get_oauth2(request: Request) -> OAuth:
+    return request.app.state.oauth2
