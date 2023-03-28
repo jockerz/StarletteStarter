@@ -7,9 +7,9 @@
   <div class="container-tight py-4">
     <div class="empty">
       <div class="empty-header">404</div>
-      <p class="empty-title">Oops… Not found.</p>
+      <p class="empty-title">{{ title or 'Oops… Not found.' }}</p>
       <p class="empty-subtitle text-muted">
-        Item or Page is not found.
+        {{ detail or 'Item or Page is not found.' }}
       </p>
       <div class="empty-action">
         <a href="{{ url_for('home') }}" class="btn btn-primary">

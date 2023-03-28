@@ -1,3 +1,4 @@
+from starlette.exceptions import HTTPException
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse, RedirectResponse
 
@@ -16,13 +17,16 @@ logged_in_notif = Notification(
 async def authorize(request):
     provider = request.path_params['provider']
     oauth2 = get_oauth2(request)
-    client = oauth2.create_client(provider)
+    from authlib.integrations.starlette_client.apps import StarletteOAuth2App as s
+    client: s = oauth2.create_client(provider)
     # TODO: if github is None, return error template
     if client is None:
-        return PlainTextResponse(f'authorize[{provider}] - client is None')
+        raise HTTPException(404, detail='Invalid Authentication provider')
 
     token = await client.authorize_access_token(request)
     print(f'{provider}-token: {token}')
+    profile = await client.get('user', token=token)
+    print(f'profile: {profile.json()}')
 
     # TODO: login / register + login
 
@@ -42,15 +46,12 @@ async def login(request: Request):
 
     provider = request.path_params['provider']
     oauth2 = get_oauth2(request)
-    print(f'oauth2_clients: {oauth2._clients}')
-    print(f'oauth2_registry: {oauth2._registry}')
 
     from authlib.integrations.starlette_client.apps import StarletteOAuth2App as s
     client: s = oauth2.create_client(provider)
     if client is None:
         # return error template
-        return PlainTextResponse(f'login[{provider}] - client is None')
+        raise HTTPException(404, detail='Invalid Authentication provider')
 
     redirect_uri = request.url_for('oauth2:authorize', provider=provider)
-    print(f'redirect_uri: {redirect_uri}')
     return await client.authorize_redirect(request, redirect_uri)
