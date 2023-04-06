@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy import (
     ForeignKey, ForeignKeyConstraint, JSON, String, UniqueConstraint
 )
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from apps.apps.account.models import User
@@ -27,35 +27,37 @@ class OAuth2Account(Base):
         UniqueConstraint('provider', 'user_id', name=UQ_PROVIDER_USERID),
     )
 
+    id: Mapped[int] = mapped_column(primary_key=True)
+
     # unique keys
-    provider: Mapped[ProviderEnum] = mapped_column(primary_key=True)
+    provider: Mapped[ProviderEnum] = mapped_column()
     user_id: Mapped[int] = mapped_column(
-        ForeignKey("account_user.id"), primary_key=True
+        ForeignKey("account_user.id"), index=True
     )
+    user: Mapped['User'] = relationship()
 
     uid: Mapped[str] = mapped_column(String(191))
-    last_login: Mapped[datetime]
+    last_login: Mapped[datetime] = mapped_column(
+        server_default=func.now(), server_onupdate=func.now()
+    )
     date_joined: Mapped[datetime] = mapped_column(server_default=func.now())
     extra_data: Mapped[t.Optional[dict]] = mapped_column(JSON)
 
 
 class OAuth2Token(Base):
     __tablename__ = f'{TABLE_PREFIX}_token'
-    __table_args__ = (
-        # Foreignkey to multiple column
-        ForeignKeyConstraint(['account_provider', 'account_user_id'], [
-            f'{TABLE_PREFIX}_account.provider',
-            f'{TABLE_PREFIX}_account.user_id'
-        ]),
-    )
 
     # Primary key
     id: Mapped[int] = mapped_column(primary_key=True)
-
-    # foreign keys
-    account_provider: Mapped[str]
-    account_user_id: Mapped[int]
-
     access_token: Mapped[str]
     refresh_token: Mapped[t.Optional[str]]
-    expires_at: Mapped[datetime]
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime] = mapped_column()
+
+    provider_id: Mapped[str] = mapped_column(
+        ForeignKey(f'{TABLE_PREFIX}_account.id')
+    )
+    provider: Mapped[OAuth2Account] = relationship()
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("account_user.id"), index=True)
+    user: Mapped['User'] = relationship()

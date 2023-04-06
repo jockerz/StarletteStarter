@@ -10,19 +10,21 @@ logger = logging.getLogger('uvicorn.error')
 
 class _BaseException(_HTTPException):
     headers: typing.Optional[typing.Mapping[str, str]]
-    status_code: int
-    detail: str
+    status_code: int = 500
+    detail: str = 'Internal server error'
     log_level: int = logging.DEBUG
     log_data: dict = None
 
     def __init__(
         self,
-        status_code: int = 500,
-        detail: str = 'Internal server error',
+        status_code: int = None,
+        detail: str = None,
         **kwargs
     ):
-        self.status_code = status_code
-        self.detail = detail
+        if status_code:
+            self.status_code = status_code
+        if detail:
+            self.detail = detail
         self.log_data = kwargs
         if 'headers' in kwargs:
             self.headers = kwargs['headers']
@@ -54,11 +56,12 @@ class BaseAPIException(_BaseException):
 
     def __init__(
         self,
-        status_code: int = 500,
-        message: str = 'Please try again after a few minutes',
-        errors: typing.Optional[typing.List[str]] = None
+        status_code: int = None,
+        message: str = None,
+        errors: typing.Optional[typing.List[str]] = None,
+        **kwargs
     ):
-        super().__init__(status_code, message)
+        super().__init__(status_code, message, **kwargs)
         self.errors = errors
 
     def as_response(self) -> JSONResponse:
@@ -78,16 +81,18 @@ class BaseAPIException(_BaseException):
 class BaseAppException(_BaseException):
     # Only for status code 301 - 308
     redirect_url: typing.Optional[str]
-    title: str
+    title: str = 'Internal server error'
 
     def __init__(
         self,
-        status_code: int = 500,
-        message: str = 'Please try again after a few minutes.',
-        title: str = 'Internal server error'
+        status_code: int = None,
+        message: str = None,
+        title: str = None,
+        **kwargs
     ):
-        super().__init__(status_code, message)
-        self.title = title
+        super().__init__(status_code, message, **kwargs)
+        if title:
+            self.title = title
 
     def get_context(self, request: Request) -> dict:
         return {

@@ -17,6 +17,9 @@ from apps.utils.string import gen_random
 
 @as_declarative()
 class Base:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     @declared_attr.directive
     def __tablename__(cls) -> str:
         return cls.__name__.lower()

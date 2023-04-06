@@ -23,7 +23,7 @@ class User(Base, UserMixin):
     username: Mapped[str] = mapped_column(String(150), unique=True)
     password: Mapped[str] = mapped_column(String(128))
     email: Mapped[str] = mapped_column(EmailType, unique=True)
-    name: Mapped[str] = mapped_column(String(256))
+    name: Mapped[str] = mapped_column(String(256), nullable=True)
     # file name only
     avatar: Mapped[str] = mapped_column(String(256), nullable=True)
 

@@ -20,7 +20,8 @@ class UserCRUD:
         user = User()
         user.username = username.strip().lower()
         user.email = email.strip().lower()
-        user.name = name.strip()
+        if name:
+            user.name = name.strip()
         user.is_active = is_active
         user.is_staff = is_staff or is_admin
         user.is_admin = is_admin

@@ -7,7 +7,7 @@
   <div class="container-tight py-4">
     <div class="empty">
       <div class="empty-header">Oops…</div>
-      <p class="empty-title">You just found an error page</p>
+      <p class="empty-title">{{ title or 'You just found an error page' }}</p>
       <p class="empty-subtitle text-muted">
         {{ message or "We are sorry but our server encountered an error" }}
       </p>
