@@ -8,7 +8,7 @@ def create_login_manager(secret_key: str, redirect_to: str = '/login'):
     return LoginManager(redirect_to, secret_key)
 
 
-def get_middleware(login_manager: LoginManager, login_route: str = 'login'):
+def get_middleware(login_manager: LoginManager):
     return Middleware(
         AuthenticationMiddleware,
         backend=SessionAuthBackend(login_manager),

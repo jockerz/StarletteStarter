@@ -12,7 +12,9 @@ FLASH_SESSION_NAME = '_flash'
 @dataclass
 class Notification:
     title: str
-    icon: str = field(default='info')
+    icon: t.Literal[
+        'info', 'success', 'error', 'warning', 'question'
+    ] = field(default='info')
     text: str = field(default=None)
     footer: str = field(default=None)
     category: t.Literal['notification', 'alert'] = field(default='notification')

@@ -29,7 +29,7 @@
       <div class="col-md">
         {{ form.csrf_token }}
         <div class="form-label">Name</div>
-        <input type="text" class="form-control{% if form.name.errors %} is-invalid{% endif %}" name="name" value="{{ request.user.name }}">
+        <input type="text" class="form-control{% if form.name.errors %} is-invalid{% endif %}" name="name" value="{{ request.user.name or '' }}" placeholder="Full name">
         {% for error in form.name.errors %}
         <div class="invalid-feedback">{{ error }}</div>
         {% endfor %}

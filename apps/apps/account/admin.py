@@ -28,7 +28,7 @@ class UserAdmin(BaseModel, model=User):
 
     # Column on list view
     column_list = [
-        User.id, User.username, User.email, User.name,
+        User.username, User.email, User.name,
         User.is_active, User.is_staff, User.is_admin,
     ]
 

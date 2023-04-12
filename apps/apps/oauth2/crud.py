@@ -1,7 +1,7 @@
 import typing as t
 from datetime import datetime
 
-from sqlalchemy import select, update
+from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,10 +14,11 @@ class OAuth2AccountCRUD:
     @staticmethod
     async def create(
         db: AsyncSession, provider: ProviderEnum, user: User,
-        uid: str, extra_data: dict = None, commit: bool = True
+        uid: str, username: str, extra_data: dict = None, commit: bool = True
     ) -> OAuth2Account:
         account = OAuth2Account(
-            provider=provider, uid=uid, user=user, extra_data=extra_data
+            provider=provider, uid=uid, username=username, user=user,
+            extra_data=extra_data
         )
         if commit:
             try:
@@ -52,9 +53,16 @@ class OAuth2AccountCRUD:
 
     @staticmethod
     async def get_user_accounts(
-        db: AsyncSession, user_id: int
+        db: AsyncSession, user_id: int, provider: ProviderEnum = None
     ) -> t.Sequence[OAuth2Account]:
-        stmt = select(OAuth2Account).where(OAuth2Account.user_id == user_id)
+        stmt = select(OAuth2Account)
+        if provider is not None:
+            stmt = stmt.where(
+                OAuth2Account.user_id == user_id,
+                OAuth2Account.provider == provider
+            )
+        else:
+            stmt = stmt.where(OAuth2Account.user_id == user_id)
         entry = await db.scalars(stmt)
         return entry.all()
 
@@ -69,6 +77,15 @@ class OAuth2AccountCRUD:
         ).values(
             last_login=datetime.now()
         )
+        await db.execute(stmt)
+        if commit:
+            await db.commit()
+
+    @staticmethod
+    async def remove(
+        db: AsyncSession, account: OAuth2Account, commit: bool = True
+    ):
+        stmt = delete(OAuth2Account).where(OAuth2Account.id == account.id)
         await db.execute(stmt)
         if commit:
             await db.commit()
@@ -112,3 +129,14 @@ class OAuth2TokenCRUD:
         )
         entry = await db.scalars(stmt)
         return None if entry is None else entry.first()
+
+    @staticmethod
+    async def remove_by_account(
+        db: AsyncSession, account_id: int, commit: bool = True
+    ):
+        stmt = delete(OAuth2Token).where(
+            OAuth2Token.provider_id == account_id
+        )
+        await db.execute(stmt)
+        if commit:
+            await db.commit()

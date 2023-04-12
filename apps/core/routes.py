@@ -39,7 +39,7 @@ routes = [
           methods=['GET', 'POST']),
 
     Mount('/account', routes=account_routes, name='account'),
-    Mount('/oauth2', routes=oauth2_routes, name='oauth2'),
+    Mount('/social', routes=oauth2_routes, name='oauth2'),
 ]
 
 

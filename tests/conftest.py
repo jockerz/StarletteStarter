@@ -27,6 +27,7 @@ async def db_engine():
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
     yield engine
+    await engine.dispose()
 
 
 @pytest_asyncio.fixture(scope='session')
@@ -35,16 +36,14 @@ async def db_session_creator(db_engine):
         yield create_db_session(conn)
 
 
-@pytest_asyncio.fixture
+@pytest_asyncio.fixture(scope='function')
 async def db(db_session_creator):
     return db_session_creator()
 
 
 @pytest.fixture
 async def application(db_session_creator):
-    return create_application(
-        CONFIG, db_session=db_session_creator,
-    )
+    return create_application(CONFIG, db_session=db_session_creator)
 
 
 @pytest_asyncio.fixture

@@ -147,6 +147,7 @@ async def init_app(config: Base, db: AsyncSession):
         logger.info('Admin created')
 
 
+# TODO: by oauth access token
 async def user_loader(request: Request, user_id: int):
     db = request.state.db
     return await UserCRUD.get_by_id(db, user_id)
