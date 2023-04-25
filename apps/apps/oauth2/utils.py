@@ -31,6 +31,7 @@ def _parse_github_public_emails(public_emails: Union[dict, List[dict]] = None):
         return email_data
 
 
+# TODO: google
 def parse_user_data(
     provider: ProviderEnum, data: dict, public_emails: List[dict] = None
 ) -> dict:
@@ -44,12 +45,13 @@ def parse_user_data(
             'email': data['email'] or _parse_github_public_emails(public_emails),
             'name': data.get('name', username),
         }
-    # elif provider == ProviderEnum.google:
-    #     raise ValueError('Google is not set up yet')
+    elif provider == ProviderEnum.google:
+        raise ValueError('Google is not set up yet')
     else:
         raise ValueError('The third party is not integrated yet')
 
 
+# TODO: google
 def parse_account_data(provider: ProviderEnum, data: dict) -> dict:
     if provider == ProviderEnum.github:
         return {
@@ -70,6 +72,7 @@ def get_provider(provider_name: str) -> ProviderEnum:
 
 
 def get_oauth_client(oauth2, provider_name: str) -> StarletteOAuth2App:
+    """Get a certain Oauth Client instance"""
     client = oauth2.create_client(provider_name)
     if client is None:
         # Not integrated with the Oauth Provider
@@ -80,13 +83,14 @@ def get_oauth_client(oauth2, provider_name: str) -> StarletteOAuth2App:
 async def get_oauth_token(client: StarletteOAuth2App, request: Request):
     try:
         return await client.authorize_access_token(request)
-    except MismatchingStateError:
-        raise OAuth2MismatchingStateError
+    except MismatchingStateError as e:
+        raise OAuth2MismatchingStateError(message=e.description)
 
 
 def get_all_accounts(accounts: Sequence[OAuth2Account]):
     unlinked = [
-        ProviderEnum.github.value
+        ProviderEnum.github.value,
+        ProviderEnum.google.value,
     ]
     linked = []
     for account in accounts:

@@ -99,7 +99,7 @@ class OAuth2TokenCRUD:
         expires_at: datetime, commit: bool = True
     ) -> OAuth2Token:
         token = OAuth2Token(
-            provider=account,
+            account=account,
             user=account.user,
             access_token=access_token,
             refresh_token=refresh_token,
@@ -135,7 +135,7 @@ class OAuth2TokenCRUD:
         db: AsyncSession, account_id: int, commit: bool = True
     ):
         stmt = delete(OAuth2Token).where(
-            OAuth2Token.provider_id == account_id
+            OAuth2Token.account_id == account_id
         )
         await db.execute(stmt)
         if commit:

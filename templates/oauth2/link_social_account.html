@@ -6,7 +6,9 @@
 {% block settings_content %}
 <div class="card-body">
   {% if linked %}
-  <h2 class="mb-4">Linked Accounts</h2>
+  <h2 class="mb-4">
+    Linked Accounts
+  </h2>
   <div class="row g-3">
     <div class="col-md">
       {% for account in linked %}
@@ -20,7 +22,9 @@
   {% endif %}
 
   {% if unlinked %}
-  <h2 class="mb-4">Not Linked Accounts</h2>
+  <h2 class="mb-4">
+    Not Linked Accounts
+  </h2>
   <div class="row g-3">
     <div class="col-md">
       {% for account in unlinked %}

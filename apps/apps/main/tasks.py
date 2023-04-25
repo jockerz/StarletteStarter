@@ -1,3 +1,5 @@
+import typing as t
+
 from arq import ArqRedis
 from starlette.datastructures import URL
 
@@ -24,7 +26,7 @@ Your password reset URL is {reset_url}
 
 
 async def send_activation_message(
-    arq: ArqRedis, recipient: str, activation_url: URL
+    arq: ArqRedis, recipient: str, activation_url: t.Union[str, URL]
 ):
     message = Message.create_html(
         mail_to=recipient,

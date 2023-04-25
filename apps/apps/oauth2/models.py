@@ -14,7 +14,7 @@ TABLE_PREFIX = 'oauth2'
 
 class ProviderEnum(enum.Enum):
     github = 'github'
-    # google = 'google'
+    google = 'google'
 
 
 class OAuth2Account(Base):
@@ -52,10 +52,10 @@ class OAuth2Token(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     expires_at: Mapped[t.Optional[datetime]] = mapped_column()
 
-    provider_id: Mapped[str] = mapped_column(
+    account_id: Mapped[str] = mapped_column(
         ForeignKey(f'{TABLE_PREFIX}_account.id')
     )
-    provider: Mapped[OAuth2Account] = relationship()
+    account: Mapped[OAuth2Account] = relationship()
 
     user_id: Mapped[int] = mapped_column(ForeignKey("account_user.id"), index=True)
     user: Mapped['User'] = relationship()

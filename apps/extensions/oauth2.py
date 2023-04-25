@@ -6,13 +6,19 @@ from apps.core.configs import Base
 
 OAUTH2_PROVIDERS = {
     'github': {
-        # 'client_kwargs': {'scope': 'user:email'},
-        # 'header': {
-        #     'X-Oauth-Scopes': 'user user:email'
-        # },
         'api_base_url': 'https://api.github.com',
         'authorize_url': 'https://github.com/login/oauth/authorize',
         'access_token_url': 'https://github.com/login/oauth/access_token'
+    },
+    # docs: https://developers.google.com/identity/sign-in/web/server-side-flow
+    # https://console.cloud.google.com/apis/credentials?project=causal-sky-222112
+    'google': {
+        'server_metadata_url': 'https://accounts.google.com/.well-known/'
+                               'openid-configuration',
+        'client_kwargs': {
+            'scope': 'openid profile email',
+            'prompt': 'select_account',  # force to select account
+        }
     }
 }
 

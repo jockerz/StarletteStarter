@@ -1,5 +1,3 @@
-import json
-
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
 from starlette_login.decorator import login_required
@@ -52,14 +50,21 @@ async def authorize(request):
     provider_name = request.path_params['provider']
 
     provider = get_provider(provider_name)
+    print(f'provider: {provider}')
     client = get_oauth_client(oauth2, provider_name)
+    # Authorize access token
     token = await get_oauth_token(client, request)
-
     print(f'{provider}-token: {token}\n')
+
     resp = await client.get('user', token=token)
     profile = resp.json()
-    resp = await client.get('user/public_emails', token=token)
-    public_emails = resp.json()
+    print(f'profile: {profile}')
+    if provider == ProviderEnum.github:
+        resp = await client.get('user/public_emails', token=token)
+        public_emails = resp.json()
+    else:
+        public_emails = {}
+    print(f'public_emails: {public_emails}')
 
     if provider == ProviderEnum.github:
         provider_uid = profile['id']
@@ -146,9 +151,9 @@ async def login(request: Request):
         raise InvalidOAuth2ProviderError
 
     redirect_uri = request.url_for('oauth2:authorize', provider=provider.value)
+    # print(f'redirect_uri: {redirect_uri}')
     # redirecting to provider authorize_url
-    provider_url = await client.authorize_redirect(request, redirect_uri)
-    return provider_url
+    return await client.authorize_redirect(request, redirect_uri)
 
 
 @login_required

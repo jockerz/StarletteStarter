@@ -123,8 +123,7 @@ async def register_page(request: Request):
                 logger.debug(f"activation link: {activation_url}")
             else:
                 await send_activation_message(
-                    arq, recipient=activation.target,
-                    activation_url=activation_url
+                    arq, activation.target, activation_url
                 )
             return RedirectResponse('/login', 302)
 

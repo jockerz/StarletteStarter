@@ -14,5 +14,5 @@ class InvalidOAuth2ProviderError(BaseAppException):
 
 class OAuth2MismatchingStateError(BaseAppException):
     status_code = 403
-    title = 'Authentication failed'
+    title = 'Invalid OAuth2 authentication state'
     detail = 'Invalid OAuth2 authentication state'

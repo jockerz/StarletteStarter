@@ -35,6 +35,13 @@
         {% endfor %}
       </div>
     </div>
+
+    <div class="row g-3 pt-2">
+      <div class="col-md">
+        <div class="form-label">Username</div>
+        <input type="text" class="form-control" name="username" value="{{ request.user.username or '' }}" placeholder="Username" disabled>
+      </div>
+    </div>
   </div>
 
   <div class="card-footer bg-transparent mt-auto">
@@ -74,8 +81,8 @@
 {% endblock %}
 
 {% block js_plugins %}
-<!--<script src="{{ url_for('static', path='/jquery/jquery-3.6.3.min.js') }}"></script>-->
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="{{ url_for('static', path='/jquery/jquery-3.6.3.min.js') }}"></script>
+<!--<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>-->
 <script src="{{ url_for('static', path='/cropperjs/cropper.min.js') }}"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>-->
 <!--<script src="{{ url_for('static', path='/js/account-settings.js') }}"></script>-->
