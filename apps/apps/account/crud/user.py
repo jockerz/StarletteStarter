@@ -2,9 +2,10 @@ import typing as t
 from datetime import datetime
 
 from passlib.hash import pbkdf2_sha256
-from sqlalchemy import select, update
+from sqlalchemy import select, update, exists
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from apps.utils.string import gen_random
 from ..models import User
 
 
@@ -87,3 +88,13 @@ class UserCRUD:
         query = update(User).values(avatar=filename).where(User.id == user_id)
         await db.execute(query)
         await db.commit()
+
+    @staticmethod
+    async def get_unique_username(db: AsyncSession, username: str) -> str:
+        # existed = True
+        # while existed:
+        query = exists().where(User.username == username.lower())
+        print(f'query: {query}')
+        result = await db.execute(query)
+        print(f'result: {result}')
+        return username

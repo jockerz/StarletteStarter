@@ -11,7 +11,7 @@ from .exceptions import InvalidOAuth2ProviderError, OAuth2MismatchingStateError
 from .models import ProviderEnum, OAuth2Account
 
 
-def _parse_github_public_emails(public_emails: Union[dict, List[dict]] = None):
+def _parse_github_emails(public_emails: Union[dict, List[dict]] = None):
     """Get verified emails"""
 
     if isinstance(public_emails, dict):
@@ -31,7 +31,13 @@ def _parse_github_public_emails(public_emails: Union[dict, List[dict]] = None):
         return email_data
 
 
-# TODO: google
+def _parse_google_email(user_data: dict):
+    email = user_data['email']
+    if user_data.get('email_verified', False) is False:
+        raise ValueError('Your Auth Provider Email is not verified')
+    return email
+
+
 def parse_user_data(
     provider: ProviderEnum, data: dict, public_emails: List[dict] = None
 ) -> dict:
@@ -42,25 +48,20 @@ def parse_user_data(
         return {
             'username': username,
             'password': gen_random(),
-            'email': data['email'] or _parse_github_public_emails(public_emails),
+            'email': data['email'] or _parse_github_emails(public_emails),
             'name': data.get('name', username),
         }
     elif provider == ProviderEnum.google:
-        raise ValueError('Google is not set up yet')
+        email = _parse_google_email(data)
+        username = email.split('@')[0]
+        return {
+            'username': username,
+            'password': gen_random(),
+            'email': email,
+            'name': data.get('name', username),
+        }
     else:
         raise ValueError('The third party is not integrated yet')
-
-
-# TODO: google
-def parse_account_data(provider: ProviderEnum, data: dict) -> dict:
-    if provider == ProviderEnum.github:
-        return {
-            'provider': provider,
-            'uid': data['id'],
-            'extra_data': data
-        }
-    elif provider == ProviderEnum.google:
-        raise ValueError('Google is not set up yet')
 
 
 def get_provider(provider_name: str) -> ProviderEnum:

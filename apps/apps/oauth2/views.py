@@ -13,13 +13,12 @@ from .crud import OAuth2AccountCRUD, OAuth2TokenCRUD
 from .exceptions import InvalidOAuth2ProviderError
 from .models import ProviderEnum
 from .utils import (
-    parse_account_data,
-    parse_user_data,
     get_oauth_client,
     get_oauth_token,
     get_provider,
     get_all_accounts,
     get_expires_at,
+    parse_user_data,
 )
 
 logged_in_notif = Notification(
@@ -48,43 +47,47 @@ async def authorize(request):
     oauth2 = get_oauth2(request)
 
     provider_name = request.path_params['provider']
-
     provider = get_provider(provider_name)
     print(f'provider: {provider}')
     client = get_oauth_client(oauth2, provider_name)
+
     # Authorize access token
     token = await get_oauth_token(client, request)
     print(f'{provider}-token: {token}\n')
 
-    resp = await client.get('user', token=token)
-    profile = resp.json()
-    print(f'profile: {profile}')
     if provider == ProviderEnum.github:
+        resp = await client.get('user', token=token)
+        profile = resp.json()
         resp = await client.get('user/public_emails', token=token)
         public_emails = resp.json()
-    else:
+        provider_uid = profile['id']
+    elif provider == ProviderEnum.google:
+        # Google
+        profile = token['userinfo']
         public_emails = {}
-    print(f'public_emails: {public_emails}')
-
-    if provider == ProviderEnum.github:
-        provider_uid = profile['id']
+        # Docs: https://cloud.google.com/docs/authentication/token-types#id
+        provider_uid = profile['azp']
     else:
-        provider_uid = profile['id']
+        raise InvalidOAuth2ProviderError
+
+    print(f'profile: {profile}')
+    print(f'public_emails: {public_emails}')
 
     account = await OAuth2AccountCRUD.get(db, provider_uid, provider)
     if account is None:
         user_data = parse_user_data(provider, profile, public_emails)
         print(f'user_data: {user_data}\n')
-        account_data = parse_account_data(provider, profile)
-        print(f'account_data: {account_data}\n')
 
         # if already logged in, link provider account to current user
         user = get_user(request)
         if user is None or not user.is_authenticated:
+            new_username = await UserCRUD.get_unique_username(
+                db, user_data['username']
+            )
             # Add new user
             user = await UserCRUD.create(
-                db, user_data['username'], user_data['password'],
-                user_data.get('email', None), user_data.get('Name', ''),
+                db, new_username, user_data['password'],
+                user_data.get('email'), user_data.get('name', ''),
                 is_active=True, commit=False
             )
             db.add(user)
