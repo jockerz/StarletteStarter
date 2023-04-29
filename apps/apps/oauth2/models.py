@@ -41,6 +41,9 @@ class OAuth2Account(Base):
     date_joined: Mapped[datetime] = mapped_column(server_default=func.now())
     extra_data: Mapped[t.Optional[dict]] = mapped_column(JSON)
 
+    def __str__(self):
+        return f'<OAuth2Account: {self.provider.value}:{self.username}>'
+
 
 class OAuth2Token(Base):
     __tablename__ = f'{TABLE_PREFIX}_token'

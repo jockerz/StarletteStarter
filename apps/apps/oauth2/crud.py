@@ -41,6 +41,17 @@ class OAuth2AccountCRUD:
         return None if entry is None else entry.first()
 
     @staticmethod
+    async def get_by_username(
+        db: AsyncSession, provider: ProviderEnum, username: str,
+    ) -> t.Optional[OAuth2Account]:
+        stmt = select(OAuth2Account).where(
+            OAuth2Account.provider == provider,
+            OAuth2Account.username == username,
+        )
+        entry = await db.scalars(stmt)
+        return None if entry is None else entry.first()
+
+    @staticmethod
     async def get_by_user_id(
         db: AsyncSession, user_id: int, provider: ProviderEnum
     ) -> t.Optional[OAuth2Account]:

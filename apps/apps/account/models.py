@@ -34,6 +34,9 @@ class User(Base, UserMixin):
     date_joined: Mapped[datetime] = mapped_column(server_default=func.now())
     update_date: Mapped[t.Optional[datetime]] = mapped_column()
 
+    def __str__(self):
+        return f'<User id={self.identity}>'
+
     @property
     def identity(self) -> int:
         return self.id

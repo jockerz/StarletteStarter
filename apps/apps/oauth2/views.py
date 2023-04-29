@@ -48,12 +48,10 @@ async def authorize(request):
 
     provider_name = request.path_params['provider']
     provider = get_provider(provider_name)
-    print(f'provider: {provider}')
     client = get_oauth_client(oauth2, provider_name)
 
     # Authorize access token
     token = await get_oauth_token(client, request)
-    print(f'{provider}-token: {token}\n')
 
     if provider == ProviderEnum.github:
         resp = await client.get('user', token=token)
@@ -66,18 +64,15 @@ async def authorize(request):
         profile = token['userinfo']
         public_emails = {}
         # Docs: https://cloud.google.com/docs/authentication/token-types#id
-        provider_uid = profile['azp']
+        provider_uid = profile['sub']
     else:
         raise InvalidOAuth2ProviderError
 
-    print(f'profile: {profile}')
-    print(f'public_emails: {public_emails}')
-
-    account = await OAuth2AccountCRUD.get(db, provider_uid, provider)
+    user_data = parse_user_data(provider, profile, public_emails)
+    account = await OAuth2AccountCRUD.get_by_username(
+        db, provider, user_data['username']
+    )
     if account is None:
-        user_data = parse_user_data(provider, profile, public_emails)
-        print(f'user_data: {user_data}\n')
-
         # if already logged in, link provider account to current user
         user = get_user(request)
         if user is None or not user.is_authenticated:
@@ -91,7 +86,6 @@ async def authorize(request):
                 is_active=True, commit=False
             )
             db.add(user)
-        print(f'user: {user}')
 
         # Save provider account
         provider_account = await OAuth2AccountCRUD.create(
@@ -99,7 +93,6 @@ async def authorize(request):
             commit=False
         )
         db.add(provider_account)
-        print(f'provider_account: {provider_account}')
 
         # Save OAuth token
         token = await OAuth2TokenCRUD.create(
@@ -108,7 +101,7 @@ async def authorize(request):
             refresh_token=token.get('refresh_token'),
             expires_at=get_expires_at(token.get('expires_at'))
         )
-        print(f'token: {token}')
+
         if user and user.is_authenticated:
             # User is already authenticated, 3party account is linked
             link_success_notif.push(request)

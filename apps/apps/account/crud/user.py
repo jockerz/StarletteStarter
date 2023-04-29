@@ -91,10 +91,14 @@ class UserCRUD:
 
     @staticmethod
     async def get_unique_username(db: AsyncSession, username: str) -> str:
-        # existed = True
-        # while existed:
-        query = exists().where(User.username == username.lower())
-        print(f'query: {query}')
-        result = await db.execute(query)
-        print(f'result: {result}')
+        added_underscore = False
+        while True:
+            query = select(User.id).where(User.username == username.lower())
+            result = await db.execute(query)
+            if result.scalar_one_or_none() is None:
+                break
+            if added_underscore is False:
+                username = username + '_'
+                added_underscore = True
+            username = username + gen_random(1)
         return username
