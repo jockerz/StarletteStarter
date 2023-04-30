@@ -8,18 +8,20 @@ class TestOAuth2AccountCRUD:
     async def test_create(self, db, user):
         account = await OAuth2AccountCRUD.create(
             db, provider=ProviderEnum.github, user=user, uid='UID',
-            extra_data={'extra': 'data'}, commit=False
+            username='username', extra_data={'extra': 'data'}, commit=False
         )
         assert account is not None
 
     async def test_create_fail_multiple_account(self, db, user):
         await OAuth2AccountCRUD.create(
-            db, provider=ProviderEnum.github, user=user, uid='UID_1'
+            db, provider=ProviderEnum.github, user=user, uid='UID_1',
+            username='username',
         )
 
         with pytest.raises(DBIntegrityError):
             await OAuth2AccountCRUD.create(
-                db, provider=ProviderEnum.github, user=user, uid='UID_1'
+                db, provider=ProviderEnum.github, user=user, uid='UID_1',
+                username='username',
             )
 
     async def test_get(self, db, user):
@@ -27,7 +29,8 @@ class TestOAuth2AccountCRUD:
         try:
             if await OAuth2AccountCRUD.get(db, user.id, provider) is None:
                 await OAuth2AccountCRUD.create(
-                    db, provider=provider, user=user, uid='UID_2'
+                    db, provider=provider, user=user, uid='UID_2',
+                    username='username',
                 )
         except DBIntegrityError:
             pass
@@ -40,7 +43,8 @@ class TestOAuth2AccountCRUD:
         try:
             if await OAuth2AccountCRUD.get(db, user.id, provider) is None:
                 await OAuth2AccountCRUD.create(
-                    db, provider=provider, user=user, uid='UID_2'
+                    db, provider=provider, user=user, uid='UID_2',
+                    username='username',
                 )
         except DBIntegrityError:
             pass
@@ -54,7 +58,8 @@ class TestOAuth2AccountCRUD:
                 db, user.id, ProviderEnum.github
             ) is None:
                 await OAuth2AccountCRUD.create(
-                    db, provider=ProviderEnum.github, user=user, uid='UID_2'
+                    db, provider=ProviderEnum.github, user=user, uid='UID_2',
+                    username='username',
                 )
         except DBIntegrityError:
             pass

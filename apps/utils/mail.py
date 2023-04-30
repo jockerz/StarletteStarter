@@ -8,7 +8,7 @@ class Message:
     def create_plain(
         mail_to: str, subject: str, content: str,
         mail_from: str = 'noreply@mail'
-    ):
+    ) -> EmailMessage:
         """Build EmailMessage instance"""
         message = EmailMessage()
         message["From"] = mail_from

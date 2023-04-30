@@ -3,6 +3,7 @@ import asyncio
 import pytest
 import pytest_asyncio
 from async_asgi_testclient import TestClient
+from starlette.applications import Starlette
 
 from apps.core.configs import Testing
 from apps.core.base.db import Base
@@ -42,7 +43,7 @@ async def db(db_session_creator):
 
 
 @pytest.fixture
-async def application(db_session_creator):
+async def application(db_session_creator) -> Starlette:
     return create_application(CONFIG, db_session=db_session_creator)
 
 
