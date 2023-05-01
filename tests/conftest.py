@@ -27,7 +27,7 @@ async def db_engine():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
-    yield engine
+        yield engine
     await engine.dispose()
 
 
@@ -48,7 +48,7 @@ async def application(db_session_creator) -> Starlette:
 
 
 @pytest_asyncio.fixture
-async def http(application):
+async def http(application) -> TestClient:
     async with TestClient(application) as http_:
         return http_
 
@@ -84,7 +84,7 @@ async def user(db):
 
 
 @pytest_asyncio.fixture
-async def http_auth(http, user):
+async def http_auth(http, user) -> TestClient:
     resp = await http.post('/login', form={
         'username': user.username, 'password': 'password'
     })

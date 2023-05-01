@@ -142,12 +142,11 @@ async def login(request: Request):
 
     oauth2 = get_oauth2(request)
     client = oauth2.create_client(provider_name)
-    if client is None:
-        # return error template
-        raise InvalidOAuth2ProviderError
+    # if client is None:
+    #     # return error template
+    #     raise InvalidOAuth2ProviderError
 
     redirect_uri = request.url_for('oauth2:authorize', provider=provider.value)
-    # print(f'redirect_uri: {redirect_uri}')
     # redirecting to provider authorize_url
     return await client.authorize_redirect(request, redirect_uri)
 

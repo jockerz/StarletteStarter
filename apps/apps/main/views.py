@@ -32,12 +32,6 @@ login_inactive_notif = Notification(
 
 
 async def home_page(request: Request):
-    db = get_db(request)
-    from sqlalchemy import select, exists, text
-    from apps.apps.account.crud import UserCRUD
-    username = 'jockiesagala'
-    print(await UserCRUD.get_unique_username(db, username))
-
     context = {'request': request}
     return templates.TemplateResponse('main/home.html', context=context)
 
