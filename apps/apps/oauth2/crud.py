@@ -81,7 +81,6 @@ class OAuth2AccountCRUD:
     async def update_last_login(
         db: AsyncSession, account: OAuth2Account, commit: bool = True
     ) -> None:
-        # TODO: test
         stmt = update(OAuth2Account).where(
             OAuth2Account.provider == account.provider,
             OAuth2Account.user_id == account.user_id,
@@ -95,7 +94,7 @@ class OAuth2AccountCRUD:
     @staticmethod
     async def remove(
         db: AsyncSession, account: OAuth2Account, commit: bool = True
-    ):
+    ) -> None:
         stmt = delete(OAuth2Account).where(OAuth2Account.id == account.id)
         await db.execute(stmt)
         if commit:
@@ -145,9 +144,7 @@ class OAuth2TokenCRUD:
     async def remove_by_account(
         db: AsyncSession, account_id: int, commit: bool = True
     ):
-        stmt = delete(OAuth2Token).where(
-            OAuth2Token.account_id == account_id
-        )
+        stmt = delete(OAuth2Token).where(OAuth2Token.account_id == account_id)
         await db.execute(stmt)
         if commit:
             await db.commit()

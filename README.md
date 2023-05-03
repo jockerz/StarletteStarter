@@ -11,6 +11,7 @@ This project exists with the help of some of really great tools.
 - [SQLAlchemy][SQLAlchemy]: The Python SQL Toolkit and Object Relational Mapper
 - [Arq][arq]: Job queues and RPC in python with asyncio and redis
 - [SQLAdmin][SQLAdmin]: Admin interface for SQLAlchemy models
+- [Authlib][authlib]: The ultimate Python library in building OAuth and OpenID Connect servers
 - _And more..._
 
 
@@ -22,6 +23,8 @@ This project exists with the help of some of really great tools.
   [SQLAlchemy][SQLAlchemy]
 - Redis
 - SMTP
+- OAuth2 (GitHub and Google)
+
 
 ## Application Configuration
 
@@ -71,6 +74,21 @@ ADMIN_USERNAME=admin
 ADMIN_PASSWORD=password
 ADMIN_EMAIL='admin@localhost'
 ```
+
+## OAuth2
+
+This web app is extended to use third party Oauth2 provider such as *Google* and *GitHub*.
+We need to set up OAuth2 configuration one `.env`.
+
+```text
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
+
+Please make sure to set the scopes for the OAuth2 clients for at least to be able to see `email` and public profile. 
+
 
 # Run Locally (Development Mode)
 
@@ -151,13 +169,10 @@ pip install -r requirements/test.txt
 pytest
 ```
 
-# To Do and Progress
-
-- [ ] OAuth2: https://docs.authlib.org/en/latest/client/starlette.html
-
 
 [arq]: https://arq-docs.helpmanual.io
 [arq-dashboard]: https://github.com/ninoseki/arq-dashboard
+[authlib]: https://authlib.org
 [ethereal]: https://ethereal.email
 [Letsencrypt]: https://letsencrypt.org
 [SQLAdmin]: https://aminalaee.dev/sqladmin

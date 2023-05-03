@@ -50,7 +50,7 @@ class OAuth2Token(Base):
 
     # Primary key
     id: Mapped[int] = mapped_column(primary_key=True)
-    access_token: Mapped[str]
+    access_token: Mapped[str] = mapped_column(unique=True)
     refresh_token: Mapped[t.Optional[str]]
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     expires_at: Mapped[t.Optional[datetime]] = mapped_column()

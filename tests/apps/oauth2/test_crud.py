@@ -1,7 +1,15 @@
+from datetime import datetime
+
 import pytest
 
 from apps.apps.oauth2.exceptions import DBIntegrityError
-from apps.apps.oauth2.crud import OAuth2AccountCRUD, ProviderEnum
+from apps.apps.oauth2.crud import (
+    OAuth2AccountCRUD,
+    OAuth2TokenCRUD,
+    ProviderEnum
+)
+
+now = datetime.now()
 
 
 class TestOAuth2AccountCRUD:
@@ -27,7 +35,7 @@ class TestOAuth2AccountCRUD:
     async def test_get(self, db, user):
         provider = ProviderEnum.google
         try:
-            if await OAuth2AccountCRUD.get(db, user.id, provider) is None:
+            if await OAuth2AccountCRUD.get(db, 'UID_2', provider) is None:
                 await OAuth2AccountCRUD.create(
                     db, provider=provider, user=user, uid='UID_2',
                     username='username2',
@@ -48,4 +56,58 @@ class TestOAuth2AccountCRUD:
         assert isinstance(accounts, list)
         assert len(accounts) > 0
 
-    # TODO
+    async def test_update_last_login(self, db, user):
+        provider = ProviderEnum.google
+        account = await OAuth2AccountCRUD.get_by_user_id(db, user.id, provider)
+        if account is None:
+            account = await OAuth2AccountCRUD.create(
+                db, provider=provider, user=user, uid='UID',
+                username='username',
+            )
+
+        assert account is not None
+        last_login = account.last_login
+
+        await OAuth2AccountCRUD.update_last_login(db, account)
+        account = await OAuth2AccountCRUD.get_by_user_id(db, user.id, provider)
+
+        assert account.last_login != last_login
+
+
+class TestOAuth2TokenCRUD:
+    async def test_create(self, db, social_account):
+        token = await OAuth2TokenCRUD.create(
+            db, social_account, 'access_token', 'refresh_token',
+            expires_at=datetime(now.year, now.month, now.day + 3, 0, 0, 0)
+        )
+        assert token.access_token == 'access_token'
+        assert token.refresh_token == 'refresh_token'
+
+    async def test_get(self, db, social_account):
+        await OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
+            or await OAuth2TokenCRUD.create(
+                db, social_account, 'access_token', 'refresh_token',
+                expires_at=datetime(now.year, now.month, now.day + 3, 0, 0, 0)
+            )
+
+        assert OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
+               is not None
+        assert OAuth2TokenCRUD.get_by_refresh_token(db, 'refresh_token') \
+               is not None
+
+    async def test_remove_by_account(self, db, social_account):
+        await OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
+            or await OAuth2TokenCRUD.create(
+                db, social_account, 'access_token', 'refresh_token',
+                expires_at=datetime(now.year, now.month, now.day + 3, 0, 0, 0)
+            )
+        assert OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
+               is not None
+
+        # remove token data
+        await OAuth2TokenCRUD.remove_by_account(db, social_account.id)
+
+        assert await OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
+               is None
+        assert await OAuth2TokenCRUD.get_by_refresh_token(db, 'refresh_token') \
+               is None
