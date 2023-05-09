@@ -20,7 +20,8 @@ class OAuth2AccountAdmin(BaseModel, model=OAuth2Account):
         OAuth2Account.username,
         OAuth2Account.uid,
         OAuth2Account.user,
-        OAuth2Account.extra_data
+        OAuth2Account.extra_data,
+        OAuth2Account.date_joined
     ]
 
 

@@ -43,5 +43,5 @@ class UserAdmin(BaseModel, model=User):
     # exclude some columns on edit
     form_excluded_columns = [
         User.password, User.date_joined, User.avatar,
-        User.is_admin
+        User.is_admin, User.update_date
     ]
