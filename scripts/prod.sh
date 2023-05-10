@@ -25,4 +25,5 @@ venv/bin/gunicorn main:application -k uvicorn.workers.UvicornWorker \
   --pid ${PID_FILE} \
   --bind 127.0.0.1:${PORT} \
   --capture-output \
+  --forwarded-allow-ips '*' \
   --log-config configs/logging_gunicorn.conf
