@@ -30,6 +30,7 @@
           <span class="avatar avatar-sm" style="background-image: url({{ url_for('media', path=request.user.get_avatar_thumbnail()) }})"></span>
           <div class="d-none d-xl-block ps-2">
             <div>{{ request.user.display_name }}</div>
+            <div class="mt-1 small text-muted">{{ request.user.username }}</div>
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
