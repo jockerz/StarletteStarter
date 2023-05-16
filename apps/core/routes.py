@@ -49,10 +49,21 @@ def get_routes(config: Base) -> t.List[t.Union[Mount, Route]]:
             Route('/error/500', error_500, name='error_500'),
             Route('/value_error', value_error, name='value_error'),
         ]
-    return routes
+    return with_additional_routes(routes)
 
 
-def add_arq_dashboard_app(app: Starlette):
+def with_additional_routes(
+    core_routes: t.List[t.Union[Mount, Route]]
+) -> t.List[t.Union[Mount, Route]]:
+    try:
+        from apps.core.more_routes import routes as _routes
+    except ImportError:
+        return core_routes
+    else:
+        return core_routes + _routes
+
+
+def add_arq_dashboard_app(app: Starlette) -> None:
     """404: Can not get assets"""
     from workers.arq_dashboard import app as ad_app
 

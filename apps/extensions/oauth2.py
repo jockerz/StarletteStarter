@@ -1,3 +1,5 @@
+import typing as t
+
 from authlib.integrations.starlette_client import OAuth
 from starlette.exceptions import HTTPException
 
@@ -23,11 +25,25 @@ OAUTH2_PROVIDERS = {
         }
     }
 }
+PROVIDERS = ['github', 'google']
+
+
+def enabled_providers(config: Base) -> t.List[str]:
+    enabled = []
+    for provider in PROVIDERS:
+        if config.get(provider.upper() + '_CLIENT_ID') \
+                and config.get(provider.upper() + '_CLIENT_SECRET'):
+            try:
+                _ = OAUTH2_PROVIDERS[provider]
+                enabled.append(provider)
+            except KeyError:
+                continue
+    return enabled
 
 
 def create_oauth2(config: Base) -> OAuth:
     oauth2 = OAuth(config)
-    for provider in ['github', 'google']:
+    for provider in PROVIDERS:
         # check for CLIENT_ID and CLIENT_SECRET for the provided
         if config.get(provider.upper() + '_CLIENT_ID') \
                 and config.get(provider.upper() + '_CLIENT_SECRET'):

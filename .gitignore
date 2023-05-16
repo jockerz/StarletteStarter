@@ -1,7 +1,7 @@
 .idea/
 __pycache__/
 .pytest_cache/
-alembic/versions/*.py
+alembic/versions/*
 venv/
 
 files/*.txt
@@ -23,5 +23,6 @@ scripts/try_db.py
 *.sqlite
 *.swp
 
+apps/core/more_routes.py
 scripts/reset_db.sh
 NOTE.md

@@ -1,6 +1,5 @@
 if [[ $# -ge 1 ]]
 then
-  echo "$1"
   port=$1
 else
   port=8001

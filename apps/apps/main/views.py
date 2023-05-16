@@ -6,6 +6,7 @@ from starlette_wtf import csrf_protect
 
 from apps.core.logger import get_logger
 from apps.extensions.dependencies import get_arq, get_config, get_db
+from apps.extensions.oauth2 import enabled_providers
 from apps.extensions.template import templates
 from apps.utils.notification import Notification
 from apps.utils.url import validate_next_url
@@ -38,6 +39,7 @@ async def home_page(request: Request):
 
 @csrf_protect
 async def login_page(request: Request):
+    config = get_config(request)
     db = get_db(request)
     form = await LoginForm.from_formdata(request)
 
@@ -63,7 +65,12 @@ async def login_page(request: Request):
                 return RedirectResponse(next_url, status_code=302)
         else:
             login_failed_notif.push(request)
-    context = {'request': request, 'form': form}
+
+    context = {
+        'request': request,
+        'form': form,
+        'providers': enabled_providers(config)
+    }
     return templates.TemplateResponse('main/login.html', context)
 
 
@@ -127,7 +134,11 @@ async def register_page(request: Request):
                 )
             return RedirectResponse('/login', 302)
 
-    context = {'request': request, 'form': form}
+    context = {
+        'request': request,
+        'form': form,
+        'providers': enabled_providers(config)
+    }
     return templates.TemplateResponse('main/register.html', context)
 
 
