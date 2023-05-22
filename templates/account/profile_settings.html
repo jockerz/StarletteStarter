@@ -1,7 +1,7 @@
 {% extends '_layout/settings.html' %}
 {% set in_account = True -%}
 
-{% block title %}Account Settings{% endblock %}
+{% block title %}{{ _('Account Settings') }}{% endblock %}
 
 {% block style_plugins %}
 <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />-->
@@ -11,25 +11,25 @@
 {% block settings_content %}
 <form class="form-horizontal" method="post">
   <div class="card-body">
-    <h2 class="mb-4">My Account</h2>
-    <h3 class="card-title">Profile Details</h3>
+    <h2 class="mb-4">{{ _('My Account') }}</h2>
+    <h3 class="card-title">{{ _('Profile Details') }}</h3>
     <div class="row align-items-center">
       <div class="col-auto">
         <span class="avatar avatar-xl" style="background-image: url({{ url_for('media', path=request.user.get_avatar()) }})"></span>
       </div>
       <div class="col-auto">
         <a href="#" class="btn" data-bs-toggle="modal" data-bs-target="#upload-image">
-          Change avatar
+          {{ _('Change avatar') }}
         </a>
       </div>
     </div>
 
-    <h3 class="card-title mt-4">Account Name</h3>
+    <h3 class="card-title mt-4">{{ _('Account Name') }}</h3>
     <div class="row g-3">
       <div class="col-md">
         {{ form.csrf_token }}
-        <div class="form-label">Name</div>
-        <input type="text" class="form-control{% if form.name.errors %} is-invalid{% endif %}" name="name" value="{{ request.user.name or '' }}" placeholder="Full name">
+        <div class="form-label">{{ _('Name') }}</div>
+        <input type="text" class="form-control{% if form.name.errors %} is-invalid{% endif %}" name="name" value="{{ request.user.name or '' }}" placeholder="{{ _('Full name') }}">
         {% for error in form.name.errors %}
         <div class="invalid-feedback">{{ error }}</div>
         {% endfor %}
@@ -46,7 +46,7 @@
 
   <div class="card-footer bg-transparent mt-auto">
     <div class="btn-list justify-content-end">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">{{ _('Submit') }}</button>
     </div>
   </div>
 </form>
@@ -56,7 +56,7 @@
     <form id="form_photo" method="post" enctype="multipart/form-data">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Upload Image File</h5>
+          <h5 class="modal-title">{{ _('Upload Image File') }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -64,14 +64,14 @@
             <img src="{% if request.user.avatar %}{{ url_for('media', path=request.user.get_avatar()) }}{% endif %}" style="max-width: 100%;" id="img_preview" alt="avatar"/>
           </div>
           <div class="mb-3">
-            <div class="form-label">Select image</div>
+            <div class="form-label">{{ _('Select image') }}</div>
             <input type="file" name="img" id="image_input" class="form-control" accept="image/*"/>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn me-auto" data-bs-dismiss="modal">{{ _('Close') }}</button>
           <button id="btn_upload" type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled>
-            Select
+            {{ _('Select') }}
           </button>
         </div>
       </div>

@@ -1,12 +1,11 @@
-{% set title = 'Profile' -%}
 {% set profile_setting_url = url_for('account:profile_settings') %}
 
 {% extends '_layout/default.html' %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ _('Profile') }}{% endblock %}
 {% block content_header %}
 <div class="row g-2 align-items-center">
   <div class="col">
-    <h2 class="page-title">{{ title }}</h2>
+    <h2 class="page-title">{{ _('Profile') }}</h2>
   </div>
 </div>
 {% endblock %}

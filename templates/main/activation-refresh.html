@@ -1,5 +1,5 @@
 {% extends '_layout/base.html' %}
-{% block title %}Refresh Activation{% endblock %}
+{% block title %}{{ _('Refresh Activation') }}{% endblock %}
 
 {% block body_class %}d-flex flex-column{% endblock %}
 
@@ -10,11 +10,11 @@
     </div>
     <div class="card card-md">
       <div class="card-body">
-        <h2 class="h2 text-center mb-4">Account activation refresh has been completed. Please check your {{ sent_to }}</h2>
+        <h2 class="h2 text-center mb-4">{{ _('Account activation refresh has been completed. Please check your') }} {{ sent_to }}</h2>
       </div>
     </div>
     <div class="text-center text-muted mt-3">
-      Already have account? <a href="{{ url_for('login') }}" tabindex="-1">Login</a>
+      {{ _('Already have account') }}? <a href="{{ url_for('login') }}" tabindex="-1">{{ _('Login') }}</a>
     </div>
   </div>
 {% endblock %}

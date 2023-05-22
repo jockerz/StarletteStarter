@@ -1,5 +1,5 @@
 {% extends '_layout/base.html' %}
-{% block title %}Register{% endblock %}
+{% block title %}{{ _('Register') }}{% endblock %}
 
 {% block body_class %}d-flex flex-column{% endblock %}
 
@@ -10,7 +10,7 @@
     </div>
     <div class="card card-md">
       <div class="card-body">
-        <h2 class="h2 text-center mb-4">Register a new account</h2>
+        <h2 class="h2 text-center mb-4">{{ _('Register a new account') }}</h2>
         <form method="post">
           {{ form.csrf_token }}
           {% for error in form.errors %}
@@ -25,16 +25,16 @@
             {% endfor %}
           </div>
           <div class="mb-3">
-            <label class="form-label">Email address</label>
+            <label class="form-label">{{ _('Email address') }}</label>
             <input type="email" name="email" class="form-control{% if form.email.errors %} is-invalid{% endif %}" placeholder="your@email.com" autocomplete="off">
             {% for error in form.email.errors %}
             <div class="invalid-feedback">{{ error }}</div>
             {% endfor %}
           </div>
           <div class="mb-2">
-            <label class="form-label">Password</label>
+            <label class="form-label">{{ _('Password') }}</label>
             <div class="input-group input-group-flat">
-              <input id="input-password" type="password" name="password" class="form-control{% if form.password.errors %} is-invalid{% endif %}"  placeholder="Your password" autocomplete="off">
+              <input id="input-password" type="password" name="password" class="form-control{% if form.password.errors %} is-invalid{% endif %}"  placeholder="{{ _l('Your password') }}" autocomplete="off">
               <span class="input-group-text">
                 <a href="#" onclick="togglePassword('input-password')" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
@@ -46,9 +46,9 @@
             </div>
           </div>
           <div class="mb-2">
-            <label class="form-label">Confirm Password</label>
+            <label class="form-label">{{ _('Confirm Password') }}</label>
             <div class="input-group input-group-flat">
-              <input id="input-password2" type="password" name="confirm" class="input-password form-control{% if form.confirm.errors %} is-invalid{% endif %}"  placeholder="Confirm password" autocomplete="off">
+              <input id="input-password2" type="password" name="confirm" class="input-password form-control{% if form.confirm.errors %} is-invalid{% endif %}"  placeholder="{{ _l('Confirm password') }}" autocomplete="off">
               <span class="input-group-text">
                 <a href="#" onclick="togglePassword('input-password2')" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
@@ -60,8 +60,8 @@
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input type="text" name="name" class="form-control{% if form.name.errors %} is-invalid{% endif %}" placeholder="Your full name" autocomplete="off">
+            <label class="form-label">{{ _('Name') }}</label>
+            <input type="text" name="name" class="form-control{% if form.name.errors %} is-invalid{% endif %}" placeholder="{{ _l('Your full name') }}" autocomplete="off">
             {% for error in form.name.errors %}
             <div class="invalid-feedback">{{ error }}</div>
             {% endfor %}
@@ -69,21 +69,21 @@
           <div class="mb-3">
             <label class="form-check">
               <input name="agree_terms" type="checkbox" class="form-check-input{% if form.agree_terms.errors %} is-invalid{% endif %}"/>
-              <span class="form-check-label">Agree the <a href="#" tabindex="-1">terms and policy</a>.</span>
+              <span class="form-check-label">{{ _('Agree with the') }} <a href="#" tabindex="-1">{{ _('terms and policy') }}</a>.</span>
               {% for error in form.agree_terms.errors %}
               <div class="invalid-feedback">{{ error }}</div>
               {% endfor %}
             </label>
           </div>
           <div class="form-footer">
-            <button type="submit" class="btn btn-primary w-100">Register</button>
+            <button type="submit" class="btn btn-primary w-100">{{ _('Register') }}</button>
           </div>
         </form>
       </div>
       {% include 'main/parts/social_login_buttons.html' %}
     </div>
     <div class="text-center text-muted mt-3">
-      Already have account? <a href="{{ url_for('login') }}" tabindex="-1">Login</a>
+      {{ _('Already have account') }}? <a href="{{ url_for('login') }}" tabindex="-1">{{ _('Login') }}</a>
     </div>
   </div>
 {% endblock %}

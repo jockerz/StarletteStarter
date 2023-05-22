@@ -142,9 +142,6 @@ async def login(request: Request):
 
     oauth2 = get_oauth2(request)
     client = oauth2.create_client(provider_name)
-    # if client is None:
-    #     # return error template
-    #     raise InvalidOAuth2ProviderError
 
     redirect_uri = request.url_for('oauth2:authorize', provider=provider.value)
     # redirecting to provider authorize_url
@@ -205,6 +202,7 @@ async def unlink_account(request: Request):
         unlinked_error_notif.push(request)
     else:
         await OAuth2AccountCRUD.remove(db, account, commit=False)
+        # DB commit executed here
         await OAuth2TokenCRUD.remove_by_account(db, account.id)
         # remove oauth2 account and tokens
         unlinked_notif.push(request)

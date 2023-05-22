@@ -7,7 +7,6 @@ window.addEventListener('DOMContentLoaded', function () {
     var files = e.target.files;
 
     if (!files || files.length === 0) {
-			console.error('invalid file');
 			return null;
     } else {
     	var done = function (url) {
@@ -51,7 +50,7 @@ window.addEventListener('DOMContentLoaded', function () {
 						Swal.fire({
 							icon: 'success',
 							title: 'Yayy..',
-							text: 'Profile picture updated. Reloading...',
+							text: {{ _('Profile picture updated. Reloading...') }},
 						});
 						location.reload();
 					},
@@ -60,7 +59,7 @@ window.addEventListener('DOMContentLoaded', function () {
 						Swal.fire({
 							icon: 'error',
 							title: 'Oops...',
-							text: 'Image upload failed. Please try again later.',
+							text: {{ _('Image upload failed. Please try again later.') }},
 						});
 					},
 				});

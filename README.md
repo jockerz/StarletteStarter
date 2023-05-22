@@ -19,6 +19,7 @@ This project exists with the help of some of really great tools.
 
 ## Requirements
 
+- Python: at least version 3.10
 - Database: SQLite, MySQL, PostgresQL or anything that is supported by 
   [SQLAlchemy][SQLAlchemy]
 - Redis

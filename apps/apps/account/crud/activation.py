@@ -4,6 +4,7 @@ from datetime import datetime
 from passlib.hash import bcrypt
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette_babel import gettext_lazy as _
 
 from apps.utils.string import gen_random
 from ..models import Activation, User
@@ -38,13 +39,13 @@ class ActivationCRUD:
         token: Activation, secret: str, skip_expiration: bool = False,
     ) -> t.Tuple[bool, str]:
         if not skip_expiration and token.is_expired():
-            return False, 'Activation has been expired'
+            return False, _('Activation has been expired')
         elif token.is_complete:
-            return False, 'Activation has already been complete'
+            return False, _('Activation has already been complete')
         elif token.check_secret(secret) is True:
-            return True, 'Activation is ready'
+            return True, _('Activation is ready')
         else:
-            return False, 'False Activation secret'
+            return False, _('False Activation secret')
 
     @staticmethod
     async def set_as_complete(

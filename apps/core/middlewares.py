@@ -4,6 +4,7 @@ import typing
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette_babel import LocaleFromHeader, LocaleFromCookie, LocaleMiddleware
 from starlette_wtf import CSRFProtectMiddleware
 
 from apps.core.configs import Base
@@ -19,9 +20,15 @@ def build_middlewares(config: Base) -> typing.List[Middleware]:
             csrf_secret=config.SECRET_KEY,
             enabled=not config.TESTING
         ),
+        Middleware(
+            LocaleMiddleware, locales=['id', 'en_US'], selectors=[
+                LocaleFromCookie(),
+                LocaleFromHeader(supported_locales=['id', 'en_US']),
+            ]
+        )
     ]
-    if not config.TESTING and config.DEBUG:
+    if not config.TESTING and not config.DEBUG and len(ALLOWED_HOSTS) > 0:
         middlewares += [
-            # Middleware(TrustedHostMiddleware, allowed_hosts=ALLOWED_HOSTS),
+            Middleware(TrustedHostMiddleware, allowed_hosts=ALLOWED_HOSTS),
         ]
     return middlewares

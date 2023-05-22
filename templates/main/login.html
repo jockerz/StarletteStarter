@@ -10,11 +10,11 @@
   </div>
   <div class="card card-md">
     <div class="card-body">
-      <h2 class="h2 text-center mb-4">Login to your account</h2>
+      <h2 class="h2 text-center mb-4">{{ _('Login into your account') }}</h2>
       <form method="post">
         {{ form.csrf_token }}
         <div class="mb-3">
-          <label class="form-label">Email address or Username</label>
+          <label class="form-label">{{ _('Email address or Username') }}</label>
           <input type="text" name="username" class="form-control{% if form.username.errors %} is-invalid{% endif %}" placeholder="your@email.com" autocomplete="off">
           {% for error in form.username.errors %}
           <div class="invalid-feedback">{{ error }}</div>
@@ -24,7 +24,7 @@
           <label class="form-label">
             Password
             <span class="form-label-description">
-              <a href="{{ url_for('forgot_password') }}">I forgot password</a>
+              <a href="{{ url_for('forgot_password') }}">{{ _('I forgot password') }}</a>
             </span>
           </label>
           <div class="input-group input-group-flat">
@@ -42,7 +42,7 @@
         <div class="mb-2">
           <label class="form-check">
             <input type="checkbox" name="remember" class="form-check-input"/>
-            <span class="form-check-label">Remember me on this device</span>
+            <span class="form-check-label">{{ _('Remember me on this device') }}</span>
           </label>
         </div>
         <div class="form-footer">
@@ -53,7 +53,7 @@
     {% include 'main/parts/social_login_buttons.html' %}
   </div>
   <div class="text-center text-muted mt-3">
-    Don't have account yet? <a href="{{ url_for('register') }}" tabindex="-1">Register</a>
+    {{ _('Don\'t have account yet?') }} <a href="{{ url_for('register') }}" tabindex="-1">{{ _('Register') }}</a>
   </div>
 </div>
 {% endblock %}

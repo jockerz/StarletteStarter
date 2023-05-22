@@ -1,0 +1,434 @@
+# Indonesian translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-05-22 15:22+0700\n"
+"PO-Revision-Date: 2023-05-19 11:32+0700\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: apps/apps/account/forms.py:10 apps/apps/main/forms.py:11
+#: apps/apps/main/forms.py:28 apps/apps/main/forms.py:61
+#: templates/_layout/settings.html:19 templates/account/email_settings.html:21
+#: templates/account/password_update.html:12 templates/main/register.html:35
+msgid "Password"
+msgstr "Kata sandi"
+
+#: apps/apps/account/forms.py:16
+#, fuzzy
+msgid "New Password"
+msgstr "Kata sandi baru"
+
+#: apps/apps/account/forms.py:18 apps/apps/main/forms.py:30
+#: apps/apps/main/forms.py:63
+#, fuzzy
+msgid "Please enter your password"
+msgstr "Kata sandi"
+
+#: apps/apps/account/forms.py:19 apps/apps/main/forms.py:31
+#: apps/apps/main/forms.py:64
+msgid "Minimal 8 characters"
+msgstr "Minimal 8 karakter"
+
+#: apps/apps/account/forms.py:23 apps/apps/main/forms.py:34
+#: apps/apps/main/forms.py:67 templates/main/register.html:49
+#, fuzzy
+msgid "Confirm Password"
+msgstr "Konfirmasi kata sandi"
+
+#: apps/apps/account/forms.py:24
+msgid "Passwords don't match"
+msgstr "Kata sandi tidak sama"
+
+#: apps/apps/account/forms.py:29 templates/account/profile_settings.html:31
+#: templates/main/register.html:63
+msgid "Name"
+msgstr "Nama"
+
+#: apps/apps/account/forms.py:33
+msgid "Image"
+msgstr ""
+
+#: apps/apps/account/crud/activation.py:42
+msgid "Activation has been expired"
+msgstr "Aktifasi kadaluarsa"
+
+#: apps/apps/account/crud/activation.py:44
+msgid "Activation has already been complete"
+msgstr "Aktifasi selesai"
+
+#: apps/apps/account/crud/activation.py:46
+#, fuzzy
+msgid "Activation is ready"
+msgstr "Kirim ulang URL aktifasi"
+
+#: apps/apps/account/crud/activation.py:48
+#, fuzzy
+msgid "False Activation secret"
+msgstr "Kode aktifasi tidak sah"
+
+#: apps/apps/main/forms.py:10
+#, fuzzy
+msgid "Email or Username"
+msgstr "Alamat Email atau Username"
+
+#: apps/apps/main/forms.py:12
+msgid "Remember Me"
+msgstr "Ingat saya"
+
+#: apps/apps/main/forms.py:17 templates/main/register.html:28
+#, fuzzy
+msgid "Email address"
+msgstr "Alamat email"
+
+#: apps/apps/main/forms.py:19
+msgid "Please enter your email address"
+msgstr "Silakan isi alamat email anda"
+
+#: apps/apps/main/forms.py:24
+#, fuzzy
+msgid "Please enter your username"
+msgstr "Alamat Email atau Username"
+
+#: apps/apps/main/forms.py:25 apps/apps/main/forms.py:44
+msgid "Minimal 4 characters"
+msgstr "Minimal 4 karakter"
+
+#: apps/apps/main/forms.py:36 apps/apps/main/forms.py:69
+#, fuzzy
+msgid "Please confirm your password"
+msgstr "Mohon konfirmasi kata sandi anda"
+
+#: apps/apps/main/forms.py:37 apps/apps/main/forms.py:70
+msgid "Passwords must match"
+msgstr "Kata sandi harus sama"
+
+#: apps/apps/main/forms.py:43
+#, fuzzy
+msgid "Your Full name"
+msgstr "Nama lengkap"
+
+#: apps/apps/main/forms.py:48
+#, fuzzy
+msgid "Agree terms"
+msgstr "Setuju dengan"
+
+#: apps/apps/main/forms.py:49
+msgid "Agree to the terms is required to register"
+msgstr "Harus setuju dengan ketentuan untuk mendaftar"
+
+#: templates/_include/navbar.html:29 templates/account/profile.html:4
+#: templates/account/profile.html:8
+msgid "Profile"
+msgstr "Profil"
+
+#: templates/_include/navbar.html:30
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: templates/_include/navbar.html:32
+msgid "Logout"
+msgstr "Keluar"
+
+#: templates/_include/navbar.html:45 templates/main/activation-refresh.html:17
+#: templates/main/activation.html:30 templates/main/forgot-password.html:31
+#: templates/main/register.html:86 templates/main/reset-password.html:54
+msgid "Login"
+msgstr "Masuk"
+
+#: templates/_include/navbar.html:55 templates/main/login.html:56
+#: templates/main/register.html:2 templates/main/register.html:79
+msgid "Register"
+msgstr "Daftar"
+
+#: templates/_layout/settings.html:17
+#: templates/account/profile_settings.html:14
+msgid "My Account"
+msgstr "Akun Saya"
+
+#: templates/_layout/settings.html:20
+msgid "Linked Account"
+msgstr "Akun yang Terhubung"
+
+#: templates/account/email_settings.html:4
+#: templates/account/email_settings.html:10
+#, fuzzy
+msgid "Email Settings"
+msgstr "Pengaturan"
+
+#: templates/account/email_settings.html:13
+msgid "Email"
+msgstr "Email"
+
+#: templates/account/email_settings.html:23
+#, fuzzy
+msgid "Your password"
+msgstr "Kata sandi"
+
+#: templates/account/email_settings.html:39
+#: templates/account/password_update.html:55
+#: templates/account/profile_settings.html:49
+#: templates/main/forgot-password.html:25
+msgid "Submit"
+msgstr "Kirim"
+
+#: templates/account/email_update.html:2 templates/main/activation.html:2
+msgid "Account Activation"
+msgstr "Aktifasi Akun"
+
+#: templates/account/email_update.html:13
+#, fuzzy
+msgid "Email update"
+msgstr "Alamat email"
+
+#: templates/account/email_update.html:13
+msgid "success"
+msgstr "berhasil"
+
+#: templates/account/email_update.html:13
+#, fuzzy
+msgid "failed"
+msgstr "gagal"
+
+#: templates/account/email_update.html:17
+msgid "Visit email settings page"
+msgstr "Ke laman pengaturan email"
+
+#: templates/account/email_update.html:17
+#, fuzzy
+msgid "Email settings"
+msgstr "Pengaturan"
+
+#: templates/account/password_update.html:4
+#: templates/main/reset-password.html:2
+#, fuzzy
+msgid "Reset Password"
+msgstr "Kata sandi"
+
+#: templates/account/password_update.html:15
+msgid "Your previous password"
+msgstr "Kata sandi lama"
+
+#: templates/account/password_update.html:28
+#, fuzzy
+msgid "New password"
+msgstr "Kata sandi"
+
+#: templates/account/password_update.html:30
+#: templates/account/password_update.html:43
+#, fuzzy
+msgid "Show password"
+msgstr "Tunjukkan kata sandi"
+
+#: templates/account/password_update.html:41
+#, fuzzy
+msgid "Confirm password"
+msgstr "Konfirmasi kata sandi"
+
+#: templates/account/profile_settings.html:4
+#, fuzzy
+msgid "Account Settings"
+msgstr "Pengaturan Akun"
+
+#: templates/account/profile_settings.html:15
+#, fuzzy
+msgid "Profile Details"
+msgstr "Detail Profil"
+
+#: templates/account/profile_settings.html:22
+msgid "Change avatar"
+msgstr "Ubah avatar"
+
+#: templates/account/profile_settings.html:27
+#, fuzzy
+msgid "Account Name"
+msgstr "Akun Saya"
+
+#: templates/account/profile_settings.html:32
+#, fuzzy
+msgid "Full name"
+msgstr "Nama lengkap"
+
+#: templates/account/profile_settings.html:59
+msgid "Upload Image File"
+msgstr "Unggah berkas gambar"
+
+#: templates/account/profile_settings.html:67
+msgid "Select image"
+msgstr "Pilih gambar"
+
+#: templates/account/profile_settings.html:72
+msgid "Close"
+msgstr "Tutup"
+
+#: templates/account/profile_settings.html:74
+msgid "Select"
+msgstr "Pilih"
+
+#: templates/account/parts/account-settings.js:53
+msgid "Profile picture updated. Reloading..."
+msgstr "Gambar profil telah diperbaharui. Memuat ulang..."
+
+#: templates/account/parts/account-settings.js:62
+msgid "Image upload failed. Please try again later."
+msgstr "Pengunggahan gambar gagal. Silahkan coba lagi setelah beberapa saat."
+
+#: templates/errors/404.html:2
+msgid "Not Found"
+msgstr "Tidak Ditemukan"
+
+#: templates/errors/404.html:10
+msgid "Oops… Not found."
+msgstr "Uups… Tidak menemukan konten"
+
+#: templates/errors/404.html:12
+msgid "Item or Page is not found."
+msgstr "Item atau halaman tidak ditemukan"
+
+#: templates/errors/404.html:18 templates/errors/default.html:18
+msgid "Take me home"
+msgstr "kembali ke beranda"
+
+#: templates/errors/default.html:2
+msgid "Server Error"
+msgstr "Kesalahan server"
+
+#: templates/errors/default.html:10
+msgid "You just found an error page"
+msgstr "Anda berada di halaman error"
+
+#: templates/errors/default.html:12
+msgid "We are sorry but our server encountered an error"
+msgstr "Mohon maaf, server kami mengalami gangguan"
+
+#: templates/main/activation-refresh.html:2
+msgid "Refresh Activation"
+msgstr "Segarkan aktifasi"
+
+#: templates/main/activation-refresh.html:13
+msgid "Account activation refresh has been completed. Please check your"
+msgstr "Penyegaran aktifasi akun selesai. Silahkan periksa"
+
+#: templates/main/activation-refresh.html:17 templates/main/activation.html:30
+#: templates/main/register.html:86
+#, fuzzy
+msgid "Already have account"
+msgstr "Sudah memiliki akun"
+
+#: templates/main/activation.html:14
+msgid "Account activation success"
+msgstr "Aktifasi akun berhasil"
+
+#: templates/main/activation.html:16
+msgid "Invalid Activation Code"
+msgstr "Kode aktifasi tidak sah"
+
+#: templates/main/activation.html:18
+msgid "Resend the Activation URL to your"
+msgstr "Kirim ulang URL aktifasi ke"
+
+#: templates/main/activation.html:22
+msgid "Resend activation URL"
+msgstr "Kirim ulang URL aktifasi"
+
+#: templates/main/forgot-password.html:2
+#, fuzzy
+msgid "Forgot Password"
+msgstr "Lupa kata sandi"
+
+#: templates/main/forgot-password.html:13
+#, fuzzy
+msgid "Forgot password"
+msgstr "Lupa kata sandi"
+
+#: templates/main/forgot-password.html:18
+#, fuzzy
+msgid "Email address or username"
+msgstr "Alamat Email atau Username"
+
+#: templates/main/home.html:2
+msgid "Home"
+msgstr "Beranda"
+
+#: templates/main/login.html:13
+msgid "Login into your account"
+msgstr "Masuk dengan akun anda"
+
+#: templates/main/login.html:17
+msgid "Email address or Username"
+msgstr "Alamat Email atau Username"
+
+#: templates/main/login.html:27
+msgid "I forgot password"
+msgstr "Lupa kata sandi"
+
+#: templates/main/login.html:45
+msgid "Remember me on this device"
+msgstr "Ingat saya di perangkat ini"
+
+#: templates/main/login.html:56
+msgid "Don't have account yet?"
+msgstr "Belum memiliki akun?"
+
+#: templates/main/register.html:13
+#, fuzzy
+msgid "Register a new account"
+msgstr "Daftar akun baru"
+
+#: templates/main/register.html:72
+#, fuzzy
+msgid "Agree with the"
+msgstr "Setuju dengan"
+
+#: templates/main/register.html:72
+msgid "terms and policy"
+msgstr "ketentuan dan kebijakan"
+
+#: templates/main/reset-password.html:14 templates/main/reset-password.html:48
+#, fuzzy
+msgid "Reset password"
+msgstr "Kata sandi"
+
+#: templates/main/reset-password.html:15
+msgid "Enter your new password to update your password"
+msgstr "Masukkan kata sandi baru untuk memperbaharui"
+
+#: templates/main/reset-password.html:44
+#, fuzzy
+msgid "Update password"
+msgstr "Perbaharui kata sandi"
+
+#: templates/main/reset-password.html:49
+msgid "Invalid password reset token"
+msgstr "Token pemasangan ulang kata sandi tidak sesuai"
+
+#: templates/main/reset-password.html:54
+msgid "Back to login page"
+msgstr "Kembali ke laman Masuk"
+
+#: templates/main/parts/social_login_buttons.html:2
+msgid "or continue with"
+msgstr "atau lanjutkan dengan"
+
+#: templates/oauth2/link_social_account.html:4
+#: templates/oauth2/link_social_account.html:9
+#, fuzzy
+msgid "Linked Accounts"
+msgstr "Akun yang Terhubung"
+
+#: templates/oauth2/link_social_account.html:26
+#, fuzzy
+msgid "Not Linked Accounts"
+msgstr "Akun yang tidak Terhubung"
+
