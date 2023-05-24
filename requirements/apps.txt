@@ -12,6 +12,7 @@ secure
 sqlalchemy[asyncio]
 sqladmin
 sqlalchemy-utils
+starlette-babel
 Starlette-Login
 starlette-wtf
 uvicorn[standard]
