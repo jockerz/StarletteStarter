@@ -22,7 +22,7 @@
         </div>
         <div class="mb-2">
           <label class="form-label">
-            Password
+            {{ _('Password') }}
             <span class="form-label-description">
               <a href="{{ url_for('forgot_password') }}">{{ _('I forgot password') }}</a>
             </span>
@@ -46,7 +46,7 @@
           </label>
         </div>
         <div class="form-footer">
-          <button type="submit" class="btn btn-primary w-100">Login</button>
+          <button type="submit" class="btn btn-primary w-100">{{ _('Login') }}</button>
         </div>
       </form>
     </div>

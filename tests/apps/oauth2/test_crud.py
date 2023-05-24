@@ -90,9 +90,9 @@ class TestOAuth2TokenCRUD:
                 expires_at=datetime(now.year, now.month, now.day + 3, 0, 0, 0)
             )
 
-        assert OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
+        assert await OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
                is not None
-        assert OAuth2TokenCRUD.get_by_refresh_token(db, 'refresh_token') \
+        assert await OAuth2TokenCRUD.get_by_refresh_token(db, 'refresh_token') \
                is not None
 
     async def test_remove_by_account(self, db, social_account):
@@ -101,7 +101,7 @@ class TestOAuth2TokenCRUD:
                 db, social_account, 'access_token', 'refresh_token',
                 expires_at=datetime(now.year, now.month, now.day + 3, 0, 0, 0)
             )
-        assert OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
+        assert await OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
                is not None
 
         # remove token data

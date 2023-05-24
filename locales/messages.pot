@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-22 15:22+0700\n"
+"POT-Creation-Date: 2023-05-25 00:13+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,8 @@ msgstr ""
 #: apps/apps/account/forms.py:10 apps/apps/main/forms.py:11
 #: apps/apps/main/forms.py:28 apps/apps/main/forms.py:61
 #: templates/_layout/settings.html:19 templates/account/email_settings.html:21
-#: templates/account/password_update.html:12 templates/main/register.html:35
+#: templates/account/password_update.html:12 templates/main/login.html:25
+#: templates/main/register.html:35
 msgid "Password"
 msgstr ""
 
@@ -131,7 +132,8 @@ msgstr ""
 
 #: templates/_include/navbar.html:45 templates/main/activation-refresh.html:17
 #: templates/main/activation.html:30 templates/main/forgot-password.html:31
-#: templates/main/register.html:86 templates/main/reset-password.html:54
+#: templates/main/login.html:49 templates/main/register.html:86
+#: templates/main/reset-password.html:54
 msgid "Login"
 msgstr ""
 
@@ -316,12 +318,8 @@ msgstr ""
 msgid "Resend activation URL"
 msgstr ""
 
-#: templates/main/forgot-password.html:2
+#: templates/main/forgot-password.html:2 templates/main/forgot-password.html:13
 msgid "Forgot Password"
-msgstr ""
-
-#: templates/main/forgot-password.html:13
-msgid "Forgot password"
 msgstr ""
 
 #: templates/main/forgot-password.html:18

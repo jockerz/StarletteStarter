@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-22 15:22+0700\n"
+"POT-Creation-Date: 2023-05-25 00:13+0700\n"
 "PO-Revision-Date: 2023-05-19 11:32+0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: id\n"
@@ -21,7 +21,8 @@ msgstr ""
 #: apps/apps/account/forms.py:10 apps/apps/main/forms.py:11
 #: apps/apps/main/forms.py:28 apps/apps/main/forms.py:61
 #: templates/_layout/settings.html:19 templates/account/email_settings.html:21
-#: templates/account/password_update.html:12 templates/main/register.html:35
+#: templates/account/password_update.html:12 templates/main/login.html:25
+#: templates/main/register.html:35
 msgid "Password"
 msgstr "Kata sandi"
 
@@ -58,7 +59,7 @@ msgstr "Nama"
 
 #: apps/apps/account/forms.py:33
 msgid "Image"
-msgstr ""
+msgstr "Gambar"
 
 #: apps/apps/account/crud/activation.py:42
 msgid "Activation has been expired"
@@ -143,7 +144,8 @@ msgstr "Keluar"
 
 #: templates/_include/navbar.html:45 templates/main/activation-refresh.html:17
 #: templates/main/activation.html:30 templates/main/forgot-password.html:31
-#: templates/main/register.html:86 templates/main/reset-password.html:54
+#: templates/main/login.html:49 templates/main/register.html:86
+#: templates/main/reset-password.html:54
 msgid "Login"
 msgstr "Masuk"
 
@@ -342,14 +344,9 @@ msgstr "Kirim ulang URL aktifasi ke"
 msgid "Resend activation URL"
 msgstr "Kirim ulang URL aktifasi"
 
-#: templates/main/forgot-password.html:2
+#: templates/main/forgot-password.html:2 templates/main/forgot-password.html:13
 #, fuzzy
 msgid "Forgot Password"
-msgstr "Lupa kata sandi"
-
-#: templates/main/forgot-password.html:13
-#, fuzzy
-msgid "Forgot password"
 msgstr "Lupa kata sandi"
 
 #: templates/main/forgot-password.html:18
@@ -431,4 +428,7 @@ msgstr "Akun yang Terhubung"
 #, fuzzy
 msgid "Not Linked Accounts"
 msgstr "Akun yang tidak Terhubung"
+
+#~ msgid "Forgot password"
+#~ msgstr "Lupa kata sandi"
 

@@ -145,7 +145,7 @@ async def login(request: Request):
 
     redirect_uri = request.url_for('oauth2:authorize', provider=provider.value)
     # redirecting to provider authorize_url
-    return await client.authorize_redirect(request, redirect_uri)
+    return await client.authorize_redirect(request, str(redirect_uri))
 
 
 @login_required
