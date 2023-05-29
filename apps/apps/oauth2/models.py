@@ -34,7 +34,7 @@ class OAuth2Account(Base):
     )
     user: Mapped['User'] = relationship()
 
-    uid: Mapped[str] = mapped_column(String(191))
+    uid: Mapped[str] = mapped_column(String(255))
     last_login: Mapped[datetime] = mapped_column(
         server_default=func.now(), server_onupdate=func.now()
     )

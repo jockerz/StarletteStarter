@@ -4,7 +4,6 @@
   {% include '_include/navbar.html' %}
   {%- block content %}
   <div class="page-wrapper">
-    {% if title %}
     <div class="page-header d-print-none">
       <div class="container-xl">
         {% block content_header %}
@@ -12,7 +11,6 @@
         {% endblock %}
       </div>
     </div>
-    {% endif %}
     <div class="page-body">
       <div class="container-xl">
         {% block content_body %}{% endblock %}

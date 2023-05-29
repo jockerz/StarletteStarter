@@ -43,9 +43,6 @@ class ValidationMixin:
     id: Mapped[int] = mapped_column(primary_key=True)
     code: Mapped[str] = mapped_column(String(32), unique=True, default=gen_random)
     secret: Mapped[str] = mapped_column(String(150))
-    # notif_type = Column(
-    #     DBEnum(NotificationTypeEnum), default=NotificationTypeEnum.EMAIL
-    # )
     notif_type: Mapped[NotificationTypeEnum] = mapped_column(
         default=NotificationTypeEnum.EMAIL
     )
