@@ -26,8 +26,11 @@ def gen_apikey() -> str:
 
 def mask_email(email: str) -> str:
     """Anonymize email address (example: te***st@e******.com)"""
+    domain: str
     username, domain = email.split('@')
-    domain_parts = domain.split('.')
+    domain_parts = domain.rsplit('.', 1)
+    if len(domain_parts) <= 1:
+        domain_parts = domain_parts[0], ''
     masked_email = \
         f'{username[:2]}{"*" * len(username[2:])}' \
         f'@{domain_parts[0][0]}{"*" * len(domain_parts[0][1:])}' \
