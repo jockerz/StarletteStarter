@@ -1,7 +1,7 @@
 import logging
 from typing import Any, Optional
 
-from sqladmin import ModelAdmin
+from sqladmin import ModelView
 from starlette.requests import Request
 
 
@@ -15,7 +15,7 @@ def log_message(data: Optional[dict], model: Any, action: str):
     logger.warning(msg)
 
 
-class BaseModel(ModelAdmin):
+class BaseModel(ModelView):
     can_delete = False
 
     def is_accessible(self, request: Request) -> bool:

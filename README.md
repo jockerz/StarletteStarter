@@ -206,6 +206,14 @@ pip install -r requirements/test.txt
 pytest
 ```
 
+# Changes
+
+## 2023-10-24
+
+ - Remove usage of [arq-dashboard][arq-dashboard].<br/>
+   Remove `arq-dashboard` by running `pip uninstall arq-dashboard` command 
+   to be able to update to current version
+
 
 [arq]: https://arq-docs.helpmanual.io
 [arq-dashboard]: https://github.com/ninoseki/arq-dashboard

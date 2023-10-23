@@ -1,1 +1,3 @@
-arq-dashboard
+# Temporarily disabled until the packaged updated
+# Remove if the package not being updated until some time (unknown)
+#arq-dashboard
