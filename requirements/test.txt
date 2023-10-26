@@ -1,5 +1,6 @@
 aiosqlite
 async-asgi-testclient
+httpx
 pytest
 pytest-asyncio
 pytest-cov

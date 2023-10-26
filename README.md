@@ -72,13 +72,24 @@ You can copy this file as `.env` and edit it as you want.
 cp .env.example .env
 ```
 
+## Process Files Directories
+
+```shell
+mkdir -p files/{logs,pids}
+```
+
 ## Database
 
 ### Create Tables
 
 ```bash
-# Initial alembic
+# Initialisation
+mkdir alembic/versions
+
+# Generate migration scripts
 alembic revision --autogenerate -m 'initial'
+
+# Run first migration
 alembic upgrade head
 ```
 
@@ -134,6 +145,7 @@ Please make sure to set the scopes for the OAuth2 clients for at least to be abl
 ```text
 ENV=dev
 ```
+
 
 ## Web Application Service
 
@@ -207,6 +219,11 @@ pytest
 ```
 
 # Changes
+
+## 2023-10-27
+
+ - Update __README__ for missing starting instruction
+
 
 ## 2023-10-24
 
