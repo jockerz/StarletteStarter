@@ -44,8 +44,9 @@ routes = [
 
 
 def get_routes(config: Base) -> t.List[t.Union[Mount, Route]]:
+    global routes
     if config.DEBUG:
-        return routes + [
+        routes += [
             Route('/error/500', error_500, name='error_500'),
             Route('/value_error', value_error, name='value_error'),
         ]
