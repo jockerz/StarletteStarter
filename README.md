@@ -88,7 +88,17 @@ mkdir alembic/versions
 
 # Generate migration scripts
 alembic revision --autogenerate -m 'initial'
+# Run first migration
+alembic upgrade head
+```
 
+### Add New Model Table
+
+After create new DB model, make sure it has been imported on `apps.core.db_tables`, then run:
+
+```bash
+# Generate migration scripts
+alembic revision --autogenerate -m 'initial'
 # Run first migration
 alembic upgrade head
 ```
@@ -97,6 +107,9 @@ alembic upgrade head
 
 Redis is required for [`arq`][arq] for 
 job queues and RPC in python with asyncio and redis.
+
+> See `Redis: Arq` section on the `.env` file.
+
 
 ## SMTP
 
@@ -109,6 +122,9 @@ you can use a really cool **fake SMTP** service that provided by
 
 For production use, you may edit the SMTP configuration on the `.env` file
 for any SMTP service you like.
+
+> See `SMTP: Email` section on the `.env` file.
+
 
 ## Admin User
 
@@ -140,7 +156,7 @@ Please make sure to set the scopes for the OAuth2 clients for at least to be abl
 
 # Run Locally (Development Mode)
 
-## Change 'ENV' value on `.env`
+## Update `.env`
 
 ```text
 ENV=dev
@@ -181,16 +197,16 @@ Then make sure you use a real SMTP Provided and edit the SMTP configuration.
 bash scripts/prod.sh
 ```
 
+## Kill the services
+
+```shell
+kill `cat files/pids/web_app.pid`
+```
+
 ## Arq (Job Queueing and Processing)
 
 ```shell
 bash scripts/arq.sh
-```
-
-## KIll the services
-
-```shell
-kill `cat files/pids/web_app.pid`
 ```
 
 ## Nginx
