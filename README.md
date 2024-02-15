@@ -80,6 +80,43 @@ mkdir -p files/{logs,pids}
 
 ## Database
 
+### SQLite
+
+Additional requirements
+```
+aiosqlite
+```
+
+`.env`
+```
+DATABASE_URL=sqlite+aiosqlite:///./sqlite.db
+```
+
+### MySQL
+
+Additional requirements
+```
+aiomysql
+PyMySQL
+```
+
+`.env`
+```
+DATABASE_URL=mysql+aiomysql://USER:PASSWORD@127.0.0.1/DATABASE_NAME
+```
+
+### PostgresQL
+
+Additional requirements
+```
+asyncpg
+```
+
+`.env`
+```
+DATABASE_URL=postgresql+asyncpg://USER:PASSWORD@127.0.0.1/DATABASE_NAME
+```
+
 ### Create Tables
 
 ```bash

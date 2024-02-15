@@ -12,7 +12,7 @@
 <form class="form-horizontal" method="post">
   <div class="card-body">
     <h2 class="mb-4">{{ _('My Account') }}</h2>
-    <h3 class="card-title">{{ _('Profile Details') }}</h3>
+    <h3 class="card-title">{{ _('Profile Photo') }}</h3>
     <div class="row align-items-center">
       <div class="col-auto">
         <span class="avatar avatar-xl" style="background-image: url({{ url_for('media', path=request.user.get_avatar()) }})"></span>

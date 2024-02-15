@@ -28,11 +28,11 @@ class OAuth2Account(Base):
 
     # unique keys
     provider: Mapped[ProviderEnum]
-    username: Mapped[str]
+    username: Mapped[str] = mapped_column(String(127))
     user_id: Mapped[int] = mapped_column(
         ForeignKey("account_user.id"), index=True
     )
-    user: Mapped['User'] = relationship()
+    user: Mapped[User] = relationship()
 
     uid: Mapped[str] = mapped_column(String(255))
     last_login: Mapped[datetime] = mapped_column(
@@ -51,14 +51,14 @@ class OAuth2Token(Base):
     # Primary key
     id: Mapped[int] = mapped_column(primary_key=True)
     access_token: Mapped[str] = mapped_column(unique=True)
-    refresh_token: Mapped[t.Optional[str]]
+    refresh_token: Mapped[t.Optional[str]] = mapped_column(String(127), nullable=True)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     expires_at: Mapped[t.Optional[datetime]] = mapped_column()
 
-    account_id: Mapped[str] = mapped_column(
+    account_id: Mapped[int] = mapped_column(
         ForeignKey(f'{TABLE_PREFIX}_account.id')
     )
     account: Mapped[OAuth2Account] = relationship()
 
     user_id: Mapped[int] = mapped_column(ForeignKey("account_user.id"), index=True)
-    user: Mapped['User'] = relationship()
+    user: Mapped[User] = relationship()
