@@ -88,11 +88,11 @@ async def register_page(request: Request):
     form = await RegisterForm.from_formdata(request)
 
     if await form.validate_on_submit():
-        if await UserCRUD.get_by_email(db, form.email.data):
+        if await UserCRUD.email_is_registered(db, form.email.data):
             form.email.errors.append(
                 'Email has been registered, please use another'
             )
-        elif await UserCRUD.get_by_username(db, form.username.data):
+        elif await UserCRUD.username_is_registered(db, form.username.data):
             form.username.errors.append(
                 'Username has been registered, please use another'
             )

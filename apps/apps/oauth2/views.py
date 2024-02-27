@@ -10,7 +10,7 @@ from apps.extensions.template import templates
 from apps.utils.notification import Notification
 from apps.utils.url import validate_next_url
 from .crud import OAuth2AccountCRUD, OAuth2TokenCRUD
-from .exceptions import InvalidOAuth2ProviderError
+from .exceptions import InvalidOAuth2ProviderError, EmailDBIntegrityError
 from .models import ProviderEnum
 from .utils import (
     get_oauth_client,
@@ -69,27 +69,28 @@ async def authorize(request):
         raise InvalidOAuth2ProviderError
 
     user_data = parse_user_data(provider, profile, public_emails)
-    account = await OAuth2AccountCRUD.get_by_username(
-        db, provider, user_data['username']
-    )
+    username = user_data['username']
+    account = await OAuth2AccountCRUD.get_by_username(db, provider, username)
     if account is None:
         # if already logged in, link provider account to current user
         user = get_user(request)
         if user is None or not user.is_authenticated:
-            new_username = await UserCRUD.get_unique_username(
-                db, user_data['username']
-            )
+            email_addr = user_data.get('email')
+            if await UserCRUD.email_is_registered(db, email_addr):
+                raise EmailDBIntegrityError(email=email_addr)
+
+            new_username = await UserCRUD.get_unique_username(db, username)
             # Add new user
             user = await UserCRUD.create(
                 db, new_username, user_data['password'],
-                user_data.get('email'), user_data.get('name', ''),
+                email_addr, user_data.get('name', ''),
                 is_active=True, commit=False
             )
             db.add(user)
 
         # Save provider account
         provider_account = await OAuth2AccountCRUD.create(
-            db, provider, user, provider_uid, user_data['username'], profile,
+            db, provider, user, provider_uid, username, profile,
             commit=False
         )
         db.add(provider_account)

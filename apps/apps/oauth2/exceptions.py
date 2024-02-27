@@ -3,7 +3,14 @@ from apps.core.base.exception import BaseAppException
 
 class DBIntegrityError(BaseAppException):
     status_code = 400
+    title = 'Authentication failed'
     detail = 'You have created an account with the provider'
+
+
+class EmailDBIntegrityError(BaseAppException):
+    status_code = 400
+    title = 'Authentication failed'
+    detail = 'Your email from this third party provider has been registered'
 
 
 class InvalidOAuth2ProviderError(BaseAppException):

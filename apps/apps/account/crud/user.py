@@ -2,7 +2,7 @@ import typing as t
 from datetime import datetime
 
 from passlib.hash import pbkdf2_sha256
-from sqlalchemy import select, update, exists
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from apps.utils.string import gen_random
@@ -51,6 +51,18 @@ class UserCRUD:
         stmt = select(User).where(User.username == username.lower())
         entry = await db.execute(stmt)
         return None if entry is None else entry.scalars().first()
+
+    @staticmethod
+    async def email_is_registered(db: AsyncSession, email: str) -> bool:
+        stmt = select(User.email).where(User.email == email.lower())
+        entry = await db.execute(stmt)
+        return entry is not None
+
+    @staticmethod
+    async def username_is_registered(db: AsyncSession, email: str) -> bool:
+        stmt = select(User.email).where(User.email == email.lower())
+        entry = await db.execute(stmt)
+        return entry is not None
 
     @staticmethod
     async def update_data(

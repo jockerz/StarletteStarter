@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytest
 
@@ -78,7 +78,7 @@ class TestOAuth2TokenCRUD:
     async def test_create(self, db, social_account):
         token = await OAuth2TokenCRUD.create(
             db, social_account, 'access_token', 'refresh_token',
-            expires_at=datetime(now.year, now.month, now.day + 3, 0, 0, 0)
+            expires_at=datetime(now.year, now.month, now.day, 0, 0, 0) + timedelta(days=3)
         )
         assert token.access_token == 'access_token'
         assert token.refresh_token == 'refresh_token'
@@ -87,7 +87,7 @@ class TestOAuth2TokenCRUD:
         await OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
             or await OAuth2TokenCRUD.create(
                 db, social_account, 'access_token', 'refresh_token',
-                expires_at=datetime(now.year, now.month, now.day + 3, 0, 0, 0)
+                expires_at=datetime(now.year, now.month, now.day, 0, 0, 0) + timedelta(days=3)
             )
 
         assert await OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
@@ -99,7 +99,7 @@ class TestOAuth2TokenCRUD:
         await OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
             or await OAuth2TokenCRUD.create(
                 db, social_account, 'access_token', 'refresh_token',
-                expires_at=datetime(now.year, now.month, now.day + 3, 0, 0, 0)
+                expires_at=datetime(now.year, now.month, now.day, 0, 0, 0) + timedelta(days=3)
             )
         assert await OAuth2TokenCRUD.get_by_access_token(db, 'access_token') \
                is not None
