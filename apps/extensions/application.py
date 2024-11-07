@@ -114,7 +114,7 @@ def create_application(
                 )
             finally:
                 assert response is not None
-                secure_headers.framework.fastapi(response)
+                secure_headers.set_headers_async(response)
                 return response
 
     # Request state setup middleware
