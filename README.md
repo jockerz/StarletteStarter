@@ -273,6 +273,13 @@ pytest
 
 # Changes
 
+## 2024-11-8
+
+ - Python library updated
+ - [Arq-dashboard](arq-dashboard) still not working<br/>
+   Remove it later
+
+
 ## 2023-10-27
 
  - Update __README__ for missing starting instruction
