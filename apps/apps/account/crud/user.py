@@ -41,28 +41,28 @@ class UserCRUD:
     @staticmethod
     async def get_by_email(db: AsyncSession, email: str) -> t.Optional[User]:
         stmt = select(User).where(User.email == email.lower())
-        entry = await db.execute(stmt)
-        return None if entry is None else entry.scalars().first()
+        entry = await db.scalars(stmt)
+        return entry.one_or_none()
 
     @staticmethod
     async def get_by_username(
         db: AsyncSession, username: str
     ) -> t.Optional[User]:
         stmt = select(User).where(User.username == username.lower())
-        entry = await db.execute(stmt)
-        return None if entry is None else entry.scalars().first()
+        entry = await db.scalars(stmt)
+        return entry.one_or_none()
 
     @staticmethod
     async def email_is_registered(db: AsyncSession, email: str) -> bool:
         stmt = select(User.email).where(User.email == email.lower())
-        entry = await db.execute(stmt)
-        return entry is not None
+        entry = await db.scalars(stmt)
+        return entry.one_or_none() is not None
 
     @staticmethod
     async def username_is_registered(db: AsyncSession, email: str) -> bool:
         stmt = select(User.email).where(User.email == email.lower())
-        entry = await db.execute(stmt)
-        return entry is not None
+        entry = await db.scalars(stmt)
+        return entry.one_or_none() is not None
 
     @staticmethod
     async def update_data(
@@ -106,8 +106,8 @@ class UserCRUD:
         added_underscore = False
         while True:
             query = select(User.id).where(User.username == username.lower())
-            result = await db.execute(query)
-            if result.scalar_one_or_none() is None:
+            result = await db.scalars(query)
+            if result.one_or_none() is None:
                 break
             if added_underscore is False:
                 username = username + '_'

@@ -38,7 +38,7 @@ class OAuth2AccountCRUD:
             OAuth2Account.uid == uid,
         )
         entry = await db.scalars(stmt)
-        return None if entry is None else entry.first()
+        return entry.one_or_none()
 
     @staticmethod
     async def get_by_username(
@@ -49,7 +49,7 @@ class OAuth2AccountCRUD:
             OAuth2Account.username == username,
         )
         entry = await db.scalars(stmt)
-        return None if entry is None else entry.first()
+        return entry.one_or_none()
 
     @staticmethod
     async def get_by_user_id(
@@ -60,7 +60,7 @@ class OAuth2AccountCRUD:
             OAuth2Account.user_id == user_id,
         )
         entry = await db.scalars(stmt)
-        return None if entry is None else entry.first()
+        return entry.one_or_none()
 
     @staticmethod
     async def get_user_accounts(
@@ -128,7 +128,7 @@ class OAuth2TokenCRUD:
             OAuth2Token.access_token == access_token,
         )
         entry = await db.scalars(stmt)
-        return None if entry is None else entry.first()
+        return entry.one_or_none()
 
     @staticmethod
     async def get_by_refresh_token(
@@ -138,7 +138,7 @@ class OAuth2TokenCRUD:
             OAuth2Token.refresh_token == refresh_token,
         )
         entry = await db.scalars(stmt)
-        return None if entry is None else entry.first()
+        return entry.one_or_none()
 
     @staticmethod
     async def remove_by_account(

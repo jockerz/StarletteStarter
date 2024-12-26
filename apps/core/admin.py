@@ -1,11 +1,9 @@
 from sqladmin import Admin
 
-from apps.apps.account.admin import ActivationAdmin, UserAdmin
-from apps.apps.oauth2.admin import OAuth2AccountAdmin, OAuth2TokenAdmin
+from apps.apps.account import admin as account_admin
+from apps.apps.oauth2 import admin as oauth2_admin
 
 
 def register_models(admin: Admin):
-    admin.add_view(ActivationAdmin)
-    admin.add_view(UserAdmin)
-    admin.add_view(OAuth2AccountAdmin)
-    admin.add_view(OAuth2TokenAdmin)
+    account_admin.register_admin_models(admin)
+    oauth2_admin.register_admin_models(admin)

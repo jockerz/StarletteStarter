@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-25 00:13+0700\n"
+"POT-Creation-Date: 2024-11-13 23:51+0700\n"
 "PO-Revision-Date: 2023-05-19 11:32+0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: id\n"
@@ -35,7 +35,7 @@ msgstr "Kata sandi baru"
 #: apps/apps/main/forms.py:63
 #, fuzzy
 msgid "Please enter your password"
-msgstr "Kata sandi"
+msgstr "Masukkan kata sandi"
 
 #: apps/apps/account/forms.py:19 apps/apps/main/forms.py:31
 #: apps/apps/main/forms.py:64
@@ -67,12 +67,12 @@ msgstr "Aktifasi kadaluarsa"
 
 #: apps/apps/account/crud/activation.py:44
 msgid "Activation has already been complete"
-msgstr "Aktifasi selesai"
+msgstr "Aktifasi sudah selesai"
 
 #: apps/apps/account/crud/activation.py:46
 #, fuzzy
 msgid "Activation is ready"
-msgstr "Kirim ulang URL aktifasi"
+msgstr "Aktivasi siap"
 
 #: apps/apps/account/crud/activation.py:48
 #, fuzzy
@@ -86,7 +86,7 @@ msgstr "Alamat Email atau Username"
 
 #: apps/apps/main/forms.py:12
 msgid "Remember Me"
-msgstr "Ingat saya"
+msgstr "Ingat Ssaya"
 
 #: apps/apps/main/forms.py:17 templates/main/register.html:28
 #, fuzzy
@@ -100,7 +100,7 @@ msgstr "Silakan isi alamat email anda"
 #: apps/apps/main/forms.py:24
 #, fuzzy
 msgid "Please enter your username"
-msgstr "Alamat Email atau Username"
+msgstr "Silahkan masukkan username"
 
 #: apps/apps/main/forms.py:25 apps/apps/main/forms.py:44
 msgid "Minimal 4 characters"
@@ -123,7 +123,7 @@ msgstr "Nama lengkap"
 #: apps/apps/main/forms.py:48
 #, fuzzy
 msgid "Agree terms"
-msgstr "Setuju dengan"
+msgstr "Setuju dengan ketentuan"
 
 #: apps/apps/main/forms.py:49
 msgid "Agree to the terms is required to register"
@@ -245,8 +245,8 @@ msgstr "Pengaturan Akun"
 
 #: templates/account/profile_settings.html:15
 #, fuzzy
-msgid "Profile Details"
-msgstr "Detail Profil"
+msgid "Profile Photo"
+msgstr "Profil"
 
 #: templates/account/profile_settings.html:22
 msgid "Change avatar"
@@ -431,4 +431,7 @@ msgstr "Akun yang tidak Terhubung"
 
 #~ msgid "Forgot password"
 #~ msgstr "Lupa kata sandi"
+
+#~ msgid "Profile Details"
+#~ msgstr "Detail Profil"
 

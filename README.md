@@ -140,6 +140,28 @@ alembic revision --autogenerate -m 'initial'
 alembic upgrade head
 ```
 
+
+## Translations
+
+### Extract Localizable Messages
+
+```shell
+bash scripts/transation.sh extract
+```
+
+### Update Translation Files
+
+```shell
+bash scripts/transation.sh update
+```
+
+### Compile Translation Files
+
+```shell
+bash scripts/transation.sh compile
+```
+
+
 ## Redis
 
 Redis is required for [`arq`][arq] for 

@@ -25,5 +25,5 @@ class NewModelCRUD:
         db: AsyncSession, name: str
     ) -> t.Optional[NewModel]:
         stmt = select(NewModel).where(NewModel.name == name)
-        entry = await db.execute(stmt)
-        return None if entry is None else entry.scalars().first()
+        entry = await db.scalars(stmt)
+        return entry.one_or_none()

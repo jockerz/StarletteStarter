@@ -30,8 +30,8 @@ class EmailUpdateCRUD:
     @staticmethod
     async def get(db: AsyncSession, code: str) -> t.Optional[EmailUpdate]:
         query = select(EmailUpdate).where(EmailUpdate.code == code)
-        result = await db.execute(query)
-        return None if result is None else result.scalars().first()
+        entry = await db.scalars(query)
+        return entry.one_or_none()
 
     @staticmethod
     def validate_secret(

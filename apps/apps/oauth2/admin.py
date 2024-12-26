@@ -1,11 +1,16 @@
-from apps.core.base.admin import BaseModel
+from sqladmin import Admin
 
+from apps.core.base.admin import BaseModel
 from .models import OAuth2Account, OAuth2Token
+
+
+CATEGORY = 'OAuth2'
 
 
 class OAuth2AccountAdmin(BaseModel, model=OAuth2Account):
     icon = "fa fa-link"
     name = 'Social Account'
+    category = CATEGORY
 
     column_list = [
         OAuth2Account.provider,
@@ -28,6 +33,7 @@ class OAuth2AccountAdmin(BaseModel, model=OAuth2Account):
 class OAuth2TokenAdmin(BaseModel, model=OAuth2Token):
     icon = "fa fa-universal-access"
     name = 'Social Token'
+    category = CATEGORY
 
     column_list = [
         OAuth2Token.account,
@@ -44,3 +50,8 @@ class OAuth2TokenAdmin(BaseModel, model=OAuth2Token):
         OAuth2Token.access_token,
         OAuth2Token.refresh_token,
     ]
+
+
+def register_admin_models(admin: Admin):
+    admin.add_view(OAuth2AccountAdmin)
+    admin.add_view(OAuth2TokenAdmin)

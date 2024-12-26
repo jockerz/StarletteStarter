@@ -95,7 +95,6 @@ def create_application(
 
     class CustomMiddleware(BaseHTTPMiddleware):
         async def dispatch(self, request, call_next):
-            response = None
             try:
                 # DB Session
                 request.state.db = db_session()
@@ -112,9 +111,11 @@ def create_application(
                     'errors/default.html', context={"request": request},
                     status_code=500,
                 )
-            finally:
+                await secure_headers.set_headers_async(response)
+                return response
+            else:
                 assert response is not None
-                secure_headers.set_headers_async(response)
+                await secure_headers.set_headers_async(response)
                 return response
 
     # Request state setup middleware
