@@ -1,0 +1,28 @@
+<li class="nav-item dropdown">
+  {% with language=request.state.locale.language %}
+  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+    {% if language == 'en' %}
+      <i class="flag-icon flag-icon-us"></i>
+    {% elif language == 'id' %}
+      <i class="flag-icon flag-icon-id"></i>
+    {% else %}
+      <svg xmlns="http://www.w3.org/2000/svg" class="" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+       <path d="M4 5h7"></path>
+       <path d="M9 3v2c0 4.418 -2.239 8 -5 8"></path>
+       <path d="M5 9c0 2.144 2.952 3.908 6.7 4"></path>
+       <path d="M12 20l4 -9l4 9"></path>
+       <path d="M19.1 18h-6.2"></path>
+      </svg>
+    {% endif %}
+  </a>
+  <div class="dropdown-menu p-0">
+    <a href="" id='lang-en' class="dropdown-item {% if language == 'en' %}active{% endif %}" onclick="setLang('en')">
+      <i class="flag-icon flag-icon-us mr-2"></i> English
+    </a>
+    <a href="" id='lang-id' class="dropdown-item {% if language == 'id' %}active{% endif %}" onclick="setLang('id')">
+      <i class="flag-icon flag-icon-id mr-2"></i> Bahasa Indonesia
+    </a>
+  </div>
+  {% endwith %}
+</li>

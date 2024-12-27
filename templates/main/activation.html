@@ -1,33 +1,31 @@
-{% extends '_layout/base.html' %}
-{% block title %}{{ _('Account Activation') }}{% endblock %}
+{% extends '_layout/auth.html' %}
 
-{% block body_class %}d-flex flex-column{% endblock %}
+{% block title %}{{ title or _('Account Activation') }}{% endblock %}
+{% block page_title %}{{ title or _('Account Activation') }}{% endblock %}
 
-{% block page %}
-  <div class="container-tight py-4">
-    <div class="text-center mb-4">
-      <a href="{{ url_for('home') }}" class="navbar-brand navbar-brand-autodark"><img src="{{ url_for('static', path='/logo.svg') }}" height="36" alt=""></a>
-    </div>
-    <div class="card card-md">
-      <div class="card-body">
-        {% if success %}
-        <h2 class="h2 text-center mb-4">{{ _('Account activation success') }}</h2>
-        {% else %}
-        <h2 class="h2 text-center mb-4">{{ reason or _('Invalid Activation Code') }}</h2>
-          {% if activation %}
-          <h3>{{ _('Resend the Activation URL to your') }} {{ activation.notif_type.value }}.</h3>
-          <p class="text-center">
-            Link:<br/>
-            <a href="{{ url_for('refresh_activation', code=activation.code) }}">
-              {{ _('Resend activation URL') }}
-            </a>
-          </p>
-          {% endif %}
-        {% endif %}
-      </div>
-    </div>
-    <div class="text-center text-muted mt-3">
-      {{ _('Already have account') }}? <a href="{{ url_for('login') }}" tabindex="-1">{{ _('Login') }}</a>
-    </div>
-  </div>
+{% block card_body %}
+  <p class="login-box-msg">{{ _('Account Activation') }}</p>
+
+  {% if success %}
+    <h2 class="h2 text-center mb-4">{{ _('Account activation success') }}</h2>
+  {% else %}
+    <h2 class="h2 text-center mb-4">{{ reason or _('Invalid Activation Code') }}</h2>
+    {% if activation %}
+      <h3>{{ _('Resend the Activation URL to your') }} {{ activation.notif_type.value }}.</h3>
+      <p class="text-center">
+        Link:<br/>
+        <a href="{{ url_for('refresh_activation', code=activation.code) }}">
+          {{ _('Resend activation URL') }}
+        </a>
+      </p>
+    {% endif %}
+  {% endif %}
+
+  <p class="mb-1 text-center text-muted">
+    <a href="{{ url_for('login') }}" tabindex="-1">{{ _('Login') }}</a>
+  </p>
+{% endblock %}
+
+{% block js_plugins_bottom %}
+{% include '_include/notification_toast.html' %}
 {% endblock %}

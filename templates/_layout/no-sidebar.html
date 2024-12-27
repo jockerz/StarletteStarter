@@ -1,0 +1,35 @@
+{% extends '_layout/base.html' %}
+
+{% block body_class %}layout-top-nav{% endblock %}
+{% block wrapper %}
+  {% block menu_header %}{% include "_include/header-in-container.html" %}{% endblock %}
+  <div class="content-wrapper" style="min-height: 640px;">
+    {% block content_wrapper %}
+      {% block content_header %}
+        <div class="content-header">
+          <div class="container">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0">{% block page_title %}{% endblock %}</h1>
+              </div><!-- /.col -->
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
+                  {% block breadcrumb %}{% endblock %}
+                </ol>
+              </div><!-- /.col -->
+            </div><!-- /.row -->
+          </div><!-- /.container-fluid -->
+        </div>
+      {% endblock %}
+      {% block content_body %}
+        <div class="content">
+          <div class="container">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+      {% endblock %}
+    {% endblock content_wrapper %}
+  </div>
+{% endblock %}

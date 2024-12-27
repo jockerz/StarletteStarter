@@ -1,68 +1,66 @@
-{% extends '_layout/base.html' %}
-{% block title %}Login{% endblock %}
+{% extends '_layout/auth.html' %}
 
-{% block body_class %}d-flex flex-column{% endblock %}
-
-{% block page %}
-<div class="container-tight py-4">
-  <div class="text-center mb-4">
-    <a href="{{ url_for('home') }}" class="navbar-brand navbar-brand-autodark"><img src="{{ url_for('static', path='/logo.svg') }}" height="36" alt=""></a>
-  </div>
-  <div class="card card-md">
-    <div class="card-body">
-      <h2 class="h2 text-center mb-4">{{ _('Login into your account') }}</h2>
-      <form method="post">
-        {{ form.csrf_token }}
-        <div class="mb-3">
-          <label class="form-label">{{ _('Email address or Username') }}</label>
-          <input type="text" name="username" class="form-control{% if form.username.errors %} is-invalid{% endif %}" placeholder="your@email.com" autocomplete="off">
-          {% for error in form.username.errors %}
-          <div class="invalid-feedback">{{ error }}</div>
-          {% endfor %}
-        </div>
-        <div class="mb-2">
-          <label class="form-label">
-            {{ _('Password') }}
-            <span class="form-label-description">
-              <a href="{{ url_for('forgot_password') }}">{{ _('I forgot my password') }}</a>
-            </span>
-          </label>
-          <div class="input-group input-group-flat">
-            <input type="password" id="password-input" name="password" class="form-control{% if form.password.errors %} is-invalid{% endif %}"  placeholder="Your password"  autocomplete="off">
-            <span class="input-group-text">
-              <a href="#" onclick="toggleShowPassword()" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
-              </a>
-            </span>
-            {% for error in form.password.errors %}
-            <div class="invalid-feedback">{{ error }}</div>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="mb-2">
-          <label class="form-check">
-            <input type="checkbox" name="remember" class="form-check-input"/>
-            <span class="form-check-label">{{ _('Remember me on this device') }}</span>
-          </label>
-        </div>
-        <div class="form-footer">
-          <button type="submit" class="btn btn-primary w-100">{{ _('Login') }}</button>
-        </div>
-      </form>
-    </div>
-    {% include 'main/parts/social_login_buttons.html' %}
-  </div>
-  <div class="text-center text-muted mt-3">
-    {{ _('Don\'t have account yet?') }} <a href="{{ url_for('register') }}" tabindex="-1">{{ _('Register') }}</a>
-  </div>
-</div>
+{% block title %}{{ title or _('Login') }}{% endblock %}
+{% block page_title %}{{ title or _('Login') }}{% endblock %}
+{% block style_plugins %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" />
 {% endblock %}
 
-{% block js %}
-<script>
-  function toggleShowPassword() {
-    var el = document.getElementById("password-input");
-    if (el.type == 'password') { el.type = "text"; } else { el.type = "password"; };
-  }
-</script>
+{% block card_body %}
+  <p class="login-box-msg">{{ _('Login into your account') }}</p>
+
+  <form method="post">
+    {{ form.csrf_token }}
+    <div class="input-group mb-3">
+      <input type="text" name="username" class="form-control {% if form.username.errors %}is-invalid{% endif %}" placeholder="{{ _('Email or Username') }}">
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-envelope"></span>
+        </div>
+      </div>
+      {% with field=form.username %}
+        {% include "_parts/form_field_errors.html" %}
+      {% endwith %}
+    </div>
+    <div class="input-group mb-3">
+      <input type="password" name="password" class="form-control {% if form.password.errors %}is-invalid{% endif %}" placeholder="{{ _('Password') }}">
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-lock"></span>
+        </div>
+      </div>
+      {% with field=form.password %}
+      {% include "_parts/form_field_errors.html" %}
+      {% endwith %}
+    </div>
+    <div class="row">
+      <div class="col-8">
+        <div class="icheck-primary">
+          <input type="checkbox" id="remember">
+          <label for="remember">
+            {{ _('Remember Me') }}
+          </label>
+        </div>
+      </div>
+      <!-- /.col -->
+      <div class="col-4">
+        <button type="submit" class="btn btn-primary btn-block">{{ _('Sign In') }}</button>
+      </div>
+      <!-- /.col -->
+    </div>
+  </form>
+
+  <p class="text-center pt-2">- OR -</p>
+  {% include 'main/parts/social_login_buttons.html' %}
+
+  <p class="mb-1 text-center">
+    <a href="{{ url_for('forgot_password') }}">{{ _('I forgot my password') }}</a>
+  </p>
+  <p class="mb-0 text-center text-muted">
+    {{ _('Don\'t have account yet?') }} <a href="{{ url_for('register') }}" class="text-center">{{ _('Register') }}</a>
+  </p>
+{% endblock %}
+
+{% block js_plugins_bottom %}
+{% include '_include/notification_toast.html' %}
 {% endblock %}

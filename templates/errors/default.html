@@ -1,22 +1,19 @@
-{% extends '_layout/base.html' %}
+{% extends '_layout/no-sidebar.html' %}
 {% block title %}{{ title or _('Server Error') }}{% endblock %}
+{% block page_title %}{{ title or _('Server Error') }}{% endblock %}
 
-{% block body_class %}border-top-wide border-primary d-flex flex-column{% endblock %}
+{% block content_wrapper %}
+  <div class="container py-4">
+    <div class="error-page">
+      <h2 class="headline text-danger">500</h2>
 
-{% block page %}
-  <div class="container-tight py-4">
-    <div class="empty">
-      <div class="empty-header">Oops…</div>
-      <p class="empty-title">{{ title or _('You just found an error page') }}</p>
-      <p class="empty-subtitle text-muted">
-        {{ message or _('We are sorry but our server encountered an error') }}
-      </p>
-      <div class="empty-action">
-        <a href="{{ url_for('home') }}" class="btn btn-primary">
-          <!-- Download SVG icon from http://tabler-icons.io/i/arrow-left -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg>
-          {{ _('Take me home') }}
-        </a>
+      <div class="error-content">
+        <h3><i class="fas fa-exclamation-triangle text-danger"></i> Oops! Something went wrong.</h3>
+
+        <p>
+          We will work on fixing that right away.
+          Meanwhile, you may <a href="/">{{ _('return to home') }}</a>.
+        </p>
       </div>
     </div>
   </div>

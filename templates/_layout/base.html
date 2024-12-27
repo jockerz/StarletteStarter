@@ -1,33 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Home{% endblock %} - Gok</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ _('StarletteStarter-AdminLTE') }}{% endblock %}</title>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-  <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/favicon.ico') }}" />
-	{% block style_plugins %}{% endblock %}
-	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css"> -->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/tabler/css/tabler.min.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/sweetalert2/sweetalert2.min.css') }}" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-flags.min.css">
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/main.css') }}" />
-  <style>{% block style %}{% endblock %}</style>
+  {% block style_plugins %}{% endblock %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/plugins/flag-icon-css/css/flag-icon.min.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/plugins/fontawesome-free/css/all.min.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/plugins/sweetalert2/sweetalert2.min.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/adminlte/css/adminlte.min.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/main.css') }}" />
+  {% block style %}{% endblock %}
 </head>
-<body class="{% block body_class %}{% endblock %}">
+<body class="{% block body_class %}hold-transition sidebar-mini{% endblock %}">
 {% block body %}
-<div class="page">
-	{% block page %}{% endblock %}
+<div class="wrapper">
+{% block wrapper %}{% endblock %}
 </div>
 {% endblock %}
-{% block js_plugins %}{% endblock %}
-<!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-<script src="{{ url_for('static', path='/sweetalert2/sweetalert2.all.min.js') }}"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script> -->
-<script src="{{ url_for('static', path='/tabler/js/tabler.min.js') }}"></script>
-{% include '_include/notification_toast.html' %}
-<script src="{{ url_for('static', path='/js/main.js') }}"></script>
-
-{% block js %}<!-- Page specific script -->{% endblock %}
 </body>
+{% block js_plugins %}{% endblock %}
+<script src="{{ url_for('static', path='/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', path='/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', path='/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ url_for('static', path='/adminlte/js/adminlte.min.js') }}"></script>
+<script src="{{ url_for('static', path='/js/main.js') }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  initTheme();
+})
+</script>
+{% block js_plugins_bottom %}{% endblock %}
+{% block js %}<!-- Page specific script -->{% endblock %}
 </html>

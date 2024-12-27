@@ -1,0 +1,18 @@
+{% extends '_layout/base.html' %}
+
+{% block body_class %}hold-transition login-page{% endblock %}
+
+{% block body %}
+<div class="login-box">
+  <div class="login-logo">
+    <a href="/"><b>Admin</b>LTE</a>
+  </div>
+
+  <div class="card">
+    <div class="card-body {% block card_body_class %}login-card-body{% endblock %}">
+      {% block card_body %}
+      {% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

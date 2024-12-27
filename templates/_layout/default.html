@@ -1,22 +1,10 @@
 {% extends '_layout/base.html' %}
 
-{% block page %}
-  {% include '_include/navbar.html' %}
-  {%- block content %}
-  <div class="page-wrapper">
-    <div class="page-header d-print-none">
-      <div class="container-xl">
-        {% block content_header %}
-        <h2 class="page-title">{{ title }}</h2>
-        {% endblock %}
-      </div>
-    </div>
-    <div class="page-body">
-      <div class="container-xl">
-        {% block content_body %}{% endblock %}
-      </div>
-    </div>
-    {% include '_include/footer.html' %}
+{% block body_class %}hold-transition sidebar-mini layout-fixed{% endblock %}
+{% block wrapper %}
+  {% block menu_header %}{% include "_include/header.html" %}{% endblock %}
+  {# block menu_sidebar %}{% include "_include/sidebar.html" %}{% endblock #}
+  <div class="content-wrapper">
+    {% block content %}{% endblock content_wrapper %}
   </div>
-  {% endblock -%}
 {% endblock %}
