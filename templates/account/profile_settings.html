@@ -10,6 +10,7 @@
 
 {% block settings_content %}
 <form class="form-horizontal" method="post">
+  {{ form.csrf_token }}
   <div class="card-body">
     <h2 class="mb-4">{{ _('My Account') }}</h2>
     <h3 class="card-title">{{ _('Profile Photo') }}</h3>
@@ -27,7 +28,6 @@
     <h3 class="card-title mt-4">{{ _('Account Name') }}</h3>
     <div class="row g-3">
       <div class="col-md">
-        {{ form.csrf_token }}
         <div class="form-label">{{ _('Name') }}</div>
         <input type="text" class="form-control{% if form.name.errors %} is-invalid{% endif %}" name="name" value="{{ request.user.name or '' }}" placeholder="{{ _('Full name') }}">
         {% for error in form.name.errors %}

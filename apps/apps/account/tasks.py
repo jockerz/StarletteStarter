@@ -7,7 +7,7 @@ logger = get_logger()
 
 
 TPL_UPDATE_EMAIL_HTML = """\
-<p>Go to <a href="{validation_url}">Activation Page</a> save your email update.</p>
+<p>Go to <a href="{validation_url}">Email Update Page</a> save your email update.</p>
 <p>Or you can go to this URL <strong>{validation_url}</strong></p> 
 """
 TPL_UPDATE_EMAIL_TEXT = """\

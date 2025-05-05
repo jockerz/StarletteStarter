@@ -50,7 +50,7 @@ window.addEventListener('DOMContentLoaded', function () {
 						Swal.fire({
 							icon: 'success',
 							title: 'Yayy..',
-							text: {{ _('Profile picture updated. Reloading...') }},
+							text: "{{ _('Profile picture updated. Reloading...') }}",
 						});
 						location.reload();
 					},
@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', function () {
 						Swal.fire({
 							icon: 'error',
 							title: 'Oops...',
-							text: {{ _('Image upload failed. Please try again later.') }},
+							text: "{{ _('Image upload failed. Please try again later.') }}",
 						});
 					},
 				});
