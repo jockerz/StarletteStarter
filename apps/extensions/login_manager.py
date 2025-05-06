@@ -13,5 +13,5 @@ def get_middleware(login_manager: LoginManager):
         AuthenticationMiddleware,
         backend=SessionAuthBackend(login_manager),
         login_manager=login_manager,
-        excluded_dirs=['/static', 'favicon.ico', '/media']
+        # excluded_dirs=['/static', 'favicon.ico', '/media']
     )

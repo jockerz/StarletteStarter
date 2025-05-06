@@ -1,3 +1,5 @@
+Frontend Choice : [Tabler](https://github.com/jockerz/StarletteStarter/tree/main) | _AdminLTE_
+
 # Introduction
 
 This is a full web app using [Starlette][Starlette].
@@ -6,7 +8,7 @@ This project exists with the help of some of really great tools.
 
 - [Starlette][Starlette]: Lightweight ASGI framework/toolkit 
   for building async web services
-- [Tabler][Tabler]: UI kit based on Bootstrap 5
+- [AdminLTE][AdminLTE]: Bootstrap Admin Dashboard Template
 - [SQLAlchemy][SQLAlchemy]: The Python SQL Toolkit and Object Relational Mapper
 - [Arq][arq]: Job queues and RPC in python with asyncio and redis
 - [SQLAdmin][SQLAdmin]: Admin interface for SQLAlchemy models
@@ -295,6 +297,11 @@ pytest
 
 # Changes
 
+## 2025-05-07
+
+ - Add new frontend AdminLTE
+
+
 ## 2024-11-8
 
  - Python library updated
@@ -314,6 +321,7 @@ pytest
    to be able to update to current version
 
 
+[AdminLTE]: https://adminlte.io/themes/v3/index3.html
 [arq]: https://arq-docs.helpmanual.io
 [arq-dashboard]: https://github.com/ninoseki/arq-dashboard
 [authlib]: https://authlib.org
