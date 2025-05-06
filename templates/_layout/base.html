@@ -22,7 +22,6 @@
 {% block wrapper %}{% endblock %}
 </div>
 {% endblock %}
-</body>
 {% block js_plugins %}{% endblock %}
 <script src="{{ url_for('static', path='/plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', path='/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -36,4 +35,5 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 {% block js_plugins_bottom %}{% endblock %}
 {% block js %}<!-- Page specific script -->{% endblock %}
+</body>
 </html>

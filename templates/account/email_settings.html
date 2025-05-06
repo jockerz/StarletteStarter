@@ -1,0 +1,48 @@
+{% extends '_layout/default.html' %}
+
+{% set in_settings = true %}
+
+{% block title %}{{ _('Email Settings') }}{% endblock %}
+
+{% block content %}
+<form class="form-horizontal" method="post">
+  {{ form.csrf_token }}
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="form-group row">
+            <label for="email" class="col-sm-3 col-form-label">{{ _('Email') }}</label>
+            <div class="col-sm-9">
+              <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                     name="email" id="email" placeholder="{{ _('Email') }}" value="{{ request.user.email }}">
+              {% with field=form.email %}
+                {% include "_parts/form_field_errors.html" %}
+              {% endwith %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="password" class="col-sm-3 col-form-label">{{ _('Password (for confirmation)') }}</label>
+            <div class="col-sm-9">
+              <input type="password" class="form-control {% if form.password.errors %}is-invalid{% endif %}"
+                     name="password" id="password" placeholder="{{ _('Password') }}">
+              {% with field=form.password %}
+                {% include "_parts/form_field_errors.html" %}
+              {% endwith %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="offset-sm-3 col-sm-9">
+            <button type="submit" class="btn btn-primary">{{ _('Submit') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

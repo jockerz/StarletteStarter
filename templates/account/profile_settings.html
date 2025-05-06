@@ -1,0 +1,103 @@
+{% extends '_layout/default.html' %}
+
+{% set in_settings = true %}
+
+{% block title %}{{ _('Account Settings') }}{% endblock %}
+{% block style_plugins %}
+<!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />-->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/plugins/cropperjs/cropper.min.css') }}" />
+{% endblock %}
+
+{% block content %}
+<form class="form-horizontal" method="post">
+  {{ form.csrf_token }}
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group row">
+            <label for="name" class="col-sm-3 col-form-label">{{ _('Name') }}</label>
+            <div class="col-sm-9">
+              <input class="form-control" name="name" id="name" value="{{ request.user.name }}" placeholder="{{ _('Name') }}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="username" class="col-sm-3 col-form-label">{{ _('Username') }}</label>
+            <div class="col-sm-9">
+              <input class="form-control" name="username" id="username" value="{{ request.user.username }}" placeholder="{{ _('Username') }}">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row pb-2">
+            <img class=" img-fluid" src="{{ url_for('media', path=request.user.get_avatar()) }}" alt="{{ _('User profile picture') }}">
+          </div>
+          <div class="row justify-content-center">
+            <div class="col">
+              <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#upload-image">
+                {{ _('Change Avatar') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        <div class="offset-sm-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">{{ _('Submit') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="modal modal-blur fade" id="upload-image" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog model-lg modal-dialog-centered" role="document">
+    <form id="form_photo" method="post" enctype="multipart/form-data">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ _('Upload Image File') }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="{{ _('Close') }}">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-3 text-center">
+            <img src="{{ url_for('media', path=request.user.get_avatar()) }}" style="max-width: 100%;" id="img_preview" alt="avatar"/>
+          </div>
+          <div class="form-group mb-3">
+            <label for="image_input">{{ _('Select image') }}</label>
+            <div class="input-group">
+              <div class="custom-file">
+                <input type="file" name="img" id="image_input" class="form-control" accept="image/*"/>
+                <label class="custom-file-label" for="image_input">{{ _('Choose file') }}</label>
+              </div>
+              <div class="input-group-append">
+                <span class="input-group-text">{{ _('Upload') }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary ml-auto" data-bs-dismiss="modal">{{ _('Close') }}</button>
+          <button id="btn_upload" type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled>
+            {{ _('Select') }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block js_plugins %}
+<script src="{{ url_for('static', path='/plugins/cropperjs/cropper.min.js') }}"></script>
+{% endblock %}
+
+{% block js %}
+<script>
+{% include 'account/parts/account-settings.js' %}
+</script>
+{% endblock %}

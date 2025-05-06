@@ -21,13 +21,13 @@
     {% if request.user.is_authenticated %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ user.username }}
+          {{ request.user.username }}
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{{ url_for('account:profile') }}">{{ _("Profile") }}</a>
           <a class="dropdown-item" href="{{ url_for('account:profile_settings') }}">{{ _("Profile Settings") }}</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{{ url_for('account_logout') }}">{{ _("Logout") }}</a>
+          <a class="dropdown-item" href="{{ url_for('logout') }}">{{ _("Logout") }}</a>
         </div>
       </li>
     {% else %}

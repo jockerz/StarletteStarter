@@ -1,0 +1,38 @@
+{% extends '_layout/default.html' %}
+
+{% set in_settings = true %}
+
+{% block title %}{{ _('Linked Accounts') }}{% endblock %}
+
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    {% if linked %}
+    <h2 class="mb-4">{{ _('Linked Accounts') }}</h2>
+    <div class="row">
+      <div class="col-md">
+        {% for account in linked %}
+        <a href="#" class="btn btn-block btn-outline-primary" disabled>
+          <i class="fa fa-{{ account }}" aria-hidden="true"></i> {{ account|title }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if unlinked %}
+    <h2 class="mb-4">{{ _('Unlinked Accounts') }}</h2>
+    <div class="row">
+      <div class="col-md">
+        {% for account in unlinked %}
+        <a href="#" class="btn btn-outline-secondary">
+          <i class="fab fa-{{ account }}"></i> {{ account|title }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -3,8 +3,19 @@
 {% block body_class %}hold-transition sidebar-mini layout-fixed{% endblock %}
 {% block wrapper %}
   {% block menu_header %}{% include "_include/header.html" %}{% endblock %}
-  {# block menu_sidebar %}{% include "_include/sidebar.html" %}{% endblock #}
+  {% block menu_sidebar %}{% include "_include/sidebar.html" %}{% endblock %}
   <div class="content-wrapper">
-    {% block content %}{% endblock content_wrapper %}
+    <section class="content-header">
+      <div class="content-fluid">
+        {% block content_header %}{% endblock %}
+      </div>
+    </section>
+    <section class="content">
+      <div class="container-fluid">
+        {% block content %}{% endblock %}
+      </div>
+    </section>
   </div>
+
+{% include '_include/notification_toast.html' %}
 {% endblock %}

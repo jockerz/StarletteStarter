@@ -1,0 +1,63 @@
+{% with current_url = request.url.path %}
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+    <a href="#" class="brand-link pl-4">
+        <span class="brand-text font-weight-bold">Starlette Starter</span>
+    </a>
+    <div class="sidebar">
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" style="font-size: 15px;">
+          <li class="nav-item">
+            <a href="/" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>{{ _("Home") }}</p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview {% if in_settings %}menu-open{% endif %}">
+            <a href="#" class="nav-link {% if in_settings %}active{% endif %}">
+              <i class="nav-icon fas fa-user-cog"></i>
+              <p>
+                {{ _("Account Settings") }}
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {% with url = url_for('account:profile_settings') %}
+                <a href="{{ url }}" class="nav-link {% if current_url == url.path %}active{% endif %}">
+                  <i class="nav-icon fas fa-user-edit"></i>
+                  <p>{{ _("Profile") }}</p>
+                </a>
+                {% endwith %}
+              </li>
+              <li class="nav-item">
+                {% with url = url_for('account:email_settings') %}
+                <a href="{{ url }}" class="nav-link {% if current_url == url.path %}active{% endif %}">
+                  <i class="nav-icon fas fa-at"></i>
+                  <p>{{ _("Email") }}</p>
+                </a>
+                {% endwith %}
+              </li>
+              <li class="nav-item">
+                {% with url = url_for('account:update_password') %}
+                <a href="{{ url }}" class="nav-link {% if current_url == url.path %}active{% endif %}">
+                  <i class="nav-icon fas fa-key"></i>
+                  <p>{{ _("Password") }}</p>
+                </a>
+                {% endwith %}
+              </li>
+              <li class="nav-item">
+                {% with url = url_for('oauth2:linked_accounts') %}
+                <a href="{{ url }}" class="nav-link {% if current_url == url.path %}active{% endif %}">
+                  <i class="nav-icon fas fa-link"></i>
+                  <p>{{ _("Linked Account") }}</p>
+                </a>
+                {% endwith %}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+{% endwith %}

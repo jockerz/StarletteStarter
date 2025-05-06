@@ -1,5 +1,18 @@
-{% extends '_layout/base.html' %}
-{% block title %}404 {{ _('Not Found') }}{% endblock %}
-{% block wrapper %}
-404
+{% extends '_layout/no-sidebar.html' %}
+{% block title %}404 - {{ _('Not Found') }}{% endblock %}
+
+{% block content_wrapper %}
+  <div class="container py-4">
+    <div class="error-page">
+      <h2 class="headline text-warning">404</h2>
+
+      <div class="error-content">
+        <h3><i class="fas fa-exclamation-triangle text-warning"></i> {{ _('Not found') }}.</h3>
+        <p>
+          {{ _('The page or item you are looking for is not exists') }}.<br/>
+          {{ _('Meanwhile, you may') }} <a href="/">{{ _('return to home') }}</a>.
+        </p>
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -3,7 +3,20 @@
 {% block title %}{{ _('Home') }}{% endblock %}
 {% block page_title %}{{ _('Home') }}{% endblock %}
 
+{% block style_plugins %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/plugins/sweetalert2/sweetalert2.min.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}" />
+{% endblock %}
+
 {% block content_header %}{% endblock %}
 
 {% block content %}
+{% endblock %}
+
+{% block js_plugins %}
+<script src="{{ url_for('static', path='/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+{% endblock %}
+
+{% block js %}
+{% include '_include/notification_toast.html' %}
 {% endblock %}

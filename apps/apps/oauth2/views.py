@@ -56,6 +56,7 @@ async def authorize(request):
     if provider == ProviderEnum.github:
         resp = await client.get('user', token=token)
         profile = resp.json()
+        print(f'github profile: {profile}')
         resp = await client.get('user/public_emails', token=token)
         public_emails = resp.json()
         provider_uid = profile['id']
