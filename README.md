@@ -1,3 +1,6 @@
+Frontend Choice : _Tabler_ | [AdminLTE](https://github.com/jockerz/StarletteStarter/tree/adminlte)
+
+
 # Introduction
 
 This is a full web app using [Starlette][Starlette].
@@ -294,6 +297,11 @@ pytest
 ```
 
 # Changes
+
+## 2025-05-06
+
+ - Add new branch [AdminLTE](https://github.com/jockerz/StarletteStarter/tree/adminlte)
+
 
 ## 2024-11-8
 
