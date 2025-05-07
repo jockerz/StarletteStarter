@@ -66,6 +66,12 @@ This project exists with the help of some of really great tools.
 - OAuth2 (GitHub and Google)
 
 
+## Clone the Repository
+
+```sh
+git clone --depth=1 https://github.com/jockerz/StarletteStarter
+```
+
 ## Application Configuration
 
 Application configuration is required as on `.env.example`.
