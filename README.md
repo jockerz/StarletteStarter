@@ -125,6 +125,21 @@ asyncpg
 DATABASE_URL=postgresql+asyncpg://USER:PASSWORD@127.0.0.1/DATABASE_NAME
 ```
 
+## Install Python Modules
+
+```sh
+# Create Virtualenv 
+virtualenv -ppython3 venv
+
+# Activate virtualenv
+source venv/bin/activate
+
+# Install modules
+pip install -r requirements/apps.txt
+```
+
+
+
 ### Create Tables
 
 ```bash
