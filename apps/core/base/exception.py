@@ -96,6 +96,7 @@ class BaseAppException(_BaseException):
 
     def get_context(self, request: Request) -> dict:
         return {
+            'status_code': self.status_code,
             'request': request,
             'title': self.title,
             'message': self.detail,
