@@ -5,6 +5,8 @@ from dataclasses import dataclass, field
 from jinja2.utils import pass_context
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
+from apps.utils.i18n import convert_lazy_string
+
 
 FLASH_SESSION_NAME = '_flash'
 
@@ -20,7 +22,8 @@ class Notification:
     category: t.Literal['notification', 'alert'] = field(default='notification')
 
     def as_flash_data(self):
-        return self.icon, json.dumps(self.__dict__)
+        json_data = convert_lazy_string(self.__dict__)
+        return self.icon, json.dumps(json_data)
 
     @classmethod
     def pop(cls, request: Request, icon: str = None):
