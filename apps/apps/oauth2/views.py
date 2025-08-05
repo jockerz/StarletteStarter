@@ -1,5 +1,6 @@
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
+from starlette_babel import gettext_lazy as _
 from starlette_login.decorator import login_required
 from starlette_login.utils import login_user
 
@@ -22,24 +23,33 @@ from .utils import (
 )
 
 logged_in_notif = Notification(
-    icon='success', title='Your are already logged in'
+    icon='success',
+    title=_('Your are already logged in')
 )
 login_notif = Notification(
-    icon='success', title='Third party authentication complete'
+    icon='success',
+    title=_('Third party authentication complete')
 )
 register_notif = Notification(
-    icon='success', title='Third party registration complete'
+    icon='success',
+    title=_('Third party registration complete')
 )
 link_success_notif = Notification(
-    icon='success', title='Third party account is linked'
+    icon='success',
+    title=_('Third party account is linked')
 )
 linked_error_notif = Notification(
-    icon='error', title='The third party account has already been linked'
+    icon='error',
+    title=_('The third party account has already been linked')
 )
 unlinked_notif = Notification(
-    icon='success', title='The third party account has already been unlinked'
+    icon='success',
+    title=_('The third party account has already been unlinked')
 )
-unlinked_error_notif = Notification(icon='error', title='Invalid third party')
+unlinked_error_notif = Notification(
+    icon='error',
+    title=_('Invalid third party')
+)
 
 
 async def authorize(request):

@@ -1,6 +1,7 @@
 from starlette.exceptions import HTTPException
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
+from starlette_babel import gettext_lazy as _
 from starlette_login.utils import login_user, logout_user
 from starlette_wtf import csrf_protect
 
@@ -22,13 +23,14 @@ from .tasks import send_activation_message, send_reset_password
 
 logger = get_logger()
 
-login_success_notif = Notification(icon='success', title='Login Success')
+login_success_notif = Notification(icon='success', title=_('Login Success'))
 login_failed_notif = Notification(
-    text='Invalid username or password',
-    icon='error', title='Authentication Failed'
+    text=_('Invalid username or password'),
+    icon='error',
+    title=_('Authentication Failed')
 )
 login_inactive_notif = Notification(
-    title='Account activation is required', category='alert'
+    title=_('Account activation is required'), category='alert'
 )
 
 
@@ -90,15 +92,15 @@ async def register_page(request: Request):
     if await form.validate_on_submit():
         if await UserCRUD.email_is_registered(db, form.email.data):
             form.email.errors.append(
-                'Email has been registered, please use another'
+                _('Email has been registered, please use another')
             )
         elif await UserCRUD.username_is_registered(db, form.username.data):
             form.username.errors.append(
-                'Username has been registered, please use another'
+                _('Username has been registered, please use another')
             )
         elif form.password.data != form.confirm.data:
             form.confirm.errors.append(
-                'Password confirmation is not equal with the first password'
+                _('Password confirmation is not equal with the first password')
             )
         else:
             user = await UserCRUD.create(
@@ -117,10 +119,12 @@ async def register_page(request: Request):
             await db.commit()
 
             sent_to = activation.notif_type.name.lower()
+            notif_text = 'Activation URL is being sent to your {sent_to}'
             Notification(
-                title='Registration complete',
-                category='alert', icon='success',
-                text=f'Activation URL is being sent to your {sent_to}'
+                title=_('Registration complete'),
+                category='alert',
+                icon='success',
+                text=notif_text.format(sent_to=sent_to)
             ).push(request)
 
             activation_url = request.url_for(
@@ -148,7 +152,7 @@ async def activation_page(request: Request):
     code = request.path_params['code']
     secret = request.path_params['secret']
     if not code or not secret:
-        raise HTTPException(404, 'Invalid activation code')
+        raise HTTPException(404, _('Invalid activation code'))
 
     success = False
     activation = await ActivationCRUD.get(db, code)
@@ -156,14 +160,14 @@ async def activation_page(request: Request):
         context = {
             'request': request,
             'success': False,
-            'reason': 'Invalid activation code'
+            'reason': _('Invalid activation code')
         }
         return templates.TemplateResponse('main/activation.html', context)
     elif activation.is_complete:
         context = {
             'request': request,
             'success': False,
-            'reason': 'Activation has been complete'
+            'reason': _('Activation has been complete')
         }
         return templates.TemplateResponse('main/activation.html', context)
     elif activation.is_expired():
@@ -171,7 +175,7 @@ async def activation_page(request: Request):
             'activation': activation,
             'request': request,
             'success': False,
-            'reason': 'Activation has been expired'
+            'reason': _('Activation has been expired')
         }
         return templates.TemplateResponse('main/activation.html', context)
 
@@ -180,7 +184,7 @@ async def activation_page(request: Request):
         logger.warning(f"Invalid user for activation code: {code}")
         reason = 'Invalid activation user'
     elif user.is_active:
-        Notification(title='User is already active').push(request)
+        Notification(title=_('User is already active')).push(request)
         return RedirectResponse('/login', 302)
     else:
         success, reason = ActivationCRUD.validate_secret(activation, secret)
@@ -211,15 +215,15 @@ async def refresh_activation_page(request: Request):
     elif activation.is_complete:
         context = {
             'request': request, 'success': False,
-            'reason': 'Activation has been complete'
+            'reason': _('Activation has been complete')
         }
         return templates.TemplateResponse('main/activation.html', context)
 
     user = await UserCRUD.get_by_id(db, activation.user_id)
     if user is None:
-        raise HTTPException(404, 'Invalid activation code')
+        raise HTTPException(404, _('Invalid activation code'))
     elif user.is_active:
-        Notification(title='User is already active').push(request)
+        Notification(title=_('User is already active')).push(request)
         return RedirectResponse('/login', 302)
     else:
         secret = await ActivationCRUD.refresh(db, activation)
@@ -234,10 +238,11 @@ async def refresh_activation_page(request: Request):
                 arq, recipient=activation.target,
                 activation_url=activation_url
             )
+            notif_text = _('New activation code is being sent to your {sent_to}')
             Notification(
-                category='alert', icon='success',
-                title=f'New activation code is being sent to '
-                      f'your {sent_to}',
+                category='alert',
+                icon='success',
+                title=notif_text.format(sent_to=sent_to)
             ).push(request)
     context = {'request': request, 'sent_to': sent_to}
     return templates.TemplateResponse('main/activation-refresh.html', context)
@@ -266,7 +271,7 @@ async def forgot_password_page(request: Request):
         if user is None:
             # Just send them a notification
             Notification(
-                title=f'Password reset link has been sent to your email',
+                title=_('Password reset link has been sent to your email'),
                 category='alert'
             ).push(request)
         else:
@@ -279,9 +284,10 @@ async def forgot_password_page(request: Request):
                 logger.debug(f"reset link: {reset_url}")
             else:
                 await send_reset_password(arq, reset.target, reset_url)
+
+            notif_text = _('Password reset link has been sent to {masked_email}')
             Notification(
-                title=f'Password reset link has been sent to '
-                      f'{mask_email(reset.target)}',
+                title=notif_text.format(masked_email=mask_email(reset.target)),
                 category='alert'
             ).push(request)
 
@@ -297,11 +303,11 @@ async def reset_password_page(request: Request):
     code = request.path_params['code']
     secret = request.path_params['secret']
     if not code or not secret:
-        raise HTTPException(404, 'Invalid password reset token')
+        raise HTTPException(404, _('Invalid password reset token'))
 
     reset = await ResetCRUD.get(db, code)
     if reset is None:
-        raise HTTPException(404, 'Invalid password reset code')
+        raise HTTPException(404, _('Invalid password reset code'))
 
     user = await UserCRUD.get_by_id(db, reset.user_id)
     if user is None:
@@ -318,7 +324,7 @@ async def reset_password_page(request: Request):
         await db.commit()
 
         Notification(
-            title='Password reset is complete', icon='success'
+            title=_('Password reset is complete'), icon='success'
         ).push(request)
 
         next_url = validate_next_url(request.query_params.get('next', '/'))

@@ -1,29 +1,31 @@
 # Translations template for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
+# Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-15 23:38+0700\n"
+"POT-Creation-Date: 2025-08-05 16:54+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.12.1\n"
 
 #: apps/apps/account/forms.py:10 apps/apps/main/forms.py:11
 #: apps/apps/main/forms.py:28 apps/apps/main/forms.py:61
-#: templates/main/login.html:23
+#: templates/_include/sidebar.html:45 templates/account/email_settings.html:28
+#: templates/main/login.html:26 templates/main/register.html:37
+#: templates/main/reset-password.html:14
 msgid "Password"
 msgstr ""
 
-#: apps/apps/account/forms.py:16
+#: apps/apps/account/forms.py:16 templates/account/password_update.html:26
 msgid "New Password"
 msgstr ""
 
@@ -38,7 +40,8 @@ msgid "Minimal 8 characters"
 msgstr ""
 
 #: apps/apps/account/forms.py:23 apps/apps/main/forms.py:34
-#: apps/apps/main/forms.py:67
+#: apps/apps/main/forms.py:67 templates/account/password_update.html:36
+#: templates/main/register.html:48 templates/main/reset-password.html:25
 msgid "Confirm Password"
 msgstr ""
 
@@ -46,7 +49,8 @@ msgstr ""
 msgid "Passwords don't match"
 msgstr ""
 
-#: apps/apps/account/forms.py:29
+#: apps/apps/account/forms.py:29 templates/account/profile_settings.html:19
+#: templates/account/profile_settings.html:21 templates/main/register.html:59
 msgid "Name"
 msgstr ""
 
@@ -54,7 +58,57 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: apps/apps/account/crud/activation.py:42
+#: apps/apps/account/views.py:40
+msgid "Updates saved"
+msgstr ""
+
+#: apps/apps/account/views.py:54 apps/apps/account/views.py:101
+msgid "Invalid password"
+msgstr ""
+
+#: apps/apps/account/views.py:57
+msgid "Password has been updated"
+msgstr ""
+
+#: apps/apps/account/views.py:79
+msgid "Profile image updated"
+msgstr ""
+
+#: apps/apps/account/views.py:82
+msgid "Profile image update failed"
+msgstr ""
+
+#: apps/apps/account/views.py:103
+msgid "Email not changed"
+msgstr ""
+
+#: apps/apps/account/views.py:109
+msgid "Email update URL is being sent to {new_email}"
+msgstr ""
+
+#: apps/apps/account/views.py:111
+msgid "Visit Email update URL to save email changes"
+msgstr ""
+
+#: apps/apps/account/views.py:136 apps/apps/account/views.py:149
+#: apps/apps/main/views.py:155 apps/apps/main/views.py:163
+#: apps/apps/main/views.py:224
+msgid "Invalid activation code"
+msgstr ""
+
+#: apps/apps/account/views.py:140
+msgid "Invalid Email Update URL"
+msgstr ""
+
+#: apps/apps/account/views.py:142
+msgid "Email Update link has been used"
+msgstr ""
+
+#: apps/apps/account/views.py:144
+msgid "Email Update link has been expired"
+msgstr ""
+
+#: apps/apps/account/crud/activation.py:42 apps/apps/main/views.py:178
 msgid "Activation has been expired"
 msgstr ""
 
@@ -70,15 +124,15 @@ msgstr ""
 msgid "False Activation secret"
 msgstr ""
 
-#: apps/apps/main/forms.py:10 templates/main/login.html:12
+#: apps/apps/main/forms.py:10 templates/main/login.html:15
 msgid "Email or Username"
 msgstr ""
 
-#: apps/apps/main/forms.py:12 templates/main/login.html:38
+#: apps/apps/main/forms.py:12 templates/main/login.html:41
 msgid "Remember Me"
 msgstr ""
 
-#: apps/apps/main/forms.py:17
+#: apps/apps/main/forms.py:17 templates/main/register.html:15
 msgid "Email address"
 msgstr ""
 
@@ -114,8 +168,101 @@ msgstr ""
 msgid "Agree to the terms is required to register"
 msgstr ""
 
+#: apps/apps/main/views.py:26
+msgid "Login Success"
+msgstr ""
+
+#: apps/apps/main/views.py:28
+msgid "Invalid username or password"
+msgstr ""
+
+#: apps/apps/main/views.py:30
+msgid "Authentication Failed"
+msgstr ""
+
+#: apps/apps/main/views.py:33
+msgid "Account activation is required"
+msgstr ""
+
+#: apps/apps/main/views.py:95
+msgid "Email has been registered, please use another"
+msgstr ""
+
+#: apps/apps/main/views.py:99
+msgid "Username has been registered, please use another"
+msgstr ""
+
+#: apps/apps/main/views.py:103
+msgid "Password confirmation is not equal with the first password"
+msgstr ""
+
+#: apps/apps/main/views.py:124
+msgid "Registration complete"
+msgstr ""
+
+#: apps/apps/main/views.py:170 apps/apps/main/views.py:218
+msgid "Activation has been complete"
+msgstr ""
+
+#: apps/apps/main/views.py:187 apps/apps/main/views.py:226
+msgid "User is already active"
+msgstr ""
+
+#: apps/apps/main/views.py:241
+msgid "New activation code is being sent to your {sent_to}"
+msgstr ""
+
+#: apps/apps/main/views.py:274
+msgid "Password reset link has been sent to your email"
+msgstr ""
+
+#: apps/apps/main/views.py:288
+msgid "Password reset link has been sent to {masked_email}"
+msgstr ""
+
+#: apps/apps/main/views.py:306
+msgid "Invalid password reset token"
+msgstr ""
+
+#: apps/apps/main/views.py:310
+msgid "Invalid password reset code"
+msgstr ""
+
+#: apps/apps/main/views.py:327
+msgid "Password reset is complete"
+msgstr ""
+
+#: apps/apps/oauth2/views.py:27
+msgid "Your are already logged in"
+msgstr ""
+
+#: apps/apps/oauth2/views.py:31
+msgid "Third party authentication complete"
+msgstr ""
+
+#: apps/apps/oauth2/views.py:35
+msgid "Third party registration complete"
+msgstr ""
+
+#: apps/apps/oauth2/views.py:39
+msgid "Third party account is linked"
+msgstr ""
+
+#: apps/apps/oauth2/views.py:43
+msgid "The third party account has already been linked"
+msgstr ""
+
+#: apps/apps/oauth2/views.py:47
+msgid "The third party account has already been unlinked"
+msgstr ""
+
+#: apps/apps/oauth2/views.py:51
+msgid "Invalid third party"
+msgstr ""
+
 #: templates/_include/header-in-container.html:27
-#: templates/_include/header.html:27
+#: templates/_include/header.html:27 templates/_include/sidebar.html:29
+#: templates/account/profile.html:3 templates/account/profile.html:8
 msgid "Profile"
 msgstr ""
 
@@ -130,41 +277,240 @@ msgid "Logout"
 msgstr ""
 
 #: templates/_include/header-in-container.html:39
-#: templates/_include/header.html:39 templates/main/login.html:3
-#: templates/main/login.html:4
+#: templates/_include/header.html:39 templates/main/activation.html:25
+#: templates/main/forgot-password.html:24 templates/main/login.html:3
+#: templates/main/login.html:4 templates/main/register.html:94
+#: templates/main/reset-password.html:40
 msgid "Login"
 msgstr ""
 
 #: templates/_include/header-in-container.html:41
-#: templates/_include/header.html:41 templates/main/login.html:56
+#: templates/_include/header.html:41 templates/main/forgot-password.html:3
+#: templates/main/forgot-password.html:4 templates/main/login.html:60
+#: templates/main/register.html:3 templates/main/register.html:4
+#: templates/main/register.html:86
 msgid "Register"
+msgstr ""
+
+#: templates/_include/sidebar.html:13 templates/main/home.html:3
+#: templates/main/home.html:4
+msgid "Home"
+msgstr ""
+
+#: templates/_include/sidebar.html:20 templates/account/profile_settings.html:5
+msgid "Account Settings"
+msgstr ""
+
+#: templates/_include/sidebar.html:37 templates/account/email_settings.html:15
+#: templates/account/email_settings.html:18
+msgid "Email"
+msgstr ""
+
+#: templates/_include/sidebar.html:53
+msgid "Linked Account"
 msgstr ""
 
 #: templates/_layout/base.html:6
 msgid "StarletteStarter-AdminLTE"
 msgstr ""
 
+#: templates/account/email_settings.html:5
+msgid "Email Settings"
+msgstr ""
+
+#: templates/account/email_settings.html:25
+msgid "Password (for confirmation)"
+msgstr ""
+
+#: templates/account/email_settings.html:41
+#: templates/account/password_update.html:52
+#: templates/account/profile_settings.html:49
+#: templates/main/forgot-password.html:20 templates/main/reset-password.html:36
+msgid "Submit"
+msgstr ""
+
+#: templates/account/email_update.html:3
+msgid "Email Update"
+msgstr ""
+
+#: templates/account/password_update.html:5
+msgid "Password Settings"
+msgstr ""
+
+#: templates/account/password_update.html:16
+msgid "Previous Password"
+msgstr ""
+
+#: templates/account/password_update.html:19
+msgid "Your previous password"
+msgstr ""
+
+#: templates/account/password_update.html:29
+msgid "New password"
+msgstr ""
+
+#: templates/account/password_update.html:39
+msgid "Confirm password"
+msgstr ""
+
+#: templates/account/profile_settings.html:25
+#: templates/account/profile_settings.html:27 templates/main/register.html:26
+msgid "Username"
+msgstr ""
+
+#: templates/account/profile_settings.html:33
+msgid "User profile picture"
+msgstr ""
+
+#: templates/account/profile_settings.html:38
+msgid "Change Avatar"
+msgstr ""
+
+#: templates/account/profile_settings.html:61
+msgid "Upload Image File"
+msgstr ""
+
+#: templates/account/profile_settings.html:62
+#: templates/account/profile_settings.html:84
+msgid "Close"
+msgstr ""
+
+#: templates/account/profile_settings.html:71
+msgid "Select image"
+msgstr ""
+
+#: templates/account/profile_settings.html:75
+msgid "Choose file"
+msgstr ""
+
+#: templates/account/profile_settings.html:78
+msgid "Upload"
+msgstr ""
+
+#: templates/account/profile_settings.html:86
+msgid "Select"
+msgstr ""
+
+#: templates/account/parts/account-settings.js:53
+msgid "Profile picture updated. Reloading..."
+msgstr ""
+
+#: templates/account/parts/account-settings.js:62
+msgid "Image upload failed. Please try again later."
+msgstr ""
+
 #: templates/errors/404.html:2
 msgid "Not Found"
+msgstr ""
+
+#: templates/errors/404.html:10
+msgid "Not found"
+msgstr ""
+
+#: templates/errors/404.html:12
+msgid "The page or item you are looking for is not exists"
+msgstr ""
+
+#: templates/errors/404.html:13 templates/errors/default.html:14
+msgid "Meanwhile, you may"
+msgstr ""
+
+#: templates/errors/404.html:13 templates/errors/default.html:14
+msgid "return to home"
 msgstr ""
 
 #: templates/errors/default.html:2 templates/errors/default.html:3
 msgid "Server Error"
 msgstr ""
 
-#: templates/errors/default.html:15
-msgid "return to home"
+#: templates/errors/default.html:11
+msgid "Oops! Something went wrong."
 msgstr ""
 
-#: templates/main/home.html:3 templates/main/home.html:4
-msgid "Home"
+#: templates/errors/default.html:13
+msgid "We will work on fixing that right away."
 msgstr ""
 
-#: templates/main/login.html:7
+#: templates/main/activation.html:3 templates/main/activation.html:4
+#: templates/main/activation.html:7
+msgid "Account Activation"
+msgstr ""
+
+#: templates/main/activation.html:10
+msgid "Account activation success"
+msgstr ""
+
+#: templates/main/activation.html:12
+msgid "Invalid Activation Code"
+msgstr ""
+
+#: templates/main/activation.html:14
+msgid "Resend the Activation URL to your"
+msgstr ""
+
+#: templates/main/activation.html:18
+msgid "Resend activation URL"
+msgstr ""
+
+#: templates/main/forgot-password.html:7
+msgid "Forgot Password"
+msgstr ""
+
+#: templates/main/forgot-password.html:13
+msgid "Email address or username"
+msgstr ""
+
+#: templates/main/forgot-password.html:27 templates/main/register.html:10
+msgid "Register a new account"
+msgstr ""
+
+#: templates/main/login.html:10
 msgid "Login into your account"
 msgstr ""
 
-#: templates/main/login.html:53
+#: templates/main/login.html:47
+msgid "Sign In"
+msgstr ""
+
+#: templates/main/login.html:57
 msgid "I forgot my password"
+msgstr ""
+
+#: templates/main/login.html:60
+msgid "Don't have account yet?"
+msgstr ""
+
+#: templates/main/register.html:75
+msgid "Agree with"
+msgstr ""
+
+#: templates/main/register.html:75
+msgid "terms and policy"
+msgstr ""
+
+#: templates/main/register.html:94
+msgid "Already have account"
+msgstr ""
+
+#: templates/main/register.html:115
+msgid "Registration Failed"
+msgstr ""
+
+#: templates/main/register.html:117
+msgid "Agree to terms and policy is required to register"
+msgstr ""
+
+#: templates/main/reset-password.html:3 templates/main/reset-password.html:4
+#: templates/main/reset-password.html:7
+msgid "Reset Password"
+msgstr ""
+
+#: templates/oauth2/link_social_account.html:5
+#: templates/oauth2/link_social_account.html:12
+msgid "Linked Accounts"
+msgstr ""
+
+#: templates/oauth2/link_social_account.html:25
+msgid "Unlinked Accounts"
 msgstr ""
 

@@ -1,4 +1,5 @@
 from arq import ArqRedis
+from starlette.datastructures import URL
 
 from apps.core.logger import get_logger
 from apps.utils.mail import Message
@@ -16,7 +17,7 @@ Password update URL is {validation_url}
 
 
 async def send_validate_email(
-    arq: ArqRedis, recipient: str, validation_url: str
+    arq: ArqRedis, recipient: str, validation_url: str | URL
 ):
     message = Message.create_html(
         mail_to=recipient,
