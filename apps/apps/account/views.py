@@ -1,6 +1,7 @@
 from starlette.exceptions import HTTPException
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
+from starlette_babel import gettext_lazy as _
 from starlette_login.decorator import login_required
 
 from apps.const import DIR_MEDIA
@@ -36,7 +37,7 @@ async def profile_settings_page(request: Request):
     form = await UpdateProfileForm.from_formdata(request)
     if await form.validate_on_submit():
         await UserCRUD.update_data(db, user.id, form.name.data)
-        Notification(title='Updates saved').push(request)
+        Notification(title=_('Updates saved')).push(request)
 
     form_photo = await UpdatePhotoForm.from_formdata(request)
     context = {'request': request, 'form_photo': form_photo, 'form': form}
@@ -53,7 +54,7 @@ async def update_password_page(request: Request):
             form.old_password.errors.append('Invalid password')
         else:
             await UserCRUD.update_password(db, user.id, form.password.data)
-            Notification(title='Password has been updated').push(request)
+            Notification(title=_('Password has been updated')).push(request)
 
     context = {'request': request, 'form': form}
     return templates.TemplateResponse('account/password_update.html', context)
@@ -75,12 +76,13 @@ async def update_photo_page(request: Request):
         image_file.save(PROFILE_PICTURE_DIR / filename_thumb, image_ext)
 
         await UserCRUD.update_photo(db, user.id, filename)
-        Notification(title='Profile image updated').push(request)
+        Notification(title=_('Profile image updated')).push(request)
     else:
         Notification(
-            title='Profile image update failed', icon='error'
+            title=_('Profile image update failed'),
+            icon='error'
         ).push(request)
-    return RedirectResponse(request.url_for('account:profile_settings'))
+    return RedirectResponse(request.url_for('account:profile_settings'), status_code=302)
 
 
 @login_required
@@ -90,18 +92,23 @@ async def email_settings_page(request: Request):
     form = await UpdateEmailForm.from_formdata(request)
     user: User = request.user
     if await form.validate_on_submit():
+        new_email = form.email.data.strip().lower()
+
         if not user.check_password(form.password.data):
-            form.password.errors.append('Invalid password')
+            form.password.errors.append(_('Invalid password'))
+        elif user.email == new_email:
+            form.email.errors.append(_('No email update'))
         else:
             arq = get_arq(request)
 
-            new_email = form.email.data.strip().lower()
             token, secret = await EmailUpdateCRUD.create(db, user, new_email)
 
+            notif_text = _('Email update URL is being sent to {new_email}')
             Notification(
-                title='Visit Email update URL to save email changes',
-                category='alert', icon='success',
-                text=f'Email update URL is being sent to {new_email}'
+                title=_('Open the confirmation link to save the email changes'),
+                category='alert',
+                icon='success',
+                text=notif_text.format(new_email=new_email)
             ).push(request)
 
             email_update_url = request.url_for(
@@ -123,20 +130,21 @@ async def email_update_page(request: Request):
     code = request.path_params['code']
     secret = request.path_params['secret']
     if not code or not secret:
-        raise HTTPException(404, 'Invalid activation code')
+        raise HTTPException(404, _('Invalid activation code'))
 
     token = await EmailUpdateCRUD.get(db, code)
     if token is None:
-        raise HTTPException(404, 'Invalid Email Update URL')
+        raise HTTPException(404, _('Invalid Email Update URL'))
     elif token.is_complete:
-        raise HTTPException(400, 'Email Update link has been used')
+        raise HTTPException(400, _('Email Update link has been used'))
     elif token.is_expired():
-        raise HTTPException(400, 'Email Update link has been expired')
+        raise HTTPException(400, _('Email Update link has been expired'))
 
     success, reason = EmailUpdateCRUD.validate_secret(token, secret)
     if success is False:
         Notification(
-            title='Invalid activation code', category='alert'
+            title=_('Invalid activation code'),
+            category='alert'
         ).push(request)
     else:
         await EmailUpdateCRUD.set_as_complete(db, token, user)

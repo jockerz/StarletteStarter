@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
+# Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-13 23:51+0700\n"
+"POT-Creation-Date: 2025-08-05 14:16+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,6 +55,54 @@ msgstr ""
 
 #: apps/apps/account/forms.py:33
 msgid "Image"
+msgstr ""
+
+#: apps/apps/account/views.py:40
+msgid "Updates saved"
+msgstr ""
+
+#: apps/apps/account/views.py:57
+msgid "Password has been updated"
+msgstr ""
+
+#: apps/apps/account/views.py:79
+msgid "Profile image updated"
+msgstr ""
+
+#: apps/apps/account/views.py:82
+msgid "Profile image update failed"
+msgstr ""
+
+#: apps/apps/account/views.py:98
+msgid "Invalid password"
+msgstr ""
+
+#: apps/apps/account/views.py:100
+msgid "No email update"
+msgstr ""
+
+#: apps/apps/account/views.py:106
+msgid "Email update URL is being sent to {new_email}"
+msgstr ""
+
+#: apps/apps/account/views.py:108
+msgid "Open the confirmation link to save the email changes"
+msgstr ""
+
+#: apps/apps/account/views.py:133 apps/apps/account/views.py:146
+msgid "Invalid activation code"
+msgstr ""
+
+#: apps/apps/account/views.py:137
+msgid "Invalid Email Update URL"
+msgstr ""
+
+#: apps/apps/account/views.py:139
+msgid "Email Update link has been used"
+msgstr ""
+
+#: apps/apps/account/views.py:141
+msgid "Email Update link has been expired"
 msgstr ""
 
 #: apps/apps/account/crud/activation.py:42
@@ -143,7 +191,7 @@ msgid "Register"
 msgstr ""
 
 #: templates/_layout/settings.html:17
-#: templates/account/profile_settings.html:14
+#: templates/account/profile_settings.html:15
 msgid "My Account"
 msgstr ""
 
@@ -161,6 +209,7 @@ msgid "Email"
 msgstr ""
 
 #: templates/account/email_settings.html:23
+#: templates/main/reset-password.html:20
 msgid "Your password"
 msgstr ""
 
@@ -171,8 +220,8 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: templates/account/email_update.html:2 templates/main/activation.html:2
-msgid "Account Activation"
+#: templates/account/email_update.html:2
+msgid "Email Update"
 msgstr ""
 
 #: templates/account/email_update.html:13
@@ -196,8 +245,7 @@ msgid "Email settings"
 msgstr ""
 
 #: templates/account/password_update.html:4
-#: templates/main/reset-password.html:2
-msgid "Reset Password"
+msgid "Edit Password"
 msgstr ""
 
 #: templates/account/password_update.html:15
@@ -221,15 +269,15 @@ msgstr ""
 msgid "Account Settings"
 msgstr ""
 
-#: templates/account/profile_settings.html:15
+#: templates/account/profile_settings.html:16
 msgid "Profile Photo"
 msgstr ""
 
-#: templates/account/profile_settings.html:22
+#: templates/account/profile_settings.html:23
 msgid "Change avatar"
 msgstr ""
 
-#: templates/account/profile_settings.html:27
+#: templates/account/profile_settings.html:28
 msgid "Account Name"
 msgstr ""
 
@@ -302,6 +350,10 @@ msgstr ""
 msgid "Already have account"
 msgstr ""
 
+#: templates/main/activation.html:2
+msgid "Account Activation"
+msgstr ""
+
 #: templates/main/activation.html:14
 msgid "Account activation success"
 msgstr ""
@@ -339,7 +391,7 @@ msgid "Email address or Username"
 msgstr ""
 
 #: templates/main/login.html:27
-msgid "I forgot password"
+msgid "I forgot my password"
 msgstr ""
 
 #: templates/main/login.html:45
@@ -360,6 +412,10 @@ msgstr ""
 
 #: templates/main/register.html:72
 msgid "terms and policy"
+msgstr ""
+
+#: templates/main/reset-password.html:2
+msgid "Reset Password"
 msgstr ""
 
 #: templates/main/reset-password.html:14 templates/main/reset-password.html:48
