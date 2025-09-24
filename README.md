@@ -86,6 +86,11 @@ cp .env.example .env
 mkdir -p files/{logs,pids}
 ```
 
+```shell
+mkdir -p media/account
+```
+
+
 ## Database
 
 ### SQLite
