@@ -10,7 +10,6 @@ window.addEventListener('DOMContentLoaded', function () {
 			return null;
     } else {
     	var done = function (url) {
-				image_input.value = '';
 				img_preview.src = url;
 			}
 

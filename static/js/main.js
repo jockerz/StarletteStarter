@@ -1,5 +1,36 @@
-// Theme switch
-!function(e){"function"==typeof define&&define.amd?define(e):e()}((function(){"use strict";var e,t="tablerTheme",n=new Proxy(new URLSearchParams(window.location.search),{get:function(e,t){return e.get(t)}});if(n.theme)localStorage.setItem(t,n.theme),e=n.theme;else{var o=localStorage.getItem(t);e=o||"light"}document.body.classList.remove("theme-dark","theme-light"),document.body.classList.add("theme-".concat(e))}));
 function setLang(language) {
     document.cookie = `language=${language}; samesite=lax; path=/`;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  var themeConfig = {
+    theme: "light",
+    "theme-base": "gray",
+    /*
+    "theme-font": "sans-serif",
+    "theme-primary": "blue",
+    "theme-radius": "1",
+    */
+  };
+
+  var url = new URL(window.location);
+  /*
+  var setTheme = document.documentElement.getAttribute('data-bs-theme');
+  var argTheme = url.searchParams.get('theme');
+  */
+
+  var checkItems = function () {
+
+    for (var key in themeConfig) {
+      var value = url.searchParams.get(key) || window.localStorage["tabler-" + key] || themeConfig[key];
+      if (!!value) {
+        document.documentElement.setAttribute("data-bs-" + key, value);
+        window.localStorage.setItem("tabler-" + key, value);
+        url.searchParams.delete(key);
+      }
+    }
+    // window.history.pushState({}, "", url);
+  };
+
+  checkItems();
+})

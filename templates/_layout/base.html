@@ -7,8 +7,7 @@
 
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/favicon.ico') }}" />
 	{% block style_plugins %}{% endblock %}
-	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css"> -->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/tabler/css/tabler.min.css') }}" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler.min.css" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/sweetalert2/sweetalert2.min.css') }}" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-flags.min.css">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/main.css') }}" />
@@ -23,8 +22,7 @@
 {% block js_plugins %}{% endblock %}
 <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 <script src="{{ url_for('static', path='/sweetalert2/sweetalert2.all.min.js') }}"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script> -->
-<script src="{{ url_for('static', path='/tabler/js/tabler.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/js/tabler.min.js"></script>
 {% include '_include/notification_toast.html' %}
 <script src="{{ url_for('static', path='/js/main.js') }}"></script>
 

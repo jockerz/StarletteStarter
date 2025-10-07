@@ -321,6 +321,11 @@ pytest
 
 # Changes
 
+## 2025-10-7
+
+- Update tabler @1.4.0 and use _cdn_
+
+
 ## 2025-05-06
 
  - Add new branch [AdminLTE](https://github.com/jockerz/StarletteStarter/tree/adminlte)

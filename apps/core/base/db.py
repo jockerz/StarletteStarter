@@ -54,7 +54,7 @@ class ValidationMixin:
     )
     refresh_date: Mapped[datetime] = mapped_column(nullable=True)
     expired_date: Mapped[datetime] = mapped_column(
-        default=datetime.now() + timedelta(days=3)
+        default=lambda: datetime.now() + timedelta(days=3)
     )
     complete_date: Mapped[t.Optional[datetime]] = mapped_column()
     is_complete: Mapped[bool] = mapped_column(default=False)
