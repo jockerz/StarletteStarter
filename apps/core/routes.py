@@ -63,9 +63,3 @@ def with_additional_routes(
     else:
         return core_routes + _routes
 
-
-def add_arq_dashboard_app(app: Starlette) -> None:
-    """404: Can not get assets"""
-    from workers.arq_dashboard import app as ad_app
-
-    app.mount('/arq_dashboard', ad_app)

@@ -6,7 +6,7 @@ from starlette_login.decorator import login_required
 
 from apps.const import DIR_MEDIA
 from apps.core.logger import get_logger
-from apps.extensions.dependencies import get_arq, get_config, get_db
+from apps.extensions.dependencies import get_config, get_db, get_saq
 from apps.extensions.template import templates
 from apps.utils.notification import Notification
 from .crud import EmailUpdateCRUD, UserCRUD
@@ -99,7 +99,7 @@ async def email_settings_page(request: Request):
         elif user.email == new_email:
             form.email.errors.append(_('No email update'))
         else:
-            arq = get_arq(request)
+            saq = get_saq(request)
 
             token, secret = await EmailUpdateCRUD.create(db, user, new_email)
 
@@ -117,7 +117,7 @@ async def email_settings_page(request: Request):
             if config.TESTING is True:
                 logger.debug(f"Email update link: {email_update_url}")
             else:
-                await send_validate_email(arq, new_email, email_update_url)
+                await send_validate_email(saq, new_email, email_update_url)
     context = {'request': request, 'form': form}
     return templates.TemplateResponse('account/email_settings.html', context)
 

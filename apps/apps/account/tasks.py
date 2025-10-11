@@ -1,4 +1,5 @@
-from arq import ArqRedis
+# from arq import ArqRedis
+from saq import Queue
 from starlette.datastructures import URL
 
 from apps.core.logger import get_logger
@@ -17,7 +18,7 @@ Password update URL is {validation_url}
 
 
 async def send_validate_email(
-    arq: ArqRedis, recipient: str, validation_url: str | URL
+    saq: Queue, recipient: str, validation_url: str | URL
 ):
     message = Message.create_html(
         mail_to=recipient,
@@ -26,4 +27,4 @@ async def send_validate_email(
         plain=TPL_UPDATE_EMAIL_TEXT.format(validation_url=validation_url),
     )
     logger.debug(f'sending email update email to={recipient}')
-    await arq.enqueue_job("send_message", message=message)
+    await saq.enqueue("send_message", message=message)

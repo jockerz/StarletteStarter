@@ -5,7 +5,7 @@ from starlette_login.utils import login_user, logout_user
 from starlette_wtf import csrf_protect
 
 from apps.core.logger import get_logger
-from apps.extensions.dependencies import get_arq, get_config, get_db
+from apps.extensions.dependencies import get_config, get_db, get_saq
 from apps.extensions.oauth2 import enabled_providers
 from apps.extensions.template import templates
 from apps.utils.notification import Notification
@@ -82,10 +82,10 @@ async def logout_page(request: Request) -> RedirectResponse:
 
 @csrf_protect
 async def register_page(request: Request):
-    arq = get_arq(request)
     config = get_config(request)
     db = get_db(request)
     form = await RegisterForm.from_formdata(request)
+    saq = get_saq(request)
 
     if await form.validate_on_submit():
         if await UserCRUD.email_is_registered(db, form.email.data):
@@ -130,7 +130,7 @@ async def register_page(request: Request):
                 logger.debug(f"activation link: {activation_url}")
             else:
                 await send_activation_message(
-                    arq, activation.target, activation_url
+                    saq, activation.target, activation_url
                 )
             return RedirectResponse('/login', 302)
 
@@ -193,9 +193,9 @@ async def activation_page(request: Request):
 
 
 async def refresh_activation_page(request: Request):
-    arq = get_arq(request)
     config = get_config(request)
     db = get_db(request)
+    saq = get_saq(request)
 
     code = request.path_params['code']
     if not code:
@@ -231,7 +231,7 @@ async def refresh_activation_page(request: Request):
         else:
             sent_to = activation.notif_type.name.lower()
             await send_activation_message(
-                arq, recipient=activation.target,
+                saq, recipient=activation.target,
                 activation_url=activation_url
             )
             Notification(
@@ -251,8 +251,8 @@ async def forgot_password_page(request: Request):
         next_url = validate_next_url(request.query_params.get('next', '/'))
         return RedirectResponse(request.url_for(next_url))
 
-    arq = get_arq(request)
     db = get_db(request)
+    saq = get_saq(request)
     form = await ForgotPasswordForm.from_formdata(request)
     context = {'request': request, 'form': form}
 
@@ -278,7 +278,7 @@ async def forgot_password_page(request: Request):
             if request.app.state.config.TESTING is True:
                 logger.debug(f"reset link: {reset_url}")
             else:
-                await send_reset_password(arq, reset.target, reset_url)
+                await send_reset_password(saq, reset.target, reset_url)
             Notification(
                 title=f'Password reset link has been sent to '
                       f'{mask_email(reset.target)}',

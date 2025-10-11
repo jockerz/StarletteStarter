@@ -26,3 +26,4 @@ scripts/try_db.py
 apps/core/more_routes.py
 scripts/reset_db.sh
 NOTE.md
+pip-freeze.txt

@@ -1,5 +1,6 @@
 aiosmtplib
 alembic
+# TODO: to be replaced by saq
 arq
 Authlib
 email-validator
@@ -8,6 +9,8 @@ gunicorn
 jinja2
 passlib
 Pillow
+# TODO: replacing arq
+saq[web,hiredis]
 secure
 sqlalchemy[asyncio]
 sqladmin

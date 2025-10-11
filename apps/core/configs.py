@@ -46,7 +46,7 @@ class Base:
     # Redis
     REDIS_HOST = env_config('REDIS_HOST', default='127.0.0.1') or '127.0.0.1'
     REDIS_PORT = handled_value_error('REDIS_PORT', cast=int, default=6379)
-    REDIS_USER = env_config('REDIS_USER')
+    REDIS_USER = env_config('REDIS_USER') or ''
     REDIS_PASS = env_config('REDIS_PASS')
     # REDIS_DB = handle_value_error('REDIS_DB', cast=int, default=0)
     REDIS_DB_ARQ = handled_value_error('REDIS_DB_ARQ', cast=int, default=0)

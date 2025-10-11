@@ -14,9 +14,10 @@ from apps.core.middlewares import build_middlewares
 from apps.core.routes import get_routes
 from apps.extensions.oauth2 import create_oauth2
 from .admin import create_admin
-from .arq import create_connection
+# from .arq import create_connection
 from .db import create_db_engine, create_db_session, create_scope_session
 from .login_manager import create_login_manager, get_middleware
+from .saq import create_queue
 from .secure import secure_headers
 from .template import templates
 
@@ -57,7 +58,8 @@ def create_application(
         await init_app(config, _db)
         login_manager.set_user_loader(user_loader)
 
-        app.state.arq = await create_connection(config)
+        # app.state.arq = await create_connection(config)
+        app.state.saq_queue = create_queue(config)
 
     # @app.on_event('shutdown')
     async def shutdown():

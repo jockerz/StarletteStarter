@@ -321,6 +321,11 @@ pytest
 
 # Changes
 
+## 2025-10-12
+
+- Try to use [saq][saq]
+
+
 ## 2025-10-7
 
 - Update tabler @1.4.0 and use _cdn_
@@ -355,6 +360,7 @@ pytest
 [authlib]: https://authlib.org
 [ethereal]: https://ethereal.email
 [Letsencrypt]: https://letsencrypt.org
+[saq]: https://saq-py.readthedocs.io
 [SQLAdmin]: https://aminalaee.dev/sqladmin
 [SQLAlchemy]: https://docs.sqlalchemy.org/en/20/
 [Starlette]: https://www.starlette.io
