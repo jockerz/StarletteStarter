@@ -1,6 +1,6 @@
 aiosmtplib
 alembic
-arq
+# arq
 Authlib
 email-validator
 fastapi
@@ -9,6 +9,7 @@ jinja2
 passlib
 Pillow
 secure
+saq[web,hiredis]
 sqlalchemy[asyncio]
 sqladmin
 sqlalchemy-utils

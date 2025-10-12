@@ -10,10 +10,11 @@ This project exists with the help of some of really great tools.
   for building async web services
 - [AdminLTE][AdminLTE]: Bootstrap Admin Dashboard Template
 - [SQLAlchemy][SQLAlchemy]: The Python SQL Toolkit and Object Relational Mapper
-- [Arq][arq]: Job queues and RPC in python with asyncio and redis
+- [Saq][saq]: Job queues and RPC in python with asyncio and redis
 - [SQLAdmin][SQLAdmin]: Admin interface for SQLAlchemy models
 - [Authlib][authlib]: The ultimate Python library in building OAuth and OpenID Connect servers
 - _And more..._
+
 
 ## Screenshots
 
@@ -323,6 +324,11 @@ pytest
 
 # Changes
 
+## 2025-10-12
+
+ - Try to use [saq][saq]
+
+
 ## 2025-05-07
 
  - Add new frontend AdminLTE
@@ -353,6 +359,7 @@ pytest
 [authlib]: https://authlib.org
 [ethereal]: https://ethereal.email
 [Letsencrypt]: https://letsencrypt.org
+[saq]: https://saq-py.readthedocs.io/
 [SQLAdmin]: https://aminalaee.dev/sqladmin
 [SQLAlchemy]: https://docs.sqlalchemy.org/en/20/
 [Starlette]: https://www.starlette.io

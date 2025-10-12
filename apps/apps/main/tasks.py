@@ -1,6 +1,6 @@
 import typing as t
 
-from arq import ArqRedis
+from saq import Queue
 from starlette.datastructures import URL
 
 from apps.core.logger import get_logger
@@ -26,7 +26,7 @@ Your password reset URL is {reset_url}
 
 
 async def send_activation_message(
-    arq: ArqRedis, recipient: str, activation_url: t.Union[str, URL]
+    saq: Queue, recipient: str, activation_url: t.Union[str, URL]
 ):
     message = Message.create_html(
         mail_to=recipient,
@@ -35,11 +35,11 @@ async def send_activation_message(
         plain=TPL_ACTIVATION_EMAIL_TEXT.format(activation_url=activation_url),
     )
     logger.debug(f'sending activation email to={recipient}')
-    await arq.enqueue_job("send_message", message=message)
+    await saq.enqueue("send_message", message=message)
 
 
 async def send_reset_password(
-    arq: ArqRedis, recipient: str, reset_url: URL
+    saq: Queue, recipient: str, reset_url: URL
 ):
     message = Message.create_html(
         mail_to=recipient,
@@ -48,4 +48,4 @@ async def send_reset_password(
         plain=TPL_RESET_EMAIL_TEXT.format(reset_url=reset_url),
     )
     logger.debug(f'sending reset email to={recipient}')
-    await arq.enqueue_job("send_message", message=message)
+    await saq.enqueue("send_message", message=message)
