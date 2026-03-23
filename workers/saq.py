@@ -3,13 +3,15 @@ from datetime import datetime
 from typing import Any
 
 from saq import CronJob, Queue
+from saq.types import Context
 
 from apps.core.configs import configs
 from apps.extensions.db import create_db_engine, create_db_session
+from apps.extensions.mail import send_message
 from apps.extensions.saq import create_queue
 
 
-async def cron(ctx):
+async def cron(ctx: Context):
     print(f'{datetime.now().isoformat()}')
 
 
@@ -37,7 +39,9 @@ async def after_process(ctx):
 
 settings = {
     'queue': create_queue(configs),
-    'functions': [],
+    'functions': [
+        send_message
+    ],
     'concurrency': 2,
     'cron_jobs': [
         CronJob(cron, cron="* * * * * */5")
