@@ -20,11 +20,11 @@ Password update URL is {validation_url}
 async def send_validate_email(
     saq: Queue, recipient: str, validation_url: str | URL
 ):
-    message = Message.create_html(
+    logger.debug(f'sending email update email to={recipient}')
+    await saq.enqueue(
+        "send_message",
         mail_to=recipient,
         subject="Email update validation URL",
         html=TPL_UPDATE_EMAIL_HTML.format(validation_url=validation_url),
         plain=TPL_UPDATE_EMAIL_TEXT.format(validation_url=validation_url),
     )
-    logger.debug(f'sending email update email to={recipient}')
-    await saq.enqueue("send_message", message=message)

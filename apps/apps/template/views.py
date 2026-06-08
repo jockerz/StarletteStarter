@@ -7,5 +7,5 @@ from apps.extensions.template import templates
 
 @login_required
 async def auth_required(request: Request):
-    context = {'request': request}
-    return templates.TemplateResponse('TEMPLATE_FILE.html', context)
+    context = {"request": request}
+    return templates.TemplateResponse(request, "TEMPLATE_FILE.html", context)
