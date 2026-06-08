@@ -1,14 +1,15 @@
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
 
-from apps.extensions.template import templates
 from apps.core.base.exception import BaseAPIException, BaseAppException
+from apps.extensions.template import templates
 
 
 # @app.exception_handler(404)
 def handle_not_found(request: Request, exc):
     return templates.TemplateResponse(
-        'errors/404.html',
+        request,
+        "errors/404.html",
         context={"request": request},
         status_code=404,
     )
@@ -20,14 +21,15 @@ def handle_app_exceptions(request: Request, exc: BaseAppException):
         return RedirectResponse(
             url=exc.redirect_url,
             status_code=exc.status_code,
-            headers=getattr(exc, 'headers', None)
+            headers=getattr(exc, "headers", None),
         )
     else:
         return templates.TemplateResponse(
-            'errors/default.html',
+            request,
+            "errors/default.html",
             exc.get_context(request),
             status_code=exc.status_code,
-            headers=getattr(exc, 'headers', None),
+            headers=getattr(exc, "headers", None),
         )
 
 
