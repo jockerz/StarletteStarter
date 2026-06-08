@@ -1,10 +1,10 @@
 import contextlib
 import logging
 
+from sqlalchemy.ext.asyncio import AsyncSession, async_scoped_session
 from starlette.applications import Starlette
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from sqlalchemy.ext.asyncio import async_scoped_session, AsyncSession
 
 from apps.apps.account.crud import UserCRUD
 from apps.core.admin import register_models
@@ -13,7 +13,9 @@ from apps.core.error_handlers import get_error_handlers
 from apps.core.middlewares import build_middlewares
 from apps.core.routes import get_routes
 from apps.extensions.oauth2 import create_oauth2
+
 from .admin import create_admin
+
 # from .arq import create_connection
 from .db import create_db_engine, create_db_session, create_scope_session
 from .login_manager import create_login_manager, get_middleware
@@ -21,7 +23,7 @@ from .saq import create_queue
 from .secure import secure_headers
 from .template import templates
 
-logger = logging.getLogger('uvicorn.error')
+logger = logging.getLogger("uvicorn.error")
 
 
 def create_application(
@@ -77,8 +79,10 @@ def create_application(
         await shutdown()
 
     app = Starlette(
-        debug=config.DEBUG, middleware=middleware,
-        routes=get_routes(config), lifespan=lifespan
+        debug=config.DEBUG,
+        middleware=middleware,
+        routes=get_routes(config),
+        lifespan=lifespan,
     )
 
     # Application states
@@ -110,7 +114,8 @@ def create_application(
             except Exception as exc:
                 logger.exception(exc)
                 response = templates.TemplateResponse(
-                    'errors/default.html', context={"request": request},
+                    request,
+                    "errors/default.html",
                     status_code=500,
                 )
                 await secure_headers.set_headers_async(response)
@@ -130,13 +135,13 @@ async def init_app(config: Base, db: AsyncSession):
     """create admin user"""
     # validate email, username and password
     if not config.ADMIN_EMAIL:
-        raise ValueError('Invalid ADMIN_EMAIL value')
+        raise ValueError("Invalid ADMIN_EMAIL value")
     elif not config.ADMIN_USERNAME:
-        raise ValueError('Invalid ADMIN_USERNAME value')
+        raise ValueError("Invalid ADMIN_USERNAME value")
     elif not config.ADMIN_PASSWORD:
-        raise ValueError('Invalid ADMIN_PASSWORD value')
+        raise ValueError("Invalid ADMIN_PASSWORD value")
     elif len(config.ADMIN_PASSWORD) < 8:
-        raise ValueError('Invalid ADMIN_PASSWORD length. min: 10')
+        raise ValueError("Invalid ADMIN_PASSWORD length. min: 10")
 
     if not await UserCRUD.get_by_username(db, config.ADMIN_USERNAME):
         await UserCRUD.create(
@@ -145,9 +150,10 @@ async def init_app(config: Base, db: AsyncSession):
             password=config.ADMIN_PASSWORD,
             email=config.ADMIN_EMAIL,
             name=config.ADMIN_NAME,
-            is_active=True, is_admin=True,
+            is_active=True,
+            is_admin=True,
         )
-        logger.info('Admin created')
+        logger.info("Admin created")
 
 
 # TODO: by oauth access token

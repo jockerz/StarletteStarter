@@ -1,17 +1,21 @@
-import typing as t
-from email.message import EmailMessage
-from email.mime.multipart import MIMEMultipart
-
 import aiosmtplib
 
 from apps.core.configs import Base
+from apps.utils.mail import Message
 
 
 async def send_message(
-    ctx: dict, message: t.Union[EmailMessage, MIMEMultipart]
+    ctx: dict,
+    recipient: str,
+    subject: str,
+    html: str,
+    plain: str,
 ):
     """Send email via smtp"""
     config: Base = ctx['config']
+    message = Message.create_html(
+        mail_to=recipient, subject=subject, html=html, plain=plain,
+    )
 
     await aiosmtplib.send(
         message,
