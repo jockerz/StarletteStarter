@@ -5,38 +5,34 @@ from starlette_babel import gettext_lazy as _
 from starlette_login.utils import login_user, logout_user
 from starlette_wtf import csrf_protect
 
+from apps.apps.account.crud import ActivationCRUD, ResetCRUD, UserCRUD
 from apps.core.logger import get_logger
 from apps.extensions.dependencies import get_config, get_db, get_saq
 from apps.extensions.oauth2 import enabled_providers
 from apps.extensions.template import templates
 from apps.utils.notification import Notification
-from apps.utils.url import validate_next_url
 from apps.utils.string import mask_email
-from apps.apps.account.crud import ActivationCRUD, UserCRUD, ResetCRUD
-from .forms import (
-    LoginForm,
-    RegisterForm,
-    ForgotPasswordForm,
-    ResetPasswordForm
-)
+from apps.utils.url import validate_next_url
+
+from .forms import ForgotPasswordForm, LoginForm, RegisterForm, ResetPasswordForm
 from .tasks import send_activation_message, send_reset_password
 
 logger = get_logger()
 
-login_success_notif = Notification(icon='success', title=_('Login Success'))
+login_success_notif = Notification(icon="success", title=_("Login Success"))
 login_failed_notif = Notification(
-    text=_('Invalid username or password'),
-    icon='error',
-    title=_('Authentication Failed')
+    text=_("Invalid username or password"),
+    icon="error",
+    title=_("Authentication Failed"),
 )
 login_inactive_notif = Notification(
-    title=_('Account activation is required'), category='alert'
+    title=_("Account activation is required"), category="alert"
 )
 
 
 async def home_page(request: Request):
-    context = {'request': request}
-    return templates.TemplateResponse('main/home.html', context=context)
+    context = {"request": request}
+    return templates.TemplateResponse(request, "main/home.html", context=context)
 
 
 @csrf_protect
@@ -47,7 +43,7 @@ async def login_page(request: Request):
 
     if await form.validate_on_submit():
         username = form.username.data
-        if '@' in username:
+        if "@" in username:
             user = await UserCRUD.get_by_email(db, username)
         else:
             user = await UserCRUD.get_by_username(db, username)
@@ -61,25 +57,21 @@ async def login_page(request: Request):
 
                 login_success_notif.push(request)
                 next_url = validate_next_url(
-                    request.query_params.get('next')
-                ) or request.url_for('home')
+                    request.query_params.get("next")
+                ) or request.url_for("home")
 
                 return RedirectResponse(next_url, status_code=302)
         else:
             login_failed_notif.push(request)
 
-    context = {
-        'request': request,
-        'form': form,
-        'providers': enabled_providers(config)
-    }
-    return templates.TemplateResponse('main/login.html', context)
+    context = {"request": request, "form": form, "providers": enabled_providers(config)}
+    return templates.TemplateResponse(request, "main/login.html", context)
 
 
 async def logout_page(request: Request) -> RedirectResponse:
     if request.user.is_authenticated:
         await logout_user(request)
-    return RedirectResponse(request.url_for('home'), 303)
+    return RedirectResponse(request.url_for("home"), 303)
 
 
 @csrf_protect
@@ -92,109 +84,100 @@ async def register_page(request: Request):
 
     if await form.validate_on_submit():
         if await UserCRUD.email_is_registered(db, form.email.data):
-            form.email.errors.append(
-                _('Email has been registered, please use another')
-            )
+            form.email.errors.append(_("Email has been registered, please use another"))
         elif await UserCRUD.username_is_registered(db, form.username.data):
             form.username.errors.append(
-                _('Username has been registered, please use another')
+                _("Username has been registered, please use another")
             )
         elif form.password.data != form.confirm.data:
             form.confirm.errors.append(
-                _('Password confirmation is not equal with the first password')
+                _("Password confirmation is not equal with the first password")
             )
         else:
             user = await UserCRUD.create(
-                db, username=form.username.data,
+                db,
+                username=form.username.data,
                 password=form.password.data,
                 email=form.email.data,
                 name=form.name.data,
-                commit=False
+                commit=False,
             )
-            activation, secret = await ActivationCRUD.create(
-                db, user, commit=False
-            )
+            activation, secret = await ActivationCRUD.create(db, user, commit=False)
 
             db.add(user)
             db.add(activation)
             await db.commit()
 
             sent_to = activation.notif_type.name.lower()
-            notif_text = 'Activation URL is being sent to your {sent_to}'
+            notif_text = "Activation URL is being sent to your {sent_to}"
             Notification(
-                title=_('Registration complete'),
-                category='alert',
-                icon='success',
-                text=notif_text.format(sent_to=sent_to)
+                title=_("Registration complete"),
+                category="alert",
+                icon="success",
+                text=notif_text.format(sent_to=sent_to),
             ).push(request)
 
             activation_url = request.url_for(
-                'activation', code=activation.code, secret=secret
+                "activation", code=activation.code, secret=secret
             )
             if config.TESTING is True:
                 logger.debug(f"activation link: {activation_url}")
             else:
-                await send_activation_message(
-                    saq, activation.target, activation_url
-                )
-            return RedirectResponse('/login', 302)
+                await send_activation_message(saq, activation.target, activation_url)
+            return RedirectResponse("/login", 302)
 
-    context = {
-        'request': request,
-        'form': form,
-        'providers': enabled_providers(config)
-    }
-    return templates.TemplateResponse('main/register.html', context)
+    context = {"request": request, "form": form, "providers": enabled_providers(config)}
+    return templates.TemplateResponse(request, "main/register.html", context)
 
 
 async def activation_page(request: Request):
     db = get_db(request)
 
-    code = request.path_params['code']
-    secret = request.path_params['secret']
+    code = request.path_params["code"]
+    secret = request.path_params["secret"]
     if not code or not secret:
-        raise HTTPException(404, _('Invalid activation code'))
+        raise HTTPException(404, _("Invalid activation code"))
 
     success = False
     activation = await ActivationCRUD.get(db, code)
     if activation is None:
         context = {
-            'request': request,
-            'success': False,
-            'reason': _('Invalid activation code')
+            "request": request,
+            "success": False,
+            "reason": _("Invalid activation code"),
         }
-        return templates.TemplateResponse('main/activation.html', context)
+        return templates.TemplateResponse(request, "main/activation.html", context)
     elif activation.is_complete:
         context = {
-            'request': request,
-            'success': False,
-            'reason': _('Activation has been complete')
+            "request": request,
+            "success": False,
+            "reason": _("Activation has been complete"),
         }
-        return templates.TemplateResponse('main/activation.html', context)
+        return templates.TemplateResponse(request, "main/activation.html", context)
     elif activation.is_expired():
         context = {
-            'activation': activation,
-            'request': request,
-            'success': False,
-            'reason': _('Activation has been expired')
+            "activation": activation,
+            "request": request,
+            "success": False,
+            "reason": _("Activation has been expired"),
         }
-        return templates.TemplateResponse('main/activation.html', context)
+        return templates.TemplateResponse(request, "main/activation.html", context)
 
     user = await UserCRUD.get_by_id(db, activation.user_id)
     if user is None:
         logger.warning(f"Invalid user for activation code: {code}")
-        reason = 'Invalid activation user'
+        reason = "Invalid activation user"
     elif user.is_active:
-        Notification(title=_('User is already active')).push(request)
-        return RedirectResponse('/login', 302)
+        Notification(title=_("User is already active")).push(request)
+        return RedirectResponse("/login", 302)
     else:
         success, reason = ActivationCRUD.validate_secret(activation, secret)
         if success is True:
             await ActivationCRUD.set_as_complete(db, activation, user)
-        if reason.lower() == 'False Activation secret'.lower():
-            reason = 'Invalid activation URL'
-    context = {'request': request, 'success': success, 'reason': reason}
-    return templates.TemplateResponse('main/activation.html', context)
+        if reason.lower() == "False Activation secret".lower():
+            reason = "Invalid activation URL"
+    context = {"request": request, "success": success, "reason": reason}
+    return templates.TemplateResponse(request, "main/activation.html", context)
 
 
 async def refresh_activation_page(request: Request):
@@ -202,52 +185,52 @@ async def refresh_activation_page(request: Request):
     db = get_db(request)
     saq = get_saq(request)
 
-    code = request.path_params['code']
+    code = request.path_params["code"]
     if not code:
-        raise HTTPException(404, 'Invalid activation code')
+        raise HTTPException(404, "Invalid activation code")
 
     activation = await ActivationCRUD.get(db, code)
     if activation is None:
         context = {
-            'request': request, 'success': False,
-            'reason': 'Invalid activation code'
+            "request": request,
+            "success": False,
+            "reason": "Invalid activation code",
         }
-        return templates.TemplateResponse('main/activation.html', context)
+        return templates.TemplateResponse(request, "main/activation.html", context)
     elif activation.is_complete:
         context = {
-            'request': request, 'success': False,
-            'reason': _('Activation has been complete')
+            "request": request,
+            "success": False,
+            "reason": _("Activation has been complete"),
         }
-        return templates.TemplateResponse('main/activation.html', context)
+        return templates.TemplateResponse(request, "main/activation.html", context)
 
     user = await UserCRUD.get_by_id(db, activation.user_id)
     if user is None:
-        raise HTTPException(404, _('Invalid activation code'))
+        raise HTTPException(404, _("Invalid activation code"))
     elif user.is_active:
-        Notification(title=_('User is already active')).push(request)
-        return RedirectResponse('/login', 302)
+        Notification(title=_("User is already active")).push(request)
+        return RedirectResponse("/login", 302)
     else:
         secret = await ActivationCRUD.refresh(db, activation)
         activation_url = request.url_for(
-            'activation', code=activation.code, secret=secret
+            "activation", code=activation.code, secret=secret
         )
         if config.TESTING is True:
             logger.debug(f"activation link: {activation_url}")
         else:
             sent_to = activation.notif_type.name.lower()
             await send_activation_message(
-                saq,
-                recipient=activation.target,
-                activation_url=activation_url
+                saq, recipient=activation.target, activation_url=activation_url
             )
-            notif_text = _('New activation code is being sent to your {sent_to}')
+            notif_text = _("New activation code is being sent to your {sent_to}")
             Notification(
-                category='alert',
-                icon='success',
-                title=notif_text.format(sent_to=sent_to)
+                category="alert",
+                icon="success",
+                title=notif_text.format(sent_to=sent_to),
             ).push(request)
-    context = {'request': request, 'sent_to': sent_to}
-    return templates.TemplateResponse('main/activation-refresh.html', context)
+    context = {"request": request, "sent_to": sent_to}
+    return templates.TemplateResponse(request, "main/activation-refresh.html", context)
 
 
 @csrf_protect
@@ -255,17 +238,17 @@ async def forgot_password_page(request: Request):
     # Redirect to next url or home page if user is already authenticated
     user = request.user
     if user and user.is_authenticated:
-        next_url = validate_next_url(request.query_params.get('next', '/'))
+        next_url = validate_next_url(request.query_params.get("next", "/"))
         return RedirectResponse(request.url_for(next_url))
 
     db = get_db(request)
     saq = get_saq(request)
     form = await ForgotPasswordForm.from_formdata(request)
-    context = {'request': request, 'form': form}
+    context = {"request": request, "form": form}
 
     if await form.validate_on_submit():
         email_username = form.email_username.data
-        if '@' in email_username:
+        if "@" in email_username:
             user = await UserCRUD.get_by_email(db, email_username)
         else:
             user = await UserCRUD.get_by_username(db, email_username)
@@ -273,27 +256,27 @@ async def forgot_password_page(request: Request):
         if user is None:
             # Just send them a notification
             Notification(
-                title=_('Password reset link has been sent to your email'),
-                category='alert'
+                title=_("Password reset link has been sent to your email"),
+                category="alert",
             ).push(request)
         else:
             reset, secret = await ResetCRUD.create(db, user)
 
             reset_url = request.url_for(
-                'reset_password', code=reset.code, secret=secret
+                "reset_password", code=reset.code, secret=secret
             )
             if request.app.state.config.TESTING is True:
                 logger.debug(f"reset link: {reset_url}")
             else:
                 await send_reset_password(saq, reset.target, reset_url)
 
-            notif_text = _('Password reset link has been sent to {masked_email}')
+            notif_text = _("Password reset link has been sent to {masked_email}")
             Notification(
                 title=notif_text.format(masked_email=mask_email(reset.target)),
-                category='alert'
+                category="alert",
             ).push(request)
 
-    return templates.TemplateResponse('main/forgot-password.html', context)
+    return templates.TemplateResponse(request, "main/forgot-password.html", context)
 
 
 @csrf_protect
@@ -302,14 +285,14 @@ async def reset_password_page(request: Request):
 
     form = await ResetPasswordForm.from_formdata(request)
 
-    code = request.path_params['code']
-    secret = request.path_params['secret']
+    code = request.path_params["code"]
+    secret = request.path_params["secret"]
     if not code or not secret:
-        raise HTTPException(404, _('Invalid password reset token'))
+        raise HTTPException(404, _("Invalid password reset token"))
 
     reset = await ResetCRUD.get(db, code)
     if reset is None:
-        raise HTTPException(404, _('Invalid password reset code'))
+        raise HTTPException(404, _("Invalid password reset code"))
 
     user = await UserCRUD.get_by_id(db, reset.user_id)
     if user is None:
@@ -317,20 +300,18 @@ async def reset_password_page(request: Request):
 
     success, reason = ResetCRUD.validate_secret(reset, secret)
     if success is True and await form.validate_on_submit():
-        query = await UserCRUD.update_password(
-            db, reset.user_id, form.password.data
-        )
+        query = await UserCRUD.update_password(db, reset.user_id, form.password.data)
         await ResetCRUD.set_as_complete(db, reset, commit=False)
         await db.execute(query)
         db.add(reset)
         await db.commit()
 
-        Notification(
-            title=_('Password reset is complete'), icon='success'
-        ).push(request)
+        Notification(title=_("Password reset is complete"), icon="success").push(
+            request
+        )
 
-        next_url = validate_next_url(request.query_params.get('next', '/'))
+        next_url = validate_next_url(request.query_params.get("next", "/"))
         return RedirectResponse(next_url, 302)
 
-    context = {'request': request, 'form': form, 'success': success}
-    return templates.TemplateResponse('main/reset-password.html', context)
+    context = {"request": request, "form": form, "success": success}
+    return templates.TemplateResponse(request, "main/reset-password.html", context)
